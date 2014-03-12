@@ -117,7 +117,15 @@ extern "C"
 		NX_GPIO_PADFUNC_2			= 2UL,			///< Alternate function 2
 		NX_GPIO_PADFUNC_3			= 3UL			///< Alternate function 3
 
-	}NX_GPIO_PADFUNC ;
+	}NX_GPIO_PADFUNC;
+
+	/// @brief	Pull I/O mode
+	typedef enum
+	{
+		NX_GPIO_PADPULL_DN			= 0UL,
+		NX_GPIO_PADPULL_UP			= 1UL,
+		NX_GPIO_PADPULL_OFF			= 2UL
+	}NX_GPIO_PADPULL;
 
 //------------------------------------------------------------------------------
 /// @name	Module Interface
@@ -179,10 +187,15 @@ CBOOL			NX_GPIO_GetOutputValue	( U32 ModuleIndex, U32 BitNumber );
 void			NX_GPIO_SetOutputValue32	( U32 ModuleIndex, U32 Value );
 U32				NX_GPIO_GetOutputValue32	( U32 ModuleIndex );
 CBOOL			NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber );
-void			NX_GPIO_SetPullUpEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL enable);
-CBOOL			NX_GPIO_GetPullUpEnable ( U32 ModuleIndex, U32 BitNumber );
-void			NX_GPIO_SetPullUpEnable32 ( U32 ModuleIndex, U32 Value );
-U32				NX_GPIO_GetPullUpEnable32 ( U32 ModuleIndex );
+void			NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode);
+void			NX_GPIO_SetPullSelect ( U32 ModuleIndex, U32 BitNumber, CBOOL enable);
+CBOOL			NX_GPIO_GetPullSelect ( U32 ModuleIndex, U32 BitNumber );
+void			NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value );
+U32				NX_GPIO_GetPullSelect32 ( U32 ModuleIndex );
+void			NX_GPIO_SetPullEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL enable);
+CBOOL			NX_GPIO_GetPullEnable ( U32 ModuleIndex, U32 BitNumber );
+void			NX_GPIO_SetPullEnable32 ( U32 ModuleIndex, U32 Value );
+U32				NX_GPIO_GetPullEnable32 ( U32 ModuleIndex );
 
 void			NX_GPIO_SetPadFunction( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADFUNC padfunc );
 void	NX_GPIO_SetPadFunction32_0( U32 ModuleIndex, U32 Value );

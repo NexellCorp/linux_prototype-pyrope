@@ -1084,6 +1084,94 @@ CBOOL	NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber )
 
 //------------------------------------------------------------------------------
 /**
+ *	@brief		Set Pull sel of GPIO Pin
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
+ *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
+ *	@param[in]	enable		\b CTRUE	indicate that Pull Up. \n
+ *							\b CFALSE	indicate that NOT Pull Up.
+ *	@return		None.
+ *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
+ *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
+ *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
+ *				NX_GPIO_GetInputValue,
+ *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
+ *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ */
+void	NX_GPIO_SetPullSelect   ( U32 ModuleIndex, U32 BitNumber, CBOOL enable)
+{
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+	NX_ASSERT( (0==enable) || (1==enable) );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, CTRUE );
+//	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, enable );
+	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, enable );
+}
+
+void	NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value )
+{
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, Value );
+}
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get pull sel value of GPIO Pin
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
+ *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
+ *	@return		GPIO pull up value
+ *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
+ *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
+ *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
+ *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
+ *												NX_GPIO_SetPadFunction,
+ *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ */
+CBOOL	NX_GPIO_GetPullSelect   ( U32 ModuleIndex, U32 BitNumber )
+{
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	return NX_GPIO_GetBit( __g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber );
+}
+
+U32		NX_GPIO_GetPullSelect32 ( U32 ModuleIndex )
+{
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	return __g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL;
+}
+
+void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode)
+{
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+	NX_ASSERT( (0==mode) || (1==mode) || (2==mode) );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, CTRUE );
+//	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
+
+	if (mode == NX_GPIO_PADPULL_OFF)
+	{
+NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CFALSE );
+
+		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, BitNumber, CFALSE );
+		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, CFALSE );
+	}
+	else
+	{
+NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
+
+		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, (mode & 1 ? CTRUE : CFALSE) );
+		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
+	}
+}
+
+//------------------------------------------------------------------------------
+/**
  *	@brief		Set Pull up of GPIO Pin
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
@@ -1097,19 +1185,18 @@ CBOOL	NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber )
  *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
  *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
-void	NX_GPIO_SetPullUpEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL enable)
+void	NX_GPIO_SetPullEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL enable)
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( (0==enable) || (1==enable) );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, enable );
 	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, enable );
-	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, enable );
+//	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
 	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, BitNumber, enable );
 }
 
-void	NX_GPIO_SetPullUpEnable32	( U32 ModuleIndex, U32 Value )
+void	NX_GPIO_SetPullEnable32	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
@@ -1130,7 +1217,7 @@ void	NX_GPIO_SetPullUpEnable32	( U32 ModuleIndex, U32 Value )
  *												NX_GPIO_SetPadFunction,
  *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
-CBOOL	NX_GPIO_GetPullUpEnable ( U32 ModuleIndex, U32 BitNumber )
+CBOOL	NX_GPIO_GetPullEnable ( U32 ModuleIndex, U32 BitNumber )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
@@ -1138,7 +1225,7 @@ CBOOL	NX_GPIO_GetPullUpEnable ( U32 ModuleIndex, U32 BitNumber )
 	return NX_GPIO_GetBit( __g_ModuleVariables[ModuleIndex].pRegister->GPIOxPUENB, BitNumber );
 }
 
-U32		NX_GPIO_GetPullUpEnable32	( U32 ModuleIndex )
+U32		NX_GPIO_GetPullEnable32	( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
