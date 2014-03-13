@@ -1152,18 +1152,18 @@ void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, CTRUE );
-//	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
+	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
 
 	if (mode == NX_GPIO_PADPULL_OFF)
 	{
-NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CFALSE );
+//NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CFALSE );
 
 		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, BitNumber, CFALSE );
 		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, CFALSE );
 	}
 	else
 	{
-NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
+//NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
 
 		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, BitNumber, (mode & 1 ? CTRUE : CFALSE) );
 		NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
