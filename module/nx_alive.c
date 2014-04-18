@@ -1227,14 +1227,17 @@ void	NX_ALIVE_SetOutputValue( U32 BitNumber, CBOOL Value )
 	}
 }
 
-void    NX_ALIVE_SetOutputValue32( U32 value32 )
+void    NX_ALIVE_SetOutputHigh32( U32 value32 )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, ~value32);
 	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTSETREG, value32);
 }
 
-
+void    NX_ALIVE_SetOutputLow32( U32 value32 )
+{
+	NX_ASSERT( CNULL != __g_pRegister );
+	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, value32);
+}
 
 
 
