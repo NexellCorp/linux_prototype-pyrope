@@ -1166,9 +1166,14 @@ void	NX_ALIVE_SetOutputEnable32( U32 value )
 */
 void  NX_ALIVE_SetOutputEnable32( U32 value )
 {
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, ~value );
 	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value );
 }    
+
+void  NX_ALIVE_SetInputEnable32( U32 value )
+{
+	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, value );
+}    
+
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of Alive GPIO's output mode.
@@ -1191,7 +1196,21 @@ CBOOL	NX_ALIVE_GetOutputEnable( U32 BitNumber )
 U32		NX_ALIVE_GetOutputEnable32 (void)
 {
 	NX_ASSERT( CNULL != __g_pRegister );
-	return __g_pRegister->ALIVEGPIOPADOUTENBREADREG;
+	return (__g_pRegister->ALIVEGPIOPADOUTENBREADREG & 0x3F);
+}
+
+CBOOL	NX_ALIVE_GetInputEnable( U32 BitNumber )
+{
+	//NX_ASSERT( 6 > BitNumber );
+	NX_ASSERT( CNULL != __g_pRegister );
+
+	return (CBOOL)((__g_pRegister->ALIVEGPIOPADOUTENBREADREG >> BitNumber) & 0x01) ? CFALSE : CTRUE;
+}
+
+U32		NX_ALIVE_GetInputEnable32 (void)
+{
+	NX_ASSERT( CNULL != __g_pRegister );
+	return (~__g_pRegister->ALIVEGPIOPADOUTENBREADREG) & 0x3F;
 }
 
 //------------------------------------------------------------------------------
