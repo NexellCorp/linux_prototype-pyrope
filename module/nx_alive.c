@@ -1166,12 +1166,12 @@ void	NX_ALIVE_SetOutputEnable32( U32 value )
 */
 void  NX_ALIVE_SetOutputEnable32( U32 value )
 {
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value );
+	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value & 0x3F );
 }    
 
 void  NX_ALIVE_SetInputEnable32( U32 value )
 {
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, value );
+	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, value & 0x3F );
 }    
 
 //------------------------------------------------------------------------------
@@ -1196,7 +1196,7 @@ CBOOL	NX_ALIVE_GetOutputEnable( U32 BitNumber )
 U32		NX_ALIVE_GetOutputEnable32 (void)
 {
 	NX_ASSERT( CNULL != __g_pRegister );
-	return (__g_pRegister->ALIVEGPIOPADOUTENBREADREG & 0x3F);
+	return __g_pRegister->ALIVEGPIOPADOUTENBREADREG & 0x3F;
 }
 
 CBOOL	NX_ALIVE_GetInputEnable( U32 BitNumber )
