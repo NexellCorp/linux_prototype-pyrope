@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 #include <nx_chip.h>
 #include "nx_ppm.h"
-#include <string.h> // for memset
+//#include <string.h> // for memset
 
 static	NX_PPM_RegisterSet *__g_pRegister[NUMBER_OF_PPM_MODULE];
 
@@ -244,7 +244,7 @@ CBOOL	NX_PPM_Initialize( void )
 
 	if( CFALSE == bInit )
 	{
-		memset( __g_pRegister, 0, sizeof(__g_pRegister) );
+//		memset( __g_pRegister, 0, sizeof(__g_pRegister) );
 		bInit = CTRUE;
 	}
 
