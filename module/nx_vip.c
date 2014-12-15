@@ -1432,7 +1432,9 @@ NX_VIP_GetFIFOResetMode( U32 ModuleIndex )
 U32
 NX_VIP_GetFIFOStatus( U32 ModuleIndex )
 {
-	const U32 FIFOSTATUS_POS = 8UL;
+    // psw0523 test
+	/*const U32 FIFOSTATUS_POS = 8UL;*/
+	const U32 FIFOSTATUS_POS = 9UL;
 
 	NX_ASSERT( NUMBER_OF_VIP_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
@@ -2408,11 +2410,14 @@ NX_VIP_SetDecimatorAddr
 	pRegister->DECI_CRTOP		= (U16)top;
 	pRegister->DECI_CRBOTTOM	= (U16)(top + Height);
 
+    // psw0523 fix : why set stride?
+#if 0
 //	pRegister->CLIP_STRIDEH		= (U16)(Stride >> 16);
 	pRegister->CLIP_STRIDEH = (U16)StrideY;
 
 //	pRegister->CLIP_STRIDEL		= (U16)(Stride & 0xFFFFUL);
 	pRegister->CLIP_STRIDEL = (U16)StrideCbCr;
+#endif
 }
 
 //------------------------------------------------------------------------------
