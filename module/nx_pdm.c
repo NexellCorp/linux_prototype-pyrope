@@ -15,11 +15,10 @@
 //------------------------------------------------------------------------------
 
 #include <nx_chip.h>
-#include "nx_PDM.h"
-#include <string.h> // for memset
+#include "nx_pdm.h"
+#include <linux/string.h> // for memset
 
 volatile static	NX_PDM_RegisterSet *__g_pRegister[NUMBER_OF_PDM_MODULE];
-
 
 //------------------------------------------------------------------------------
 //
@@ -647,8 +646,8 @@ CBOOL NX_PDM_CheckReg( U32 Addr, U32 initvalue, U32 writevalue, char *RegName)
 	U32 regvalue = ReadIODW( Addr );
 	if( regvalue != initvalue )
 	{
-		NX_CONSOLE_Printf("\n[ERROR] %s Register's initial value Error ( read = %x, golden = %x )",
-			RegName, regvalue, initvalue ) ;
+//		NX_CONSOLE_Printf("\n[ERROR] %s Register's initial value Error ( read = %x, golden = %x )",
+//			RegName, regvalue, initvalue ) ;
 		Result = CFALSE;
 	}
 
@@ -659,8 +658,8 @@ CBOOL NX_PDM_CheckReg( U32 Addr, U32 initvalue, U32 writevalue, char *RegName)
 	regvalue = ReadIODW( Addr );
 	if( regvalue != writevalue )
 	{
-		NX_CONSOLE_Printf("\n[ERROR] %s Register write Error ( read = %x, golden = %x )",
-			RegName, regvalue, writevalue ) ;
+//		NX_CONSOLE_Printf("\n[ERROR] %s Register write Error ( read = %x, golden = %x )",
+//			RegName, regvalue, writevalue ) ;
 		Result = CFALSE;
 	}
 
