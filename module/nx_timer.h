@@ -32,7 +32,8 @@ extern "C"
 //------------------------------------------------------------------------------
 //  defines
 //------------------------------------------------------------------------------
-#define NUMBER_TIMERTIMER_SUBMODULE	4
+#define NUMBER_OF_TIMER_CHANNEL	5
+#define NX_TIMER_INT		    4
 
 //------------------------------------------------------------------------------
 /// @brief  TIMER register set structure
@@ -57,82 +58,40 @@ struct NX_TIMER_RegisterSet
 	volatile U32 TCNTB4     ;	// 0x3C	// R/W	// Timer 4 Count Buffer Register
 	volatile U32 TCNTO4     ;	// 0x40	// R	// Timer 4 Count Observation Register
 	volatile U32 TINT_CSTAT ;	// 0x44	// R/W	// Timer Interrupt Control and Status Register
+	volatile U8 _Reserved0[0x1000-0x48];	// 0x48~0x1000
 };
 
 //------------------------------------------------------------------------------
 /// enum
 //------------------------------------------------------------------------------
-enum
-{
-	TIMER_TCFG0_PRESCALE0	= 0,
-	TIMER_TCFG0_PRESCALE1	= 8,
-	TIMER_TCFG0_DEADZONE	= 16
-};
+typedef enum {
+	NX_TIMER_DIVIDSELECT_1	= 0UL,
+	NX_TIMER_DIVIDSELECT_2	= 1UL,
+	NX_TIMER_DIVIDSELECT_4	= 2UL,
+	NX_TIMER_DIVIDSELECT_8	= 3UL,
+	NX_TIMER_DIVIDSELECT_16	= 4UL,
+	NX_TIMER_DIVIDSELECT_TCLK	= 5
 
-enum
-{
-	TIMER_TCFG1_DMAMODE		= 20,
-	TIMER_TCFG1_MUX4		= 16,
-	TIMER_TCFG1_MUX3		= 12,
-	TIMER_TCFG1_MUX2		= 8,
-	TIMER_TCFG1_MUX1		= 4,
-	TIMER_TCFG1_MUX0		= 0
-};
+}NX_TIMER_DIVIDSELECT;
 
-enum
-{
-	TIMER_TCON_DEADZONEENB	= 4,
-	TIMER_TCON_AOTORELOAD	= 3,
-	TIMER_TCON_OUTINVERTER	= 2,
-	TIMER_TCON_MANUALUPDATE	= 1,
-	TIMER_TCON_STARTSTOP	= 0
-};
-
-enum
-{
-	TIMER_TCON_TIMER4	= 20,
-	TIMER_TCON_TIMER3	= 16,
-	TIMER_TCON_TIMER2	= 12,
-	TIMER_TCON_TIMER1	= 8,
-	TIMER_TCON_TIMER0	= 0
-};
-
-enum
-{
-	PWM_DIV_TCLK		= 5,
-	TIMER_DIV_16		= 4,
-	TIMER_DIV_8			= 3,
-	TIMER_DIV_4			= 2,
-	TIMER_DIV_2			= 1,
-	TIMER_DIV_1			= 0
-};
-
-enum
-{
-	TIMER_DMA_INT4		= 5,
-	TIMER_DMA_INT3		= 4,
-	TIMER_DMA_INT2		= 3,
-	TIMER_DMA_INT1		= 2,
-	TIMER_DMA_INT0		= 1,
-	TIMER_DMA_NOSEL		= 0
-};
-
-
+typedef enum {
+	NX_TIMER_LOADMODE_ONESHOT		= 0UL,
+	NX_TIMER_LOADMODE_AUTORELOAD	= 1UL
+}NX_TIMER_LOADMODE;
 
 //------------------------------------------------------------------------------
 /// @name	Module Interface
 //@{
 CBOOL	NX_TIMER_Initialize( void );
 U32		NX_TIMER_GetNumberOfModule( void );
-U32		NX_TIMER_GetNumberOfSubModule( void );
+U32		NX_TIMER_GetNumberOfChannel( void );
 //@}
 
 //------------------------------------------------------------------------------
 ///	@name	Basic Interface
 //@{
 U32		NX_TIMER_GetPhysicalAddress( U32 ModuleIndex );
-//U32		NX_TIMER_GetResetNumber( U32 ModuleIndex, U32 ChannelIndex );
-//U32		NX_TIMER_GetNumberOfReset( void );
+
 U32		NX_TIMER_GetSizeOfRegisterSet( void );
 void	NX_TIMER_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
 U32		NX_TIMER_GetBaseAddress( U32 ModuleIndex );
@@ -174,12 +133,6 @@ void	NX_TIMER_ClearInterruptPendingAll( U32 ModuleIndex );
 U32		NX_TIMER_GetInterruptPendingNumber( U32 ModuleIndex );	// -1 if None
 //@}
 
-//------------------------------------------------------------------------------
-///	@name	DMA Interface
-//@{
-//U32		NX_TIMER_GetDMAIndex( U32 ModuleIndex );
-//U32		NX_TIMER_GetDMABusWidth( U32 ModuleIndex );
-//@}
 
 //------------------------------------------------------------------------------
 
@@ -187,61 +140,38 @@ U32		NX_TIMER_GetInterruptPendingNumber( U32 ModuleIndex );	// -1 if None
 /// @name	Configuration operations
 //--------------------------------------------------------------------------
 //@{
-void	NX_TIMER_SetTCFG0( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCFG0( U32 ModuleIndex );
+void	NX_TIMER_SetPrescaler(U32 Channel, U32 value);
+U32		NX_TIMER_GetPrescaler(U32 Channel);
+CBOOL	NX_TIMER_SetDividerPath(U32 Channel, NX_TIMER_DIVIDSELECT divider);
+NX_TIMER_DIVIDSELECT NX_TIMER_GetDividerPath(U32 Channel);
 
-void	NX_TIMER_SetTCFG1( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCFG1( U32 ModuleIndex );
 
-//void	NX_TIMER_SetTCON( U32 ModuleIndex, U32 value );
-void	NX_TIMER_SetTCON( U32 ModuleIndex, U32 SubModuleIndex, U32 value );
-U32		NX_TIMER_GetTCON( U32 ModuleIndex );
+void	NX_TIMER_SetDeadZoneLength(U32 Channel, U32 Length);
+U32		NX_TIMER_GetDeadZoneLength(U32 Channel);
 
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTCNTB0( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCNTB0( U32 ModuleIndex );
+CBOOL	NX_TIMER_SetDeadZoneEnable(U32 Channel, CBOOL Enable);
+CBOOL	NX_TIMER_GetDeadZoneEnable(U32 Channel);
 
-void	NX_TIMER_SetTCMPB0( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCMPB0( U32 ModuleIndex );
+CBOOL	NX_TIMER_SetOutInvert(U32 Channel, CBOOL Enable);
+CBOOL	NX_TIMER_GetOutInvert(U32 Channel);
 
-U32		NX_TIMER_GetTCNTO0( U32 ModuleIndex );
+void	NX_TIMER_SetShotMode(U32 Channel, NX_TIMER_LOADMODE ShotMode);
+NX_TIMER_LOADMODE	NX_TIMER_GetShotMode(U32 Channel);
 
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTCNTB1( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCNTB1( U32 ModuleIndex );
+void	NX_TIMER_UpdateCounter(U32 Channel, CBOOL Enable );
 
-void	NX_TIMER_SetTCMPB1( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCMPB1( U32 ModuleIndex );
+void	NX_TIMER_Run(U32 Channel);
+void	NX_TIMER_Stop(U32 Channel);
+CBOOL	NX_TIMER_IsRun(U32 Channel);
 
-U32		NX_TIMER_GetTCNTO1( U32 ModuleIndex );
+void	NX_TIMER_SetPeriod(U32 Channel, U32 Period);
+U32		NX_TIMER_GetPeriod(U32 Channel);
 
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTCNTB2( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCNTB2( U32 ModuleIndex );
+CBOOL	NX_TIMER_SetDuty(U32 Channel, U32 Duty);
+U32		NX_TIMER_GetDuty(U32 Channel);
 
-void	NX_TIMER_SetTCMPB2( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCMPB2( U32 ModuleIndex );
+U32		NX_TIMER_GetCurrentCount(U32 Channel);
 
-U32		NX_TIMER_GetTCNTO2( U32 ModuleIndex );
-
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTCNTB3( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCNTB3( U32 ModuleIndex );
-
-void	NX_TIMER_SetTCMPB3( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCMPB3( U32 ModuleIndex );
-
-U32		NX_TIMER_GetTCNTO3( U32 ModuleIndex );
-
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTCNTB4( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTCNTB4( U32 ModuleIndex );
-
-U32		NX_TIMER_GetTCNTO4( U32 ModuleIndex );
-
-////////////////////////////////////////////////////////////////
-void	NX_TIMER_SetTINT_CSTAT( U32 ModuleIndex, U32 value );
-U32		NX_TIMER_GetTINT_CSTAT( U32 ModuleIndex );
 //@}
 
 #ifdef	__cplusplus

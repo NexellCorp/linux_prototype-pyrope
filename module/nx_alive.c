@@ -19,7 +19,6 @@
 #endif
 #include "nx_alive.h"
                                           
-#define NX_ALIVE_NUMBER_OF_GPIO 6
 static	struct NX_ALIVE_RegisterSet *__g_pRegister = CNULL;
 //------------------------------------------------------------------------------
 // Module Interface
@@ -95,7 +94,7 @@ U32		NX_ALIVE_GetSizeOfRegisterSet( void )
  *				NX_ALIVE_OpenModule,			NX_ALIVE_CloseModule,
  *				NX_ALIVE_CheckBusy,				NX_ALIVE_CanPowerDown
  */
-void	NX_ALIVE_SetBaseAddress( U32 BaseAddress )
+void	NX_ALIVE_SetBaseAddress( void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 
@@ -111,9 +110,9 @@ void	NX_ALIVE_SetBaseAddress( U32 BaseAddress )
  *				NX_ALIVE_OpenModule,			NX_ALIVE_CloseModule,
  *				NX_ALIVE_CheckBusy,				NX_ALIVE_CanPowerDown
  */
-U32		NX_ALIVE_GetBaseAddress( void )
+void*	NX_ALIVE_GetBaseAddress( void )
 {
-	return (U32)__g_pRegister;
+	return (void*)__g_pRegister;
 }
 
 //------------------------------------------------------------------------------
@@ -263,11 +262,11 @@ void	NX_ALIVE_SetInterruptEnable( S32 IntNum, CBOOL Enable )
 
 	if( Enable )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOINTENBSETREG, INTENB_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOINTENBSETREG, INTENB_MASK);
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOINTENBRSTREG, INTENB_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOINTENBRSTREG, INTENB_MASK);
 	}
 }
 
@@ -320,8 +319,8 @@ void	NX_ALIVE_SetInterruptEnable32( U32 EnableFlag )
 	Set_Mask = EnableFlag & 0x03F;
 	ReSet_Mask = (~EnableFlag & 0x03F);
 
-	WriteIODW(&__g_pRegister->ALIVEGPIOINTENBRSTREG, ReSet_Mask);
-	WriteIODW(&__g_pRegister->ALIVEGPIOINTENBSETREG, Set_Mask);
+	WriteIO32(&__g_pRegister->ALIVEGPIOINTENBRSTREG, ReSet_Mask);
+	WriteIO32(&__g_pRegister->ALIVEGPIOINTENBSETREG, Set_Mask);
 }
 
 //------------------------------------------------------------------------------
@@ -414,7 +413,7 @@ void	NX_ALIVE_ClearInterruptPending( S32 IntNum )
 	NX_ASSERT( 8 > IntNum );
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	WriteIODW(&__g_pRegister->ALIVEGPIODETECTPENDREG, 1 << IntNum);
+	WriteIO32(&__g_pRegister->ALIVEGPIODETECTPENDREG, 1 << IntNum);
 }
 
 //------------------------------------------------------------------------------
@@ -437,7 +436,7 @@ void	NX_ALIVE_ClearInterruptPending32( U32 PendingFlag )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	WriteIODW(&__g_pRegister->ALIVEGPIODETECTPENDREG, PendingFlag & 0x03F);
+	WriteIO32(&__g_pRegister->ALIVEGPIODETECTPENDREG, PendingFlag & 0x03F);
 }
 
 //------------------------------------------------------------------------------
@@ -460,11 +459,11 @@ void	NX_ALIVE_SetInterruptEnableAll( CBOOL Enable )
 
 	if( Enable )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOINTENBSETREG, 0x03F);
+		WriteIO32(&__g_pRegister->ALIVEGPIOINTENBSETREG, 0x03F);
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOINTENBRSTREG, 0x03F);
+		WriteIO32(&__g_pRegister->ALIVEGPIOINTENBRSTREG, 0x03F);
 	}
 }
 
@@ -540,7 +539,7 @@ void	NX_ALIVE_ClearInterruptPendingAll( void )
 
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	WriteIODW(&__g_pRegister->ALIVEGPIODETECTPENDREG, ALIVEGPIODETECTPEND_MASK);
+	WriteIO32(&__g_pRegister->ALIVEGPIODETECTPENDREG, ALIVEGPIODETECTPEND_MASK);
 }
 
 //------------------------------------------------------------------------------
@@ -613,7 +612,7 @@ void	NX_ALIVE_SetWriteEnable( CBOOL bEnable )
 	NX_ASSERT( (0==bEnable) || (1==bEnable) );
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	WriteIODW(&__g_pRegister->ALIVEPWRGATEREG, (U32)bEnable);
+	WriteIO32(&__g_pRegister->ALIVEPWRGATEREG, (U32)bEnable);
 }
 
 //------------------------------------------------------------------------------
@@ -651,8 +650,8 @@ void	NX_ALIVE_SetScratchReg( U32 dwData )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	WriteIODW(&__g_pRegister->ALIVESCRATCHSETREG, dwData);
-	WriteIODW(&__g_pRegister->ALIVESCRATCHRSTREG, ~dwData);
+	WriteIO32(&__g_pRegister->ALIVESCRATCHSETREG, dwData);
+	WriteIO32(&__g_pRegister->ALIVESCRATCHRSTREG, ~dwData);
 }
 
 //------------------------------------------------------------------------------
@@ -698,19 +697,19 @@ void	NX_ALIVE_SetPullUpEnable( U32 BitNumber, CBOOL bEnable )
 
 	if( bEnable )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADPULLUPSETREG, PULLUP_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADPULLUPSETREG, PULLUP_MASK);
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADPULLUPRSTREG, PULLUP_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADPULLUPRSTREG, PULLUP_MASK);
 	}
 }
 void    NX_ALIVE_SetPullUpEnable32( U32 value32 )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
 	
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADPULLUPRSTREG, ~value32);
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADPULLUPSETREG,  value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADPULLUPRSTREG, ~value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADPULLUPSETREG,  value32);
 }
 //------------------------------------------------------------------------------
 /**
@@ -789,11 +788,11 @@ void	NX_ALIVE_SetPadRetentionEnable( NX_ALIVE_PADGROUP Group, CBOOL bEnable )
 
 	if( bEnable )
 	{
-		WriteIODW(&__g_pRegister->VDDCTRLRSTREG, 1U << (Group + PADHOLDENB_BITPOS));
+		WriteIO32(&__g_pRegister->VDDCTRLRSTREG, 1U << (Group + PADHOLDENB_BITPOS));
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->VDDCTRLSETREG, 1U << (Group + PADHOLDENB_BITPOS));
+		WriteIO32(&__g_pRegister->VDDCTRLSETREG, 1U << (Group + PADHOLDENB_BITPOS));
 	}
 }
 
@@ -873,8 +872,8 @@ void	NX_ALIVE_SetPadRetentionHold( NX_ALIVE_PADGROUP Group, CBOOL bEnable )
 	NX_ASSERT( (0==bEnable) || (1==bEnable) );
 	NX_ASSERT( CNULL != __g_pRegister );
 
-	if( bEnable )	WriteIODW(&__g_pRegister->VDDCTRLRSTREG, 1U << (Group + PADHOLD_BITPOS));
-	else			WriteIODW(&__g_pRegister->VDDCTRLSETREG, 1U << (Group + PADHOLD_BITPOS));
+	if( bEnable )	WriteIO32(&__g_pRegister->VDDCTRLRSTREG, 1U << (Group + PADHOLD_BITPOS));
+	else			WriteIO32(&__g_pRegister->VDDCTRLSETREG, 1U << (Group + PADHOLD_BITPOS));
 }
 
 //------------------------------------------------------------------------------
@@ -927,19 +926,19 @@ void	NX_ALIVE_SetDetectEnable( U32 BitNumber, CBOOL bEnable )
 
 	if( bEnable )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIODETECTENBSETREG, DETECTENB_MASK);//50
+		WriteIO32(&__g_pRegister->ALIVEGPIODETECTENBSETREG, DETECTENB_MASK);//50
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIODETECTENBRSTREG, DETECTENB_MASK);//4c
+		WriteIO32(&__g_pRegister->ALIVEGPIODETECTENBRSTREG, DETECTENB_MASK);//4c
 	}
 }
 
 void	NX_ALIVE_SetDetectEnable32( U32 value32 )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
-	WriteIODW(&__g_pRegister->ALIVEGPIODETECTENBSETREG, value32);
-	WriteIODW(&__g_pRegister->ALIVEGPIODETECTENBRSTREG, ~value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIODETECTENBSETREG, value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIODETECTENBRSTREG, ~value32);
 }
 
 //------------------------------------------------------------------------------
@@ -1032,8 +1031,8 @@ void	NX_ALIVE_SetDetectMode( NX_ALIVE_DETECTMODE DetectMode, U32 BitNumber, CBOO
 				break;
 	}
 
-	if( bEnable )	WriteIODW(pSetReg, (1UL << BitNumber));
-	else			WriteIODW(pRstReg, (1UL << BitNumber));
+	if( bEnable )	WriteIO32(pSetReg, (1UL << BitNumber));
+	else			WriteIO32(pRstReg, (1UL << BitNumber));
 }
 void	NX_ALIVE_SetDetectMode32( NX_ALIVE_DETECTMODE DetectMode, U32 value32 )
 {
@@ -1147,11 +1146,11 @@ void	NX_ALIVE_SetOutputEnable( U32 BitNumber, CBOOL OutputEnb )
 
 	if( OutputEnb )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, PADOUTENB_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, PADOUTENB_MASK);
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, PADOUTENB_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, PADOUTENB_MASK);
 	}
 }
 /*
@@ -1166,14 +1165,9 @@ void	NX_ALIVE_SetOutputEnable32( U32 value )
 */
 void  NX_ALIVE_SetOutputEnable32( U32 value )
 {
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value & 0x3F );
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, ~value );
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value );
 }    
-
-void  NX_ALIVE_SetInputEnable32( U32 value )
-{
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, value & 0x3F );
-}    
-
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of Alive GPIO's output mode.
@@ -1238,27 +1232,20 @@ void	NX_ALIVE_SetOutputValue( U32 BitNumber, CBOOL Value )
 
 	if( Value )
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTSETREG, PADOUT_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTSETREG, PADOUT_MASK);
 	}
 	else
 	{
-		WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, PADOUT_MASK);
+		WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, PADOUT_MASK);
 	}
 }
 
-void    NX_ALIVE_SetOutputHigh32( U32 value32 )
+void    NX_ALIVE_SetOutputValue32( U32 value32 )
 {
 	NX_ASSERT( CNULL != __g_pRegister );
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTSETREG, value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, ~value32);
+	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTSETREG, value32);
 }
-
-void    NX_ALIVE_SetOutputLow32( U32 value32 )
-{
-	NX_ASSERT( CNULL != __g_pRegister );
-	WriteIODW(&__g_pRegister->ALIVEGPIOPADOUTRSTREG, value32);
-}
-
-
 
 //------------------------------------------------------------------------------
 /**
@@ -1343,8 +1330,8 @@ void	NX_ALIVE_SetVDDPWRON( CBOOL bVDDPWRON, CBOOL bVDDPWRON_DDR )
 	if( bVDDPWRON_DDR )		regset |= VDDPWRON_DDR;
 	else					regrst |= VDDPWRON_DDR;
 	
-	WriteIODW(&__g_pRegister->VDDCTRLSETREG, regset);
-	WriteIODW(&__g_pRegister->VDDCTRLRSTREG, regrst);
+	WriteIO32(&__g_pRegister->VDDCTRLSETREG, regset);
+	WriteIO32(&__g_pRegister->VDDCTRLRSTREG, regrst);
 }
 
 //------------------------------------------------------------------------------

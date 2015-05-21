@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 
 #include <nx_chip.h>
-#include "nx_CRYPTO.h"
+#include "nx_crypto.h"
 #include <string.h> // for memset
 
 static	NX_CRYPTO_RegisterSet *__g_pRegister[NUMBER_OF_CRYPTO_MODULE];
@@ -97,7 +97,7 @@ U32		NX_CRYPTO_GetSizeOfRegisterSet( void )
  *				NX_CRYPTO_OpenModule,				NX_CRYPTO_CloseModule,
  *				NX_CRYPTO_CheckBusy,				
  */
-void	NX_CRYPTO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_CRYPTO_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_CRYPTO_MODULE > ModuleIndex );
@@ -113,10 +113,10 @@ void	NX_CRYPTO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_CRYPTO_OpenModule,				NX_CRYPTO_CloseModule,
  *				NX_CRYPTO_CheckBusy,				
  */
-U32		NX_CRYPTO_GetBaseAddress( U32 ModuleIndex )
+void*	NX_CRYPTO_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_CRYPTO_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];	
+	return (void*)__g_pRegister[ModuleIndex];	
 }
 
 //------------------------------------------------------------------------------
@@ -241,12 +241,12 @@ void	NX_CRYPTO_SetInterruptEnable( U32 ModuleIndex, CBOOL Enb )
 
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	
 	if( Enb )	regvalue  = regvalue | (1<<10);	
 	else		regvalue  = regvalue & (~(1<<10));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetInterruptMask( U32 ModuleIndex, U32 Mask )
@@ -260,12 +260,12 @@ void	NX_CRYPTO_SetInterruptMask( U32 ModuleIndex, U32 Mask )
 
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	
 	if( Mask )	regvalue  = regvalue | (1<<9);	
 	else		regvalue  = regvalue & (~(1<<9));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 
@@ -298,7 +298,7 @@ CBOOL	NX_CRYPTO_GetInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	if( (regvalue >> 0) && 0x01 )   return CTRUE;
 	else 							return CFALSE;
 }
@@ -326,9 +326,9 @@ void	NX_CRYPTO_ClearInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( NUMBER_OF_CRYPTO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0) & (~0x1f);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0) & (~0x1f);
 	regvalue  = regvalue | (1<<5) ;
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	// just write operation make pending clear
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	// just write operation make pending clear
 }
 
 
@@ -383,10 +383,10 @@ void	NX_CRYPTO_SetAESTextIn			( U32 ModuleIndex,
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_AES_TIN0, AES_TIN0);
-	WriteIODW(&pRegister->CRYPTO_AES_TIN1, AES_TIN1);
-	WriteIODW(&pRegister->CRYPTO_AES_TIN2, AES_TIN2);
-	WriteIODW(&pRegister->CRYPTO_AES_TIN3, AES_TIN3);
+	WriteIO32(&pRegister->CRYPTO_AES_TIN0, AES_TIN0);
+	WriteIO32(&pRegister->CRYPTO_AES_TIN1, AES_TIN1);
+	WriteIO32(&pRegister->CRYPTO_AES_TIN2, AES_TIN2);
+	WriteIO32(&pRegister->CRYPTO_AES_TIN3, AES_TIN3);
 }
 
 void	NX_CRYPTO_SetAESInitVec			( U32 ModuleIndex, 
@@ -398,10 +398,10 @@ void	NX_CRYPTO_SetAESInitVec			( U32 ModuleIndex,
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_AES_IV0, AES_IV0);
-	WriteIODW(&pRegister->CRYPTO_AES_IV1, AES_IV1);
-	WriteIODW(&pRegister->CRYPTO_AES_IV2, AES_IV2);
-	WriteIODW(&pRegister->CRYPTO_AES_IV3, AES_IV3);
+	WriteIO32(&pRegister->CRYPTO_AES_IV0, AES_IV0);
+	WriteIO32(&pRegister->CRYPTO_AES_IV1, AES_IV1);
+	WriteIO32(&pRegister->CRYPTO_AES_IV2, AES_IV2);
+	WriteIO32(&pRegister->CRYPTO_AES_IV3, AES_IV3);
 }
 
 void	NX_CRYPTO_SetAESKey				( U32 ModuleIndex, 
@@ -414,14 +414,14 @@ void	NX_CRYPTO_SetAESKey				( U32 ModuleIndex,
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_AES_KEY0, AES_KEY0);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY1, AES_KEY1);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY2, AES_KEY2);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY3, AES_KEY3);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY4, AES_KEY4);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY5, AES_KEY5);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY6, AES_KEY6);
-	WriteIODW(&pRegister->CRYPTO_AES_KEY7, AES_KEY7);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY0, AES_KEY0);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY1, AES_KEY1);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY2, AES_KEY2);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY3, AES_KEY3);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY4, AES_KEY4);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY5, AES_KEY5);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY6, AES_KEY6);
+	WriteIO32(&pRegister->CRYPTO_AES_KEY7, AES_KEY7);
 }
 
 void	NX_CRYPTO_SetAESEfuseKeyMode		( U32 ModuleIndex, CBOOL Enb )
@@ -433,11 +433,11 @@ void	NX_CRYPTO_SetAESEfuseKeyMode		( U32 ModuleIndex, CBOOL Enb )
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<15);	
 	else		regvalue  = regvalue & (~(1<<15));	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 void	NX_CRYPTO_SetAESOutputSwap			( U32 ModuleIndex, CBOOL Enb )
 {
@@ -448,11 +448,11 @@ void	NX_CRYPTO_SetAESOutputSwap			( U32 ModuleIndex, CBOOL Enb )
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<9);	
 	else		regvalue  = regvalue & (~(1<<9));	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetAESInputSwap			( U32 ModuleIndex, CBOOL Enb ) // 지금은 넣을때 BigEndian으로 넣어주고 있다.
@@ -464,11 +464,11 @@ void	NX_CRYPTO_SetAESInputSwap			( U32 ModuleIndex, CBOOL Enb ) // 지금은 넣을때
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<8);	
 	else		regvalue  = regvalue & (~(1<<8));	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetAESBlockCiphterMode	( U32 ModuleIndex, U32 Mode )  // Block Cipher Mode-> 0:ECB, 1:CBC, 2:CTR
@@ -480,12 +480,12 @@ void	NX_CRYPTO_SetAESBlockCiphterMode	( U32 ModuleIndex, U32 Mode )  // Block Ci
 	NX_ASSERT( Mode <= 2 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 		
 	regvalue = regvalue & (~(0x3<<6));	
 	regvalue = regvalue | (Mode<<6);
 	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetAESMode			( U32 ModuleIndex, U32 Mode ) // AES Mode->0:128, 1:192, 2:256
@@ -497,12 +497,12 @@ void	NX_CRYPTO_SetAESMode			( U32 ModuleIndex, U32 Mode ) // AES Mode->0:128, 1:
 	NX_ASSERT( Mode <= 2 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 		
 	regvalue = regvalue & (~(0x3<<4));	
 	regvalue = regvalue | (Mode<<4);
 	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void NX_CRYPTO_SetAES64bitCounter( U32 ModuleIndex, U32 Mode ) // 64bit counter
@@ -514,12 +514,12 @@ void NX_CRYPTO_SetAES64bitCounter( U32 ModuleIndex, U32 Mode ) // 64bit counter
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<3));	
 	regvalue = regvalue | (Mode<<3);
 	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 void	NX_CRYPTO_SetAESDMAMode			( U32 ModuleIndex, U32 Mode ) // DMA Mode->0:FIFO mode, 1:DMA mode
 {
@@ -530,12 +530,12 @@ void	NX_CRYPTO_SetAESDMAMode			( U32 ModuleIndex, U32 Mode ) // DMA Mode->0:FIFO
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<2));	
 	regvalue = regvalue | (Mode<<2);
 	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetAESEncoderMode		( U32 ModuleIndex, U32 Mode ) // AES Encoder Mode->0:Decoder, 1: Encoder
@@ -547,12 +547,12 @@ void	NX_CRYPTO_SetAESEncoderMode		( U32 ModuleIndex, U32 Mode ) // AES Encoder M
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<1));	
 	regvalue = regvalue | (Mode<<1);
 	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 
@@ -565,11 +565,11 @@ void	NX_CRYPTO_SetAESEnable			( U32 ModuleIndex, CBOOL Enb )
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_AES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_AES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<0);	
 	else		regvalue  = regvalue & (~(1<<0));	
-	WriteIODW(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_AES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetHASHRun			( U32 ModuleIndex, CBOOL Enb ) // HASH Run : Disable
@@ -582,11 +582,11 @@ void	NX_CRYPTO_SetHASHRun			( U32 ModuleIndex, CBOOL Enb ) // HASH Run : Disable
 	pRegister = __g_pRegister[ModuleIndex];
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	if( Enb )	regvalue  = regvalue | (1<<2);	
 	//else		regvalue  = regvalue & (~(1<<2));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESRun				( U32 ModuleIndex, CBOOL Enb ) // DES Run
@@ -599,11 +599,11 @@ void	NX_CRYPTO_SetDESRun				( U32 ModuleIndex, CBOOL Enb ) // DES Run
 	pRegister = __g_pRegister[ModuleIndex];
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	if( Enb )	regvalue  = regvalue | (1<<1);	
 	else		regvalue  = regvalue & (~(1<<1));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetAESRun				( U32 ModuleIndex, CBOOL Enb )
@@ -617,11 +617,11 @@ void	NX_CRYPTO_SetAESRun				( U32 ModuleIndex, CBOOL Enb )
 
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	if( Enb )	regvalue  = regvalue | (1<<0);	
 	else		regvalue  = regvalue & (~(1<<0));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_GetAESTextOut			( U32 ModuleIndex, 
@@ -633,10 +633,10 @@ void	NX_CRYPTO_GetAESTextOut			( U32 ModuleIndex,
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	*AES_TOUT0 = ReadIODW(&pRegister->CRYPTO_AES_TOUT0);
-	*AES_TOUT1 = ReadIODW(&pRegister->CRYPTO_AES_TOUT1);
-	*AES_TOUT2 = ReadIODW(&pRegister->CRYPTO_AES_TOUT2);
-	*AES_TOUT3 = ReadIODW(&pRegister->CRYPTO_AES_TOUT3);
+	*AES_TOUT0 = ReadIO32(&pRegister->CRYPTO_AES_TOUT0);
+	*AES_TOUT1 = ReadIO32(&pRegister->CRYPTO_AES_TOUT1);
+	*AES_TOUT2 = ReadIO32(&pRegister->CRYPTO_AES_TOUT2);
+	*AES_TOUT3 = ReadIO32(&pRegister->CRYPTO_AES_TOUT3);
 }
 
 
@@ -651,12 +651,12 @@ void	NX_CRYPTO_SetLoadDESIV			( U32 ModuleIndex, CBOOL Enb ) // Load DES IV
 
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	
 	if( Enb )	regvalue  = regvalue | (1<<4);	
 	else		regvalue  = regvalue & (~(1<<4));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetLoadAESIV			( U32 ModuleIndex, CBOOL Enb ) // Load AES IV
@@ -670,12 +670,12 @@ void	NX_CRYPTO_SetLoadAESIV			( U32 ModuleIndex, CBOOL Enb ) // Load AES IV
 
 	//@modified choiyk 2012-11-15 오후 4:03:19
 	// 해당 신호들은 토글용 신호들이다.
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue  = regvalue & (~(0x00ff));
 	
 	if( Enb )	regvalue  = regvalue | (1<<3);	
 	else		regvalue  = regvalue & (~(1<<3));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 
@@ -687,7 +687,7 @@ CBOOL NX_CRYPTO_GetIdleAES( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	
 	if( (regvalue & 0x01) == 1 ) return CTRUE;
 	else                         return CFALSE; // AES Idel State.
@@ -702,7 +702,7 @@ CBOOL	NX_CRYPTO_GetIdleHASH( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	
 	if( ((regvalue>>2) & 0x01) == 1 ) return CTRUE;
 	else                         return CFALSE; // AES Idel State.
@@ -716,7 +716,7 @@ CBOOL	NX_CRYPTO_GetIdleDES ( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	
 	if( ((regvalue>>1) & 0x01) == 1 ) return CTRUE;
 	else                         return CFALSE; // AES Idel State.
@@ -731,8 +731,8 @@ void NX_CRYPTO_SetDESTextIn            ( U32 ModuleIndex, U32 DES_TIN0, U32 DES_
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_DES_TIN0, DES_TIN0);
-	WriteIODW(&pRegister->CRYPTO_DES_TIN1, DES_TIN1);
+	WriteIO32(&pRegister->CRYPTO_DES_TIN0, DES_TIN0);
+	WriteIO32(&pRegister->CRYPTO_DES_TIN1, DES_TIN1);
 }
 
 void NX_CRYPTO_SetDESInitVec           ( U32 ModuleIndex, U32 DES_IV0,  U32 DES_IV1)
@@ -743,8 +743,8 @@ void NX_CRYPTO_SetDESInitVec           ( U32 ModuleIndex, U32 DES_IV0,  U32 DES_
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_DES_IV0, DES_IV0);
-	WriteIODW(&pRegister->CRYPTO_DES_IV1, DES_IV1);
+	WriteIO32(&pRegister->CRYPTO_DES_IV0, DES_IV0);
+	WriteIO32(&pRegister->CRYPTO_DES_IV1, DES_IV1);
 }
 
 void NX_CRYPTO_SetDESKeyIn0            ( U32 ModuleIndex, U32 DES_KEY0_0, U32 DES_KEY0_1 )
@@ -755,8 +755,8 @@ void NX_CRYPTO_SetDESKeyIn0            ( U32 ModuleIndex, U32 DES_KEY0_0, U32 DE
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_DES_KEY0_0, DES_KEY0_0);
-	WriteIODW(&pRegister->CRYPTO_DES_KEY0_1, DES_KEY0_1);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY0_0, DES_KEY0_0);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY0_1, DES_KEY0_1);
 }
 
 void NX_CRYPTO_SetDESKeyIn1            ( U32 ModuleIndex, U32 DES_KEY1_0, U32 DES_KEY1_1 )
@@ -767,8 +767,8 @@ void NX_CRYPTO_SetDESKeyIn1            ( U32 ModuleIndex, U32 DES_KEY1_0, U32 DE
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_DES_KEY1_0, DES_KEY1_0);
-	WriteIODW(&pRegister->CRYPTO_DES_KEY1_1, DES_KEY1_1);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY1_0, DES_KEY1_0);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY1_1, DES_KEY1_1);
 }
 
 void NX_CRYPTO_SetDESKeyIn2            ( U32 ModuleIndex, U32 DES_KEY2_0, U32 DES_KEY2_1 )
@@ -779,8 +779,8 @@ void NX_CRYPTO_SetDESKeyIn2            ( U32 ModuleIndex, U32 DES_KEY2_0, U32 DE
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_DES_KEY2_0, DES_KEY2_0);
-	WriteIODW(&pRegister->CRYPTO_DES_KEY2_1, DES_KEY2_1);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY2_0, DES_KEY2_0);
+	WriteIO32(&pRegister->CRYPTO_DES_KEY2_1, DES_KEY2_1);
 }
 
 
@@ -793,21 +793,11 @@ void NX_CRYPTO_SetTDESMode             ( U32 ModuleIndex, U32 TDESMODE ) // TDES
 	
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_DES_CTRL0) & (~(0x7 << 8));
+	regvalue  = ReadIO32(&pRegister->CRYPTO_DES_CTRL0) & (~(0x7 << 8));
 	
 	regvalue  = regvalue | ((TDESMODE&0x7)<<8);	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void NX_CRYPTO_SetDESOutputSwap        ( U32 ModuleIndex, CBOOL Enb )
@@ -819,11 +809,11 @@ void NX_CRYPTO_SetDESOutputSwap        ( U32 ModuleIndex, CBOOL Enb )
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<6);	
 	else		regvalue  = regvalue & (~(1<<6));	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESInputSwap			( U32 ModuleIndex, CBOOL Enb ) // 지금은 넣을때 BigEndian으로 넣어주고 있다.
@@ -835,11 +825,11 @@ void	NX_CRYPTO_SetDESInputSwap			( U32 ModuleIndex, CBOOL Enb ) // 지금은 넣을때
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<5);	
 	else		regvalue  = regvalue & (~(1<<5));	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESBlockCiphterMode	( U32 ModuleIndex, U32 Mode )  // Block Cipher Mode-> 0:ECB, 1:CBC, 2:CTR
@@ -851,12 +841,12 @@ void	NX_CRYPTO_SetDESBlockCiphterMode	( U32 ModuleIndex, U32 Mode )  // Block Ci
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 		
 	regvalue = regvalue & (~(0x01<<4));	
 	regvalue = regvalue | (Mode<<4);
 	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESMode			( U32 ModuleIndex, U32 Mode ) // AES Mode->0:128, 1:192, 2:256
@@ -868,12 +858,12 @@ void	NX_CRYPTO_SetDESMode			( U32 ModuleIndex, U32 Mode ) // AES Mode->0:128, 1:
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 		
 	regvalue = regvalue & (~(0x01<<2));	
 	regvalue = regvalue | (Mode<<2);
 	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESDMAMode			( U32 ModuleIndex, U32 Mode ) // DMA Mode->0:FIFO mode, 1:DMA mode
@@ -885,12 +875,12 @@ void	NX_CRYPTO_SetDESDMAMode			( U32 ModuleIndex, U32 Mode ) // DMA Mode->0:FIFO
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<3));	
 	regvalue = regvalue | (Mode<<3);
 	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 void	NX_CRYPTO_SetDESEncoderMode		( U32 ModuleIndex, U32 Mode ) // AES Encoder Mode->0:Decoder, 1: Encoder
@@ -902,12 +892,12 @@ void	NX_CRYPTO_SetDESEncoderMode		( U32 ModuleIndex, U32 Mode ) // AES Encoder M
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<1));	
 	regvalue = regvalue | (Mode<<1);
 	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 
@@ -920,11 +910,11 @@ void	NX_CRYPTO_SetDESEnable			( U32 ModuleIndex, CBOOL Enb )
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_DES_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_DES_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<0);	
 	else		regvalue  = regvalue & (~(1<<0));	
-	WriteIODW(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_DES_CTRL0, regvalue);	
 }
 
 
@@ -937,12 +927,12 @@ void NX_CRYPTO_SetDMAWritePath         ( U32 ModuleIndex, U32 Mode ) // DMA Writ
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	regvalue = regvalue & (~(0x00ff));
 	
 	if( Mode == 1 )	regvalue  = regvalue | (1<<8);	
 	else			regvalue  = regvalue & (~(1<<8));	
-	WriteIODW(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_CRT_CTRL0, regvalue);	
 }
 
 
@@ -954,8 +944,8 @@ void NX_CRYPTO_SetMSZEE0               ( U32 ModuleIndex, U32 HASH_MSZE0, U32 HA
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->CRYPTO_HASH_MSZE0, HASH_MSZE0);	
-	WriteIODW(&pRegister->CRYPTO_HASH_MSZE1, HASH_MSZE1);	
+	WriteIO32(&pRegister->CRYPTO_HASH_MSZE0, HASH_MSZE0);	
+	WriteIO32(&pRegister->CRYPTO_HASH_MSZE1, HASH_MSZE1);	
 }
 
 
@@ -968,11 +958,11 @@ void NX_CRYPTO_SetINITTABLE            ( U32 ModuleIndex, U32 HASH_IV0,
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->CRYPTO_HASH_IV0, HASH_IV0);	
-	WriteIODW(&pRegister->CRYPTO_HASH_IV1, HASH_IV1);	
-	WriteIODW(&pRegister->CRYPTO_HASH_IV2, HASH_IV2);	
-	WriteIODW(&pRegister->CRYPTO_HASH_IV3, HASH_IV3);	
-	WriteIODW(&pRegister->CRYPTO_HASH_IV4, HASH_IV4);	
+	WriteIO32(&pRegister->CRYPTO_HASH_IV0, HASH_IV0);	
+	WriteIO32(&pRegister->CRYPTO_HASH_IV1, HASH_IV1);	
+	WriteIO32(&pRegister->CRYPTO_HASH_IV2, HASH_IV2);	
+	WriteIO32(&pRegister->CRYPTO_HASH_IV3, HASH_IV3);	
+	WriteIO32(&pRegister->CRYPTO_HASH_IV4, HASH_IV4);	
 
 }
 
@@ -986,12 +976,12 @@ void NX_CRYPTO_SetHASHDMAPath          ( U32 ModuleIndex, U32 Mode ) // DMA Path
 	NX_ASSERT( Mode <= 3 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 		
 	regvalue = regvalue & (~(0x3<<5));	
 	regvalue = regvalue | (Mode<<5);
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 
 void NX_CRYPTO_SetHASHInputSwap        ( U32 ModuleIndex, CBOOL Enb ) // Input Swap 
@@ -1003,11 +993,11 @@ void NX_CRYPTO_SetHASHInputSwap        ( U32 ModuleIndex, CBOOL Enb ) // Input S
 	NX_ASSERT( Enb == CTRUE || Enb == CFALSE );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 	
 	if( Enb )	regvalue  = regvalue | (1<<4);	
 	else		regvalue  = regvalue & (~(1<<4));	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 
 
@@ -1020,12 +1010,12 @@ void NX_CRYPTO_SetHASHMode             ( U32 ModuleIndex, U32 Mode ) // 0:SHA1, 
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<3));	
 	regvalue = regvalue | (Mode<<3);
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 
 
@@ -1038,12 +1028,12 @@ void NX_CRYPTO_SetHASHCont             ( U32 ModuleIndex, U32 Mode ) // HASH Con
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<2));	
 	regvalue = regvalue | (Mode<<2);
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 
 
@@ -1056,12 +1046,12 @@ void NX_CRYPTO_SetDMAMode              ( U32 ModuleIndex, U32 Mode ) // DMA Mode
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<1));	
 	regvalue = regvalue | (Mode<<1);
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 
 
@@ -1074,12 +1064,12 @@ void NX_CRYPTO_SetHASHEnable           ( U32 ModuleIndex, U32 Mode )
 	NX_ASSERT( Mode <= 1 );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->CRYPTO_HASH_CTRL0);
+	regvalue = ReadIO32(&pRegister->CRYPTO_HASH_CTRL0);
 		
 	regvalue = regvalue & (~(0x1<<0));	
 	regvalue = regvalue | (Mode<<0);
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
+	WriteIO32(&pRegister->CRYPTO_HASH_CTRL0, regvalue);	
 }
 	
 
@@ -1091,8 +1081,8 @@ void NX_CRYPTO_GetDESTextOut ( U32 ModuleIndex, U32 *DES_TOUT0, U32 *DES_TOUT1 )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	*DES_TOUT0 = ReadIODW(&pRegister->CRYPTO_DES_TOUT0);
-	*DES_TOUT1 = ReadIODW(&pRegister->CRYPTO_DES_TOUT1);
+	*DES_TOUT0 = ReadIO32(&pRegister->CRYPTO_DES_TOUT0);
+	*DES_TOUT1 = ReadIO32(&pRegister->CRYPTO_DES_TOUT1);
 }
 
 
@@ -1105,11 +1095,11 @@ void NX_CRYPTO_GetHASHTextOut( U32 ModuleIndex,
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	*HASH_TOUT0 = ReadIODW(&pRegister->CRYPTO_HASH_TOUT0);
-	*HASH_TOUT1 = ReadIODW(&pRegister->CRYPTO_HASH_TOUT1);
-	*HASH_TOUT2 = ReadIODW(&pRegister->CRYPTO_HASH_TOUT2);
-	*HASH_TOUT3 = ReadIODW(&pRegister->CRYPTO_HASH_TOUT3);
-	*HASH_TOUT4 = ReadIODW(&pRegister->CRYPTO_HASH_TOUT4);
+	*HASH_TOUT0 = ReadIO32(&pRegister->CRYPTO_HASH_TOUT0);
+	*HASH_TOUT1 = ReadIO32(&pRegister->CRYPTO_HASH_TOUT1);
+	*HASH_TOUT2 = ReadIO32(&pRegister->CRYPTO_HASH_TOUT2);
+	*HASH_TOUT3 = ReadIO32(&pRegister->CRYPTO_HASH_TOUT3);
+	*HASH_TOUT4 = ReadIO32(&pRegister->CRYPTO_HASH_TOUT4);
 }	
 
 
@@ -1122,7 +1112,7 @@ void	NX_CRYPTO_SetHASHTextIn			( U32 ModuleIndex, U32 HASH_TIN )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 	
-	WriteIODW(&pRegister->CRYPTO_HASH_TIN, HASH_TIN);
+	WriteIO32(&pRegister->CRYPTO_HASH_TIN, HASH_TIN);
 }
 
 
@@ -1136,37 +1126,13 @@ CBOOL NX_CRYPTO_GetIdleHASHCore( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->CRYPTO_CRT_CTRL0);
+	regvalue  = ReadIO32(&pRegister->CRYPTO_CRT_CTRL0);
 	
 	if( ((regvalue>>7) & 0x01) == 1 ) return CTRUE;
 	else                         return CFALSE; // AES Idel State.
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#ifdef SOC_TEST
 //====================
 // CRYPTO RegTest Function 
 // 자체적으로 R/W를 하면서 확인한다. 
@@ -1187,7 +1153,7 @@ CBOOL NX_CRYPTO_GetIdleHASHCore( U32 ModuleIndex )
 CBOOL NX_CRYPTO_RegTest( U32 ModuleIndex )
 {
 	register NX_CRYPTO_RegisterSet* pRegister;
-	register U32 regvalue;
+
 	NX_ASSERT( NUMBER_OF_CRYPTO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
@@ -1455,7 +1421,7 @@ CBOOL NX_CRYPTO_CheckReg( U32 Addr, U32 initvalue, U32 writevalue, char *RegName
 	//------
 	// Init Value Check.
 	//------
-	U32 regvalue = ReadIODW( Addr );
+	U32 regvalue = ReadIO32( Addr );
 	if( regvalue != initvalue )
 	{
 		NX_CONSOLE_Printf("\n[ERROR] %s Register's initial value Error ( read = %x, golden = %x )", 
@@ -1466,8 +1432,8 @@ CBOOL NX_CRYPTO_CheckReg( U32 Addr, U32 initvalue, U32 writevalue, char *RegName
 	//------
 	// write value Check. 
 	//------
-	WriteIODW( Addr, writevalue );
-	regvalue = ReadIODW( Addr );
+	WriteIO32( Addr, writevalue );
+	regvalue = ReadIO32( Addr );
 	if( regvalue != writevalue )
 	{
 		NX_CONSOLE_Printf("\n[ERROR] %s Register write Error ( read = %x, golden = %x )", 
@@ -1488,11 +1454,10 @@ CBOOL NX_CRYPTO_CheckReg( U32 Addr, U32 initvalue, U32 writevalue, char *RegName
 CBOOL NX_CRYPTO_RegTest_ECO_20130129( U32 ModuleIndex )
 {
 	register NX_CRYPTO_RegisterSet* pRegister;
-	register U32 regvalue;
+
 	NX_ASSERT( NUMBER_OF_CRYPTO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-
 
 	//---------------
 	// Init Value Check.
@@ -1507,7 +1472,7 @@ CBOOL NX_CRYPTO_RegTest_ECO_20130129( U32 ModuleIndex )
 	{
 		Result = CFALSE;
 	}
-	WriteIODW( Addr, 0 ); // Init 
+	WriteIO32( Addr, 0 ); // Init 
 
 
 	Addr = (U32) &pRegister->CRYPTO_DES_CTRL0   ;    writevalue = 1<<5 ;
@@ -1515,8 +1480,9 @@ CBOOL NX_CRYPTO_RegTest_ECO_20130129( U32 ModuleIndex )
 	{
 		Result = CFALSE;
 	}
-	WriteIODW( Addr, 0 ); // Init 
+	WriteIO32( Addr, 0 ); // Init 
 	
 	return Result;
 	
 }
+#endif

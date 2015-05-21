@@ -23,6 +23,8 @@ extern "C"
 {
 #endif
 
+#define NUMBER_OF_ADC_CHANNEL 8
+
 //------------------------------------------------------------------------------
 /// @defgroup	ADC
 //------------------------------------------------------------------------------
@@ -44,8 +46,8 @@ CBOOL NX_ADC_Initialize( void );
 U32   NX_ADC_GetNumberOfModule( void );
 
 U32   NX_ADC_GetSizeOfRegisterSet( void );
-void  NX_ADC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32   NX_ADC_GetBaseAddress( U32 ModuleIndex );
+void  NX_ADC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*  NX_ADC_GetBaseAddress( U32 ModuleIndex );
 U32   NX_ADC_GetPhysicalAddress ( U32 ModuleIndex );
 CBOOL NX_ADC_OpenModule( U32 ModuleIndex );
 CBOOL NX_ADC_CloseModule( U32 ModuleIndex );

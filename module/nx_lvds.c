@@ -22,9 +22,6 @@
 #include "nx_displaytop.h"
 #endif
 
-#ifndef NX_CONSOLE_Printf
-#define	NX_CONSOLE_Printf printf
-#endif
 #ifndef pow
 static inline unsigned int pow(int a, int b) // a^b
 {
@@ -111,7 +108,7 @@ U32		NX_LVDS_GetSizeOfRegisterSet( void )
  *				NX_LVDS_OpenModule,				NX_LVDS_CloseModule,
  *				NX_LVDS_CheckBusy,
  */
-void	NX_LVDS_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_LVDS_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_LVDS_MODULE > ModuleIndex );
@@ -127,10 +124,10 @@ void	NX_LVDS_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_LVDS_OpenModule,				NX_LVDS_CloseModule,
  *				NX_LVDS_CheckBusy,
  */
-U32		NX_LVDS_GetBaseAddress( U32 ModuleIndex )
+void*	NX_LVDS_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_LVDS_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
@@ -244,24 +241,24 @@ CBOOL NX_LVDS_InitRegTest( U32 ModuleIndex )
 
 	U32 fail = 0;
 
-	WriteIODW(&pRegister->LVDSCTRL0, 0x07fffE);
-	regvalue = ReadIODW(&pRegister->LVDSCTRL0);
+	WriteIO32(&pRegister->LVDSCTRL0, 0x07fffE);
+	regvalue = ReadIO32(&pRegister->LVDSCTRL0);
 	if( regvalue != 0x07fffE )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSCTRL0 regvalue = %x, Golden ( 0x07fffE )", regvalue);
 	}
 
-	WriteIODW(&pRegister->LVDSCTRL1, 0x03ffff);
-	regvalue = ReadIODW(&pRegister->LVDSCTRL1);
+	WriteIO32(&pRegister->LVDSCTRL1, 0x03ffff);
+	regvalue = ReadIO32(&pRegister->LVDSCTRL1);
 	if( regvalue != 0x03ffff )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSCTRL1 regvalue = %x, Golden ( 0x03ffff )", regvalue);
 	}
 
-	WriteIODW(&pRegister->LVDSCTRL2, 0x0ffff);
-	regvalue = ReadIODW(&pRegister->LVDSCTRL2);
+	WriteIO32(&pRegister->LVDSCTRL2, 0x0ffff);
+	regvalue = ReadIO32(&pRegister->LVDSCTRL2);
 	if( regvalue != 0x0ffff )
 	{
 		fail = 1; //return CFALSE;
@@ -269,8 +266,8 @@ CBOOL NX_LVDS_InitRegTest( U32 ModuleIndex )
 	}
 
 
-	WriteIODW(&pRegister->LVDSCTRL3, 0x03ff);
-	regvalue = ReadIODW(&pRegister->LVDSCTRL3);
+	WriteIO32(&pRegister->LVDSCTRL3, 0x03ff);
+	regvalue = ReadIO32(&pRegister->LVDSCTRL3);
 	if( regvalue != 0x03ff )
 	{
 		fail = 1; //return CFALSE;
@@ -278,8 +275,8 @@ CBOOL NX_LVDS_InitRegTest( U32 ModuleIndex )
 	}
 
 
-	WriteIODW(&pRegister->LVDSCTRL4, 0x1fffffff);
-	regvalue = ReadIODW(&pRegister->LVDSCTRL4);
+	WriteIO32(&pRegister->LVDSCTRL4, 0x1fffffff);
+	regvalue = ReadIO32(&pRegister->LVDSCTRL4);
 	if( regvalue != 0x1fffffff )
 	{
 		fail = 1; //return CFALSE;
@@ -287,92 +284,86 @@ CBOOL NX_LVDS_InitRegTest( U32 ModuleIndex )
 	}
 
 	//@added choiyk 2012-12-17 ¿ÀÀü 11:21:54
-	WriteIODW(&pRegister->LVDSLOC0, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC0);
+	WriteIO32(&pRegister->LVDSLOC0, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC0);
 	if( regvalue != 0x3fffffff )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC0 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
-	WriteIODW(&pRegister->LVDSLOC1, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC1);
+	WriteIO32(&pRegister->LVDSLOC1, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC1);
 	if( regvalue != 0x3fffffff  )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC1 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
-	WriteIODW(&pRegister->LVDSLOC2, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC2);
+	WriteIO32(&pRegister->LVDSLOC2, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC2);
 	if( regvalue != 0x3fffffff  )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC2 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
 
-	WriteIODW(&pRegister->LVDSLOC3, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC3);
+	WriteIO32(&pRegister->LVDSLOC3, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC3);
 	if( regvalue != 0x3fffffff  )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC3 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
-	WriteIODW(&pRegister->LVDSLOC4, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC4);
+	WriteIO32(&pRegister->LVDSLOC4, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC4);
 	if( regvalue != 0x3fffffff  )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC4 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
-	WriteIODW(&pRegister->LVDSLOC5, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC5);
+	WriteIO32(&pRegister->LVDSLOC5, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC5);
 	if( regvalue != 0x3fffffff  )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC5 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
-	WriteIODW(&pRegister->LVDSLOC6, (pow(2,30)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOC6);
+	WriteIO32(&pRegister->LVDSLOC6, (pow(2,30)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOC6);
 	if( regvalue != 0x3fffffff )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOC6 regvalue = %x, Golden ( %x )", regvalue, 0x3fffffff );
 	}
 
-	WriteIODW(&pRegister->LVDSLOCMASK0, (pow(2,32)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOCMASK0);
+	WriteIO32(&pRegister->LVDSLOCMASK0, (pow(2,32)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOCMASK0);
 	if( regvalue != (pow(2,32)-1) )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOCMASK0 regvalue = %x, Golden ( %x )", regvalue, (pow(2,32)-1));
 	}
-	WriteIODW(&pRegister->LVDSLOCMASK1, 7 );
-	regvalue = ReadIODW(&pRegister->LVDSLOCMASK1);
+	WriteIO32(&pRegister->LVDSLOCMASK1, 7 );
+	regvalue = ReadIO32(&pRegister->LVDSLOCMASK1);
 	if( regvalue != 7 )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] regvalue = %x, Golden ( %x )", regvalue, 7 );
 	}
 
-	WriteIODW(&pRegister->LVDSLOCPOL0, (pow(2,32)-1)  );
-	regvalue = ReadIODW(&pRegister->LVDSLOCPOL0);
+	WriteIO32(&pRegister->LVDSLOCPOL0, (pow(2,32)-1)  );
+	regvalue = ReadIO32(&pRegister->LVDSLOCPOL0);
 	if( regvalue != (pow(2,32)-1) )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOCPOL0 regvalue = %x, Golden ( %x )", regvalue, (pow(2,32)-1));
 	}
-	WriteIODW(&pRegister->LVDSLOCPOL1, 7 );
-	regvalue = ReadIODW(&pRegister->LVDSLOCPOL1);
+	WriteIO32(&pRegister->LVDSLOCPOL1, 7 );
+	regvalue = ReadIO32(&pRegister->LVDSLOCPOL1);
 	if( regvalue != 7 )
 	{
 		fail = 1; //return CFALSE;
 		NX_CONSOLE_Printf("\n[DEBUG] LVDSLOCPOL1 regvalue = %x, Golden ( %x )", regvalue, 7 );
 	}
-
-
-
-
-
-
 
 	if( fail == 1 )
 	{
@@ -391,7 +382,7 @@ void NX_LVDS_SetLVDSCTRL0( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSCTRL0, regvalue);
+	WriteIO32(&pRegister->LVDSCTRL0, regvalue);
 }
 
 void NX_LVDS_SetLVDSCTRL1( U32 ModuleIndex, U32 regvalue )
@@ -402,7 +393,7 @@ void NX_LVDS_SetLVDSCTRL1( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSCTRL1, regvalue);
+	WriteIO32(&pRegister->LVDSCTRL1, regvalue);
 }
 
 void NX_LVDS_SetLVDSCTRL2( U32 ModuleIndex, U32 regvalue )
@@ -413,7 +404,7 @@ void NX_LVDS_SetLVDSCTRL2( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSCTRL2, regvalue);
+	WriteIO32(&pRegister->LVDSCTRL2, regvalue);
 }
 void NX_LVDS_SetLVDSCTRL3( U32 ModuleIndex, U32 regvalue )
 {
@@ -423,7 +414,7 @@ void NX_LVDS_SetLVDSCTRL3( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSCTRL3, regvalue);
+	WriteIO32(&pRegister->LVDSCTRL3, regvalue);
 }
 void NX_LVDS_SetLVDSCTRL4( U32 ModuleIndex, U32 regvalue )
 {
@@ -433,7 +424,7 @@ void NX_LVDS_SetLVDSCTRL4( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSCTRL4, regvalue);
+	WriteIO32(&pRegister->LVDSCTRL4, regvalue);
 }
 
 
@@ -445,7 +436,7 @@ void NX_LVDS_SetLVDSTMODE0( U32 ModuleIndex, U32 regvalue )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSTMODE0, regvalue);
+	WriteIO32(&pRegister->LVDSTMODE0, regvalue);
 }
 
 
@@ -457,7 +448,7 @@ void NX_LVDS_SetLVDSLOC0		 ( U32 ModuleIndex, U32 regvalue ) //'h20
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC0, regvalue);
+	WriteIO32(&pRegister->LVDSLOC0, regvalue);
 }
 void NX_LVDS_SetLVDSLOC1		 ( U32 ModuleIndex, U32 regvalue ) //'h24
 {
@@ -467,7 +458,7 @@ void NX_LVDS_SetLVDSLOC1		 ( U32 ModuleIndex, U32 regvalue ) //'h24
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC1, regvalue);
+	WriteIO32(&pRegister->LVDSLOC1, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOC2		 ( U32 ModuleIndex, U32 regvalue ) //'h28
@@ -478,7 +469,7 @@ void NX_LVDS_SetLVDSLOC2		 ( U32 ModuleIndex, U32 regvalue ) //'h28
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC2, regvalue);
+	WriteIO32(&pRegister->LVDSLOC2, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOC3		 ( U32 ModuleIndex, U32 regvalue ) //'h2C
@@ -489,7 +480,7 @@ void NX_LVDS_SetLVDSLOC3		 ( U32 ModuleIndex, U32 regvalue ) //'h2C
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC3, regvalue);
+	WriteIO32(&pRegister->LVDSLOC3, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOC4		 ( U32 ModuleIndex, U32 regvalue ) //'h30
@@ -500,7 +491,7 @@ void NX_LVDS_SetLVDSLOC4		 ( U32 ModuleIndex, U32 regvalue ) //'h30
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC4, regvalue);
+	WriteIO32(&pRegister->LVDSLOC4, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOC5		 ( U32 ModuleIndex, U32 regvalue ) //'h34
@@ -511,7 +502,7 @@ void NX_LVDS_SetLVDSLOC5		 ( U32 ModuleIndex, U32 regvalue ) //'h34
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC5, regvalue);
+	WriteIO32(&pRegister->LVDSLOC5, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOC6		 ( U32 ModuleIndex, U32 regvalue ) //'h38
@@ -522,7 +513,7 @@ void NX_LVDS_SetLVDSLOC6		 ( U32 ModuleIndex, U32 regvalue ) //'h38
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOC6, regvalue);
+	WriteIO32(&pRegister->LVDSLOC6, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOCMASK0 ( U32 ModuleIndex, U32 regvalue ) //'h40
@@ -533,7 +524,7 @@ void NX_LVDS_SetLVDSLOCMASK0 ( U32 ModuleIndex, U32 regvalue ) //'h40
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOCMASK0, regvalue);
+	WriteIO32(&pRegister->LVDSLOCMASK0, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOCMASK1 ( U32 ModuleIndex, U32 regvalue ) //'h44
@@ -544,7 +535,7 @@ void NX_LVDS_SetLVDSLOCMASK1 ( U32 ModuleIndex, U32 regvalue ) //'h44
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOCMASK1, regvalue);
+	WriteIO32(&pRegister->LVDSLOCMASK1, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOCPOL0  ( U32 ModuleIndex, U32 regvalue ) //'h48
@@ -555,7 +546,7 @@ void NX_LVDS_SetLVDSLOCPOL0  ( U32 ModuleIndex, U32 regvalue ) //'h48
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOCPOL0, regvalue);
+	WriteIO32(&pRegister->LVDSLOCPOL0, regvalue);
 }
 
 void NX_LVDS_SetLVDSLOCPOL1  ( U32 ModuleIndex, U32 regvalue ) //'h4c
@@ -566,7 +557,7 @@ void NX_LVDS_SetLVDSLOCPOL1  ( U32 ModuleIndex, U32 regvalue ) //'h4c
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->LVDSLOCPOL1, regvalue);
+	WriteIO32(&pRegister->LVDSLOCPOL1, regvalue);
 }
 
 
@@ -586,8 +577,8 @@ void NX_LVDS_SetLVDSDUMMY  ( U32 ModuleIndex, U32 regvalue ) //'h4c
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	oldvalue = ReadIODW(&pRegister->LVDSCTRL1) & 0x00FFFFFF;
-	WriteIODW(&pRegister->LVDSCTRL1, oldvalue | ((regvalue&0xFF) << 24 ) );
+	oldvalue = ReadIO32(&pRegister->LVDSCTRL1) & 0x00FFFFFF;
+	WriteIO32(&pRegister->LVDSCTRL1, oldvalue | ((regvalue&0xFF) << 24 ) );
 }
 
 U32 NX_LVDS_GetLVDSDUMMY  ( U32 ModuleIndex ) //'h4c
@@ -599,7 +590,7 @@ U32 NX_LVDS_GetLVDSDUMMY  ( U32 ModuleIndex ) //'h4c
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	oldvalue = ReadIODW(&pRegister->LVDSCTRL1) ;
+	oldvalue = ReadIO32(&pRegister->LVDSCTRL1) ;
 	oldvalue = oldvalue >> 24 ;
 	return oldvalue;
 }
@@ -615,7 +606,7 @@ U32 NX_LVDS_GetLVDSCTRL0( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32) ReadIODW(&pRegister->LVDSCTRL0);
+	return (U32) ReadIO32(&pRegister->LVDSCTRL0);
 }
 
 
@@ -627,7 +618,7 @@ U32 NX_LVDS_GetLVDSCTRL1( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32) ReadIODW(&pRegister->LVDSCTRL1);
+	return (U32) ReadIO32(&pRegister->LVDSCTRL1);
 }
 
 U32 NX_LVDS_GetLVDSCTRL2( U32 ModuleIndex )
@@ -638,7 +629,7 @@ U32 NX_LVDS_GetLVDSCTRL2( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32) ReadIODW(&pRegister->LVDSCTRL2);
+	return (U32) ReadIO32(&pRegister->LVDSCTRL2);
 }
 
 U32 NX_LVDS_GetLVDSCTRL3( U32 ModuleIndex )
@@ -649,7 +640,7 @@ U32 NX_LVDS_GetLVDSCTRL3( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32) ReadIODW(&pRegister->LVDSCTRL3);
+	return (U32) ReadIO32(&pRegister->LVDSCTRL3);
 }
 
 U32 NX_LVDS_GetLVDSCTRL4( U32 ModuleIndex )
@@ -660,5 +651,5 @@ U32 NX_LVDS_GetLVDSCTRL4( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32) ReadIODW(&pRegister->LVDSCTRL4);
+	return (U32) ReadIO32(&pRegister->LVDSCTRL4);
 }

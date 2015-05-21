@@ -9,7 +9,7 @@
 //	FOR A PARTICULAR PURPOSE.
 //
 //	Module		:
-//	File		: nx_MIPI.c
+//	File		: nx_mipi.c
 //	Description	:
 //	Author		:
 //	History		:
@@ -40,9 +40,9 @@ CBOOL  NX_MIPI_SmokeTest ( U32 ModuleIndex )
 	if( 0xB337FFFF != pRegister->DSIM_INTMSK     ){ return CFALSE; }
 
 	// write data
-	WriteIODW(&pRegister->CSIS_DPHYCTRL, 0xDEADC0DE );
-	WriteIODW(&pRegister->CSIS_CTRL2   , 0xFFFFFFFF );
-	WriteIODW(&pRegister->DSIM_MSYNC   , 0xDEADC0DE );
+	WriteIO32(&pRegister->CSIS_DPHYCTRL, 0xDEADC0DE );
+	WriteIO32(&pRegister->CSIS_CTRL2   , 0xFFFFFFFF );
+	WriteIO32(&pRegister->DSIM_MSYNC   , 0xDEADC0DE );
 
 	// read data, check that reserved bits are reserved.
 	if( 0xDE80001E != pRegister->CSIS_DPHYCTRL   ){ return CFALSE; }
@@ -63,8 +63,8 @@ CBOOL  NX_MIPI_SmokeTest ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.
+ *	@return  CTRUE	indicate that Initialize is successed.
+ *			 CFALSE	indicate that Initialize is failed.
  *	@see	NX_MIPI_GetNumberOfModule
  */
 CBOOL	NX_MIPI_Initialize( void )
@@ -83,7 +83,7 @@ CBOOL	NX_MIPI_Initialize( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get number of modules in the chip.
- *	@return		Module's number. \n
+ *	@return		Module's number. 
  *				It is equal to NUMBER_OF_MIPI_MODULE in <nx_chip.h>.
  *	@see		NX_MIPI_Initialize
  */
@@ -116,7 +116,7 @@ U32		NX_MIPI_GetSizeOfRegisterSet( void )
  *				NX_MIPI_OpenModule,				NX_MIPI_CloseModule,
  *				NX_MIPI_CheckBusy,
  */
-void	NX_MIPI_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_MIPI_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_MIPI_MODULE > ModuleIndex );
@@ -132,16 +132,16 @@ void	NX_MIPI_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_MIPI_OpenModule,				NX_MIPI_CloseModule,
  *				NX_MIPI_CheckBusy,
  */
-U32		NX_MIPI_GetBaseAddress( U32 ModuleIndex )
+void*	NX_MIPI_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_MIPI_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's physical address.
- *	@return		Module's physical address. \n
+ *	@return		Module's physical address. 
  *				It is equal to PHY_BASEADDR_MIPI?_MODULE in <nx_chip.h>.
  *	@see		NX_MIPI_GetSizeOfRegisterSet,
  *				NX_MIPI_SetBaseAddress,			NX_MIPI_GetBaseAddress,
@@ -162,8 +162,8 @@ U32		NX_MIPI_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
+ *	@return		CTRUE	indicate that Initialize is successed. 
+ *				CFALSE	indicate that Initialize is failed.
  *	@see		NX_MIPI_GetPhysicalAddress,		NX_MIPI_GetSizeOfRegisterSet,
  *				NX_MIPI_SetBaseAddress,			NX_MIPI_GetBaseAddress,
  *				NX_MIPI_CloseModule,
@@ -213,8 +213,8 @@ CBOOL	NX_MIPI_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
+ *	@return		 CTRUE	indicate that Deinitialize is successed. 
+ *				 CFALSE	indicate that Deinitialize is failed.
  *	@see		NX_MIPI_GetPhysicalAddress,		NX_MIPI_GetSizeOfRegisterSet,
  *				NX_MIPI_SetBaseAddress,			NX_MIPI_GetBaseAddress,
  *				NX_MIPI_OpenModule,
@@ -231,8 +231,8 @@ CBOOL	NX_MIPI_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
+ *	@return		 CTRUE	indicate that Module is Busy. 
+ *				 CFALSE	indicate that Module is NOT Busy.
  *	@see		NX_MIPI_GetPhysicalAddress,		NX_MIPI_GetSizeOfRegisterSet,
  *				NX_MIPI_SetBaseAddress,			NX_MIPI_GetBaseAddress,
  *				NX_MIPI_OpenModule,				NX_MIPI_CloseModule,
@@ -249,7 +249,7 @@ CBOOL	NX_MIPI_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's clock index.
- *	@return		Module's clock index.\n
+ *	@return		Module's clock index.
  *				It is equal to CLOCKINDEX_OF_MIPI?_MODULE in <nx_chip.h>.
  *	@see		NX_CLKGEN_SetClockDivisorEnable,
  *				NX_CLKGEN_GetClockDivisorEnable,
@@ -271,7 +271,7 @@ U32 NX_MIPI_GetClockNumber ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's reset index.
- *	@return		Module's reset index.\n
+ *	@return		Module's reset index.
  *				It is equal to RESETINDEX_OF_MIPI?_MODULE_i_nRST in <nx_chip.h>.
  *	@see		NX_RSTCON_Enter,
  *				NX_RSTCON_Leave,
@@ -302,7 +302,7 @@ U32 NX_MIPI_GetResetNumber ( U32 ModuleIndex, U32 ChannelIndex )
 /**
  *	@brief		Get a interrupt number for the interrupt controller.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		A interrupt number.\n
+ *	@return		A interrupt number.
  *				It is equal to INTNUM_OF_MIPI?_MODULE in <nx_chip.h>.
  *	@see		NX_MIPI_SetInterruptEnable,
  *				NX_MIPI_GetInterruptEnable,
@@ -328,10 +328,10 @@ U32 	NX_MIPI_GetInterruptNumber( U32 ModuleIndex )
 /**
  *	@brief		Set a specified interrupt to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number .\n
+ *	@param[in]	IntNum	a interrupt Number .
  *						refer to NX_MIPI_INTCH_xxx in <nx_MIPI.h>
- *	@param[in]	Enable	\b Set as CTRUE to enable a specified interrupt. \r\n
- *						\b Set as CFALSE to disable a specified interrupt.
+ *	@param[in]	Enable	 Set as CTRUE to enable a specified interrupt. \r
+ *						 Set as CFALSE to disable a specified interrupt.
  *	@return		None.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_GetInterruptEnable,
@@ -360,7 +360,7 @@ void	NX_MIPI_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 		regvalue  = pRegister->CSIS_INTMSK;
 		regvalue &=	~( 1UL << IntNum );
 		regvalue |= (U32)Enable << IntNum;
-		WriteIODW(&pRegister->CSIS_INTMSK, regvalue);
+		WriteIO32(&pRegister->CSIS_INTMSK, regvalue);
 	}
 	else // DSI
 	{
@@ -368,7 +368,7 @@ void	NX_MIPI_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 		regvalue  = pRegister->DSIM_INTMSK;
 		regvalue &=	~( 1UL << (IntNum-32) );
 		regvalue |= (U32)Enable << (IntNum-32);
-		WriteIODW(&pRegister->DSIM_INTMSK, regvalue);
+		WriteIO32(&pRegister->DSIM_INTMSK, regvalue);
 	}
 }
 
@@ -376,10 +376,10 @@ void	NX_MIPI_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_MIPI_INTCH_xxx in <nx_MIPI.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is enabled. \r\n
- *				\b CFALSE	indicates that a specified interrupt is disabled.
+ *	@return		 CTRUE	indicates that a specified interrupt is enabled. \r
+ *				 CFALSE	indicates that a specified interrupt is disabled.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
  *				NX_MIPI_GetInterruptPending,
@@ -411,10 +411,10 @@ CBOOL	NX_MIPI_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_MIPI_INTCH_xxx in <nx_MIPI.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is pended. \r\n
- *				\b CFALSE	indicates that a specified interrupt is not pended.
+ *	@return		 CTRUE	indicates that a specified interrupt is pended. \r
+ *				 CFALSE	indicates that a specified interrupt is not pended.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
  *				NX_MIPI_GetInterruptEnable,
@@ -453,7 +453,7 @@ CBOOL	NX_MIPI_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt number.\n
+ *	@param[in]	IntNum	a interrupt number.
  *						refer to NX_MIPI_INTCH_xxx in <nx_MIPI.h>
  *	@return		None.
  *	@see		NX_MIPI_GetInterruptNumber,
@@ -477,12 +477,12 @@ void	NX_MIPI_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 	if( IntNum < 32 ) // CSI
 	{
 		NX_ASSERT( __NX_MIPI_VALID_CSI_INTMASK__ & ( 1UL << IntNum ) );
-		WriteIODW(&pRegister->CSIS_INTSRC, 1UL << IntNum);
+		WriteIO32(&pRegister->CSIS_INTSRC, 1UL << IntNum);
 	}
 	else // DSI
 	{
 		NX_ASSERT( __NX_MIPI_VALID_DSI_INTMASK__ & ( 1UL << (IntNum-32) ) );
-		WriteIODW(&pRegister->DSIM_INTSRC, 1UL << (IntNum-32));
+		WriteIO32(&pRegister->DSIM_INTSRC, 1UL << (IntNum-32));
 	}
 }
 
@@ -490,8 +490,8 @@ void	NX_MIPI_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Set all interrupts to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	Enable	\b Set as CTRUE to enable all interrupts. \r\n
- *						\b Set as CFALSE to disable all interrupts.
+ *	@param[in]	Enable	 Set as CTRUE to enable all interrupts. \r
+ *						 Set as CFALSE to disable all interrupts.
  *	@return		None.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
@@ -515,13 +515,13 @@ void	NX_MIPI_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 
 	if( Enable )
 	{
-		WriteIODW(&pRegister->CSIS_INTMSK, __NX_MIPI_VALID_CSI_INTMASK__);
-		WriteIODW(&pRegister->DSIM_INTMSK, __NX_MIPI_VALID_DSI_INTMASK__);
+		WriteIO32(&pRegister->CSIS_INTMSK, __NX_MIPI_VALID_CSI_INTMASK__);
+		WriteIO32(&pRegister->DSIM_INTMSK, __NX_MIPI_VALID_DSI_INTMASK__);
 	}
 	else
 	{
-		WriteIODW(&pRegister->CSIS_INTMSK, 0);
-		WriteIODW(&pRegister->DSIM_INTMSK, 0);
+		WriteIO32(&pRegister->CSIS_INTMSK, 0);
+		WriteIO32(&pRegister->DSIM_INTMSK, 0);
 	}
 }
 
@@ -529,8 +529,8 @@ void	NX_MIPI_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 /**
  *	@brief		Indicates whether some of interrupts are enabled or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are enabled. \r\n
- *				\b CFALSE	indicates that all interrupts are disabled.
+ *	@return		 CTRUE	indicates that one or more interrupts are enabled. \r
+ *				 CFALSE	indicates that all interrupts are disabled.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
  *				NX_MIPI_GetInterruptEnable,
@@ -555,8 +555,8 @@ CBOOL	NX_MIPI_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are pended. \r\n
- *				\b CFALSE	indicates that no interrupt is pended.
+ *	@return		 CTRUE	indicates that one or more interrupts are pended. \r
+ *				 CFALSE	indicates that no interrupt is pended.
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
  *				NX_MIPI_GetInterruptEnable,
@@ -609,15 +609,15 @@ void	NX_MIPI_ClearInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( NUMBER_OF_MIPI_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->CSIS_INTSRC, __NX_MIPI_VALID_CSI_INTMASK__);
-	WriteIODW(&pRegister->DSIM_INTSRC, __NX_MIPI_VALID_DSI_INTMASK__);
+	WriteIO32(&pRegister->CSIS_INTSRC, __NX_MIPI_VALID_CSI_INTMASK__);
+	WriteIO32(&pRegister->DSIM_INTSRC, __NX_MIPI_VALID_DSI_INTMASK__);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.\n
+ *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.
  *				refer to NX_MIPI_INTCH_xxx in <nx_MIPI.h>
  *	@see		NX_MIPI_GetInterruptNumber,
  *				NX_MIPI_SetInterruptEnable,
@@ -671,7 +671,7 @@ S32		NX_MIPI_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 }
 
 
-#define WRITEREG( regname, mask, value )  regvalue = pRegister->regname; regvalue = (regvalue&(~(mask)))|(value); WriteIODW(&pRegister->regname, regvalue)
+#define WRITEREG( regname, mask, value )  regvalue = pRegister->regname; regvalue = (regvalue&(~(mask)))|(value); WriteIO32(&pRegister->regname, regvalue)
 
 //------------------------------------------------------------------------------
 ///	@name	MIPI-CSI Interface
@@ -687,10 +687,10 @@ void  NX_MIPI_CSI_SetSize  ( U32 ModuleIndex, int Channel, U32 Width, U32 Height
 	NX_ASSERT( 1 <= Height && 0xFFFF >= Height );
 	switch( Channel )
 	{
-	case 0: WriteIODW(&pRegister->CSIS_RESOL_CH0, (Width<<16)|Height); break;
-	case 1: WriteIODW(&pRegister->CSIS_RESOL_CH1, (Width<<16)|Height); break;
-	case 2: WriteIODW(&pRegister->CSIS_RESOL_CH2, (Width<<16)|Height); break;
-	case 3: WriteIODW(&pRegister->CSIS_RESOL_CH3, (Width<<16)|Height); break;
+	case 0: WriteIO32(&pRegister->CSIS_RESOL_CH0, (Width<<16)|Height); break;
+	case 1: WriteIO32(&pRegister->CSIS_RESOL_CH1, (Width<<16)|Height); break;
+	case 2: WriteIO32(&pRegister->CSIS_RESOL_CH2, (Width<<16)|Height); break;
+	case 3: WriteIO32(&pRegister->CSIS_RESOL_CH3, (Width<<16)|Height); break;
 	default: NX_ASSERT( !"Never get here" ); break;
 	}
 }

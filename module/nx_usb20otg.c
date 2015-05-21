@@ -15,7 +15,6 @@
 //------------------------------------------------------------------------------
 #include <nx_chip.h>
 #include "nx_usb20otg.h"
-//#include <string.h> // for memset
 
 static	NX_USB20OTG_RegisterSet *__g_pRegister[NUMBER_OF_USB20OTG_MODULE];
 static	NX_USB20OTG_APB_RegisterSet *__g_pApbRegister[0];
@@ -43,10 +42,14 @@ static	NX_USB20OTG_APB_RegisterSet *__g_pApbRegister[0];
 CBOOL	NX_USB20OTG_Initialize( void )
 {
 	static CBOOL bInit = CFALSE;
+    int i;
 
 	if( CFALSE == bInit )
 	{
-		memset( __g_pRegister, 0, sizeof(__g_pRegister) );
+        for(i = 0; i < NUMBER_OF_USB20HOST_MODULE; i++ )
+        {
+		    __g_pRegister[i] = CNULL;
+        }
 		bInit = CTRUE;
 	}
 
@@ -81,7 +84,7 @@ U32 		NX_USB20OTG_GetSizeOfRegisterSet( void )
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
  */
-void	NX_USB20OTG_SetBaseAddress(  U32 ModuleIndex, U32  BaseAddress )
+void	NX_USB20OTG_SetBaseAddress(  U32 ModuleIndex, void* BaseAddress )
 {
     if( ModuleIndex == 0 ) { __g_pRegister[0] = (NX_USB20OTG_RegisterSet *)BaseAddress; }
     if( ModuleIndex == 1 ) { __g_pApbRegister[0] = (NX_USB20OTG_APB_RegisterSet *)BaseAddress; }
@@ -92,10 +95,10 @@ void	NX_USB20OTG_SetBaseAddress(  U32 ModuleIndex, U32  BaseAddress )
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
  */
-U32 NX_USB20OTG_GetBaseAddress(U32 ModuleIndex )
+void*    NX_USB20OTG_GetBaseAddress( U32 ModuleIndex )
 {
-    if( ModuleIndex == 0 ) { return (U32)__g_pRegister[0];	 }
-    if( ModuleIndex == 1 ) { return (U32)__g_pApbRegister[0];	 }
+    if( ModuleIndex == 0 ) { return (void*)__g_pRegister[0];	 }
+    if( ModuleIndex == 1 ) { return (void*)__g_pApbRegister[0];	 }
 }
 
 //------------------------------------------------------------------------------
@@ -231,7 +234,7 @@ void	NX_USB20OTG_SetInterruptEnableAll(  CBOOL Enable )
 	regvalue  = Enable ? 0xF77EFCFE : 0 ;
 
 
-	WriteIODW(&pRegister->GINTMSK, regvalue);
+	WriteIO32(&pRegister->GINTMSK, regvalue);
 
 }
 
@@ -284,8 +287,8 @@ void	NX_USB20OTG_ClearInterruptPendingAll(  )
 	register U32 	regvalue;
 	pRegister = __g_pRegister[0];
 	regvalue  = pRegister->GAHBCFG;
-	WriteIODW(&pRegister->GAHBCFG, regvalue & 0xFFFFFFFE);
-	WriteIODW(&pRegister->GINTSTS, 0xFFFFFFFF);
+	WriteIO32(&pRegister->GAHBCFG, regvalue & 0xFFFFFFFE);
+	WriteIO32(&pRegister->GINTSTS, 0xFFFFFFFF);
 }
 
 //------------------------------------------------------------------------------

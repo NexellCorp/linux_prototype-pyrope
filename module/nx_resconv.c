@@ -52,8 +52,8 @@ U32   NX_RESCONV_GetTEMP( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.
+ *	@return  CTRUE	indicate that Initialize is successed.
+ *			 CFALSE	indicate that Initialize is failed.
  *	@see	NX_RESCONV_GetNumberOfModule
  */
 CBOOL	NX_RESCONV_Initialize( void )
@@ -77,7 +77,7 @@ CBOOL	NX_RESCONV_Initialize( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get number of modules in the chip.
- *	@return		Module's number. \n
+ *	@return		Module's number. 
  *				It is equal to NUMBER_OF_RESCONV_MODULE in <nx_chip.h>.
  *	@see		NX_RESCONV_Initialize
  */
@@ -90,10 +90,6 @@ U32		NX_RESCONV_GetNumberOfModule( void )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_RESCONV_GetPhysicalAddress,
- *				NX_RESCONV_SetBaseAddress,			NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_OpenModule,				NX_RESCONV_CloseModule,
- *				NX_RESCONV_CheckBusy,
  */
 U32		NX_RESCONV_GetSizeOfRegisterSet( void )
 {
@@ -105,12 +101,8 @@ U32		NX_RESCONV_GetSizeOfRegisterSet( void )
  *	@brief		Set a base address of register set.
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_RESCONV_GetPhysicalAddress,		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_OpenModule,				NX_RESCONV_CloseModule,
- *				NX_RESCONV_CheckBusy,
  */
-void	NX_RESCONV_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_RESCONV_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_RESCONV_MODULE > ModuleIndex );
@@ -121,26 +113,18 @@ void	NX_RESCONV_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
 /**
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
- *	@see		NX_RESCONV_GetPhysicalAddress,		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_SetBaseAddress,
- *				NX_RESCONV_OpenModule,				NX_RESCONV_CloseModule,
- *				NX_RESCONV_CheckBusy,
  */
-U32		NX_RESCONV_GetBaseAddress( U32 ModuleIndex )
+void*	NX_RESCONV_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_RESCONV_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's physical address.
- *	@return		Module's physical address. \n
+ *	@return		Module's physical address. 
  *				It is equal to PHY_BASEADDR_RESCONV?_MODULE in <nx_chip.h>.
- *	@see		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_SetBaseAddress,			NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_OpenModule,				NX_RESCONV_CloseModule,
- *				NX_RESCONV_CheckBusy,
  */
 U32		NX_RESCONV_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -157,12 +141,8 @@ U32		NX_RESCONV_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
- *	@see		NX_RESCONV_GetPhysicalAddress,		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_SetBaseAddress,			NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_CloseModule,
- *				NX_RESCONV_CheckBusy,
+ *	@return		 CTRUE	indicate that Initialize is successed. 
+ *				 CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_RESCONV_OpenModule( U32 ModuleIndex )
 {
@@ -175,12 +155,8 @@ CBOOL	NX_RESCONV_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
- *	@see		NX_RESCONV_GetPhysicalAddress,		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_SetBaseAddress,			NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_OpenModule,
- *				NX_RESCONV_CheckBusy,
+ *	@return		 CTRUE	indicate that Deinitialize is successed. 
+ *				 CFALSE	indicate that Deinitialize is failed.
  */
 CBOOL	NX_RESCONV_CloseModule( U32 ModuleIndex )
 {
@@ -193,11 +169,8 @@ CBOOL	NX_RESCONV_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
- *	@see		NX_RESCONV_GetPhysicalAddress,		NX_RESCONV_GetSizeOfRegisterSet,
- *				NX_RESCONV_SetBaseAddress,			NX_RESCONV_GetBaseAddress,
- *				NX_RESCONV_OpenModule,				NX_RESCONV_CloseModule,
+ *	@return		 CTRUE	indicate that Module is Busy. 
+ *				 CFALSE	indicate that Module is NOT Busy.
  */
 CBOOL	NX_RESCONV_CheckBusy( U32 ModuleIndex )
 {
@@ -213,14 +186,8 @@ CBOOL	NX_RESCONV_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's clock index.
- *	@return		Module's clock index.\n
+ *	@return		Module's clock index.
  *				It is equal to CLOCKINDEX_OF_RESCONV?_MODULE in <nx_chip.h>.
- *	@see		NX_CLKGEN_SetClockDivisorEnable,
- *				NX_CLKGEN_GetClockDivisorEnable,
- *				NX_CLKGEN_SetClockSource,
- *				NX_CLKGEN_GetClockSource,
- *				NX_CLKGEN_SetClockDivisor,
- *				NX_CLKGEN_GetClockDivisor
  */
 /*
 U32 NX_RESCONV_GetClockNumber ( U32 ModuleIndex )
@@ -238,11 +205,8 @@ U32 NX_RESCONV_GetClockNumber ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's reset index.
- *	@return		Module's reset index.\n
+ *	@return		Module's reset index.
  *				It is equal to RESETINDEX_OF_RESCONV?_MODULE_i_nRST in <nx_chip.h>.
- *	@see		NX_RSTCON_Enter,
- *				NX_RSTCON_Leave,
- *				NX_RSTCON_GetStatus
  */
 /*
 U32 NX_RESCONV_GetResetNumber ( U32 ModuleIndex )
@@ -263,17 +227,8 @@ U32 NX_RESCONV_GetResetNumber ( U32 ModuleIndex )
 /**
  *	@brief		Get a interrupt number for the interrupt controller.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		A interrupt number.\n
+ *	@return		A interrupt number.
  *				It is equal to INTNUM_OF_RESCONV?_MODULE in <nx_chip.h>.
- *	@see		NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
  */
 U32 	NX_RESCONV_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -290,20 +245,11 @@ U32 	NX_RESCONV_GetInterruptNumber( U32 ModuleIndex )
 /**
  *	@brief		Set a specified interrupt to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number .\n
+ *	@param[in]	IntNum	a interrupt Number .
  *						refer to NX_RESCONV_INTCH_xxx in <nx_resconv.h>
- *	@param[in]	Enable	\b Set as CTRUE to enable a specified interrupt. \r\n
- *						\b Set as CFALSE to disable a specified interrupt.
+ *	@param[in]	Enable	 Set as CTRUE to enable a specified interrupt. 
+ *						 Set as CFALSE to disable a specified interrupt.
  *	@return		None.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
  */
 void	NX_RESCONV_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 {
@@ -320,26 +266,17 @@ void	NX_RESCONV_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 	regvalue &=	~( 1UL << IntNum );
 	regvalue |= (U32)Enable << IntNum;
 
-	WriteIODW(&pRegister->ADDR_RC_REG02, regvalue);
+	WriteIO32(&pRegister->ADDR_RC_REG02, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_RESCONV_INTCH_xxx in <nx_resconv.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is enabled. \r\n
- *				\b CFALSE	indicates that a specified interrupt is disabled.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that a specified interrupt is enabled. 
+ *				 CFALSE	indicates that a specified interrupt is disabled.
 
  */
 CBOOL	NX_RESCONV_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
@@ -353,19 +290,10 @@ CBOOL	NX_RESCONV_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_RESCONV_INTCH_xxx in <nx_resconv.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is pended. \r\n
- *				\b CFALSE	indicates that a specified interrupt is not pended.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that a specified interrupt is pended. 
+ *				 CFALSE	indicates that a specified interrupt is not pended.
 
  */
 CBOOL	NX_RESCONV_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
@@ -385,18 +313,9 @@ CBOOL	NX_RESCONV_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt number.\n
+ *	@param[in]	IntNum	a interrupt number.
  *						refer to NX_RESCONV_INTCH_xxx in <nx_resconv.h>
  *	@return		None.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
 
  */
 void	NX_RESCONV_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
@@ -405,25 +324,16 @@ void	NX_RESCONV_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 	NX_ASSERT( NUMBER_OF_RESCONV_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->ADDR_RC_REG02, 1UL << IntNum);
+	WriteIO32(&pRegister->ADDR_RC_REG02, 1UL << IntNum);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	Enable	\b Set as CTRUE to enable all interrupts. \r\n
- *						\b Set as CFALSE to disable all interrupts.
+ *	@param[in]	Enable	 Set as CTRUE to enable all interrupts. 
+ *						 Set as CFALSE to disable all interrupts.
  *	@return		None.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
 
  */
 void	NX_RESCONV_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
@@ -438,24 +348,15 @@ void	NX_RESCONV_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	pRegister = __g_pRegister[ModuleIndex];
 	regvalue  = Enable ? 0x000F0000 : 0 ;
 
-	WriteIODW(&pRegister->ADDR_RC_REG02, regvalue);
+	WriteIO32(&pRegister->ADDR_RC_REG02, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are enabled or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are enabled. \r\n
- *				\b CFALSE	indicates that all interrupts are disabled.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that one or more interrupts are enabled. 
+ *				 CFALSE	indicates that all interrupts are disabled.
 
  */
 CBOOL	NX_RESCONV_GetInterruptEnableAll( U32 ModuleIndex )
@@ -469,17 +370,8 @@ CBOOL	NX_RESCONV_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are pended. \r\n
- *				\b CFALSE	indicates that no interrupt is pended.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_ClearInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that one or more interrupts are pended. 
+ *				 CFALSE	indicates that no interrupt is pended.
 
  */
 CBOOL	NX_RESCONV_GetInterruptPendingAll( U32 ModuleIndex )
@@ -499,15 +391,6 @@ CBOOL	NX_RESCONV_GetInterruptPendingAll( U32 ModuleIndex )
  *	@brief		Clear pending state of all interrupts.
  *	@param[in]	ModuleIndex		an index of module.
  *	@return		None.
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_GetInterruptPendingNumber
 
  */
 void	NX_RESCONV_ClearInterruptPendingAll( U32 ModuleIndex )
@@ -516,24 +399,15 @@ void	NX_RESCONV_ClearInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( NUMBER_OF_RESCONV_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->ADDR_RC_REG02, 0x0000000F);	// just write operation make pending clear
+	WriteIO32(&pRegister->ADDR_RC_REG02, 0x0000000F);	// just write operation make pending clear
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.\n
+ *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.
  *				refer to NX_RESCONV_INTCH_xxx in <nx_resconv.h>
- *	@see		NX_RESCONV_GetInterruptNumber,
- *				NX_RESCONV_SetInterruptEnable,
- *				NX_RESCONV_GetInterruptEnable,
- *				NX_RESCONV_GetInterruptPending,
- *				NX_RESCONV_ClearInterruptPending,
- *				NX_RESCONV_SetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptEnableAll,
- *				NX_RESCONV_GetInterruptPendingAll,
- *				NX_RESCONV_ClearInterruptPendingAll
 
  */
 S32		NX_RESCONV_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
@@ -562,7 +436,6 @@ S32		NX_RESCONV_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 
 void	NX_RESCONV_DOWN_INIT ( U32 ModuleIndex )
 {
-	register NX_RESCONV_RegisterSet* pRegister;
 
 	int	SRC_HSIZE, SRC_VSIZE;
 	int	DST_HSIZE, DST_VSIZE;
@@ -607,11 +480,12 @@ void	NX_RESCONV_DOWN_INIT ( U32 ModuleIndex )
 	DELTA_X = (SRC_HSIZE*FIXED_POINT)/(DST_HSIZE-1);
 	DELTA_Y = (SRC_VSIZE*FIXED_POINT)/(DST_VSIZE-1);
 
+	register NX_RESCONV_RegisterSet* pRegister;
 	NX_ASSERT( NUMBER_OF_RESCONV_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-        WriteIODW(&pRegister->ADDR_RC_REG01, (	(0			<< 21) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG01, (	(0			<< 21) 	|
 												(0			<< 16) 	|
 												(0			<< 14) 	|
 												(0			<<  8) 	|
@@ -619,39 +493,39 @@ void	NX_RESCONV_DOWN_INIT ( U32 ModuleIndex )
 												(0			<<  2) 	|
 												(3			<<  0))	);   // Interrupt Register
 
-        WriteIODW(&pRegister->ADDR_RC_REG02, (	(0			<< 20) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG02, (	(0			<< 20) 	|
 												(2			<< 16) 	|
 												(0			<<  0))	);          //2
 
-        WriteIODW(&pRegister->ADDR_RC_REG03, DELTA_X );	// Delta X
+        WriteIO32(&pRegister->ADDR_RC_REG03, DELTA_X );	// Delta X
 
-        WriteIODW(&pRegister->ADDR_RC_REG04, DELTA_Y );	// Delta Y
+        WriteIO32(&pRegister->ADDR_RC_REG04, DELTA_Y );	// Delta Y
 
-        WriteIODW(&pRegister->ADDR_RC_REG05, (  (SoftV		<< 16) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG05, (  (SoftV		<< 16) 	|
 												(SoftH		<<  0))	);//5
 
-        WriteIODW(&pRegister->ADDR_RC_REG06, (	(SRC_VSIZE 	<< 16) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG06, (	(SRC_VSIZE 	<< 16) 	|
 												(SRC_HSIZE  <<  0))	);	// Source Size
 
-        WriteIODW(&pRegister->ADDR_RC_REG07, (	(DST_VSIZE 	<< 16) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG07, (	(DST_VSIZE 	<< 16) 	|
 												(DST_HSIZE  <<  0))	);	// Destination Size
 
-        WriteIODW(&pRegister->ADDR_RC_REG09, (	((SG_HFP)	<< 24) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG09, (	((SG_HFP)	<< 24) 	|
 												((SG_HBP)	<< 16) 	|
 												((SG_HS )	<<  0))	);   // HSync Timing
 
-        WriteIODW(&pRegister->ADDR_RC_REG10, (	((SG_VFP)	<< 24) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG10, (	((SG_VFP)	<< 24) 	|
 												((SG_VBP)	<< 16) 	|
 												((SG_VS )	<<  0))	);    // VSync Timing
 
-        WriteIODW(&pRegister->ADDR_RC_REG11, (	(SG_S2IN_VS << 24) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG11, (	(SG_S2IN_VS << 24) 	|
 												(SG_HOFFSET <<  8) 	|
 												(SG_HDELAY  <<  0))	);    // Sync Gen Delay
 
-        WriteIODW(&pRegister->ADDR_RC_REG00, (	(1	        <<  8) 	|
+        WriteIO32(&pRegister->ADDR_RC_REG00, (	(1	        <<  8) 	|
 												(1	        <<  0))	);   // Scaler Continuous Frame, Scaler Run
 
-        WriteIODW(&pRegister->ADDR_RC_REG08, (	 1			<<  0)	);            // SyncGen Run
+        WriteIO32(&pRegister->ADDR_RC_REG08, (	 1			<<  0)	);            // SyncGen Run
 
 }
 
@@ -687,7 +561,7 @@ void	NX_RESCONV_INIT (	U32 ModuleIndex,
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
     pRegister = __g_pRegister[ModuleIndex];
 
-        WriteIODW(&pRegister->ADDR_RC_REG01, (  (0          << 21)  |
+        WriteIO32(&pRegister->ADDR_RC_REG01, (  (0          << 21)  |
                                                 (0          << 16)  |
                                                 (0          << 14)  |
                                                 (0          <<  8)  |
@@ -695,36 +569,36 @@ void	NX_RESCONV_INIT (	U32 ModuleIndex,
                                                 (0          <<  2)  |
                                                 (3          <<  0)) );   // Interrupt Register
 
-        WriteIODW(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
+        WriteIO32(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
                                                 (2          << 16)  |
                                                 (0          <<  0)) );          //2
 
-        WriteIODW(&pRegister->ADDR_RC_REG03, DELTA_X ); // Delta X
+        WriteIO32(&pRegister->ADDR_RC_REG03, DELTA_X ); // Delta X
 
-        WriteIODW(&pRegister->ADDR_RC_REG04, DELTA_Y ); // Delta Y
+        WriteIO32(&pRegister->ADDR_RC_REG04, DELTA_Y ); // Delta Y
 
-        WriteIODW(&pRegister->ADDR_RC_REG05, (  (SoftV      << 16)  |
+        WriteIO32(&pRegister->ADDR_RC_REG05, (  (SoftV      << 16)  |
                                                 (SoftH      <<  0)) );//5
 
-        WriteIODW(&pRegister->ADDR_RC_REG06, (  (SRC_VSIZE  << 16)  |
+        WriteIO32(&pRegister->ADDR_RC_REG06, (  (SRC_VSIZE  << 16)  |
                                                 (SRC_HSIZE  <<  0)) );  // Source Size
 
-        WriteIODW(&pRegister->ADDR_RC_REG07, (  (DST_VSIZE  << 16)  |
+        WriteIO32(&pRegister->ADDR_RC_REG07, (  (DST_VSIZE  << 16)  |
                                                 (DST_HSIZE  <<  0)) );  // Destination Size
 
-        WriteIODW(&pRegister->ADDR_RC_REG09, (  ((SG_HFP)   << 24)  |
+        WriteIO32(&pRegister->ADDR_RC_REG09, (  ((SG_HFP)   << 24)  |
                                                 ((SG_HBP)   << 16)  |
                                                 ((SG_HS )   <<  0)) );   // HSync Timing
 
-        WriteIODW(&pRegister->ADDR_RC_REG10, (  ((SG_VFP)   << 24)  |
+        WriteIO32(&pRegister->ADDR_RC_REG10, (  ((SG_VFP)   << 24)  |
                                                 ((SG_VBP)   << 16)  |
                                                 ((SG_VS )   <<  0)) );    // VSync Timing
 
-        WriteIODW(&pRegister->ADDR_RC_REG11, (  (SG_S2IN_VS << 24)  |
+        WriteIO32(&pRegister->ADDR_RC_REG11, (  (SG_S2IN_VS << 24)  |
                                                 (SG_HOFFSET <<  8)  |
                                                 (SG_HDELAY  <<  0)) );    // Sync Gen Delay
 
-        WriteIODW(&pRegister->ADDR_RC_REG12, (  (SRC_CROP_B << 24)  |
+        WriteIO32(&pRegister->ADDR_RC_REG12, (  (SRC_CROP_B << 24)  |
                                                 (SRC_CROP_T << 16)  |
                                                 (SRC_CROP_R <<  8)  |
                                                 (SRC_CROP_L <<  0)) );    // Source Image Crop
@@ -734,7 +608,6 @@ void	NX_RESCONV_INIT (	U32 ModuleIndex,
 
 void    NX_RESCONV_FINIT ( U32 ModuleIndex )
 {
-    register NX_RESCONV_RegisterSet* pRegister;
 
     int YVFinit[24] =   {(( 52 << 24) | ( 55 << 16) | ( 58 << 8) | 61),
                          (( 42 << 24) | ( 45 << 16) | ( 48 << 8) | 50),
@@ -932,13 +805,14 @@ void    NX_RESCONV_FINIT ( U32 ModuleIndex )
     pRegister = __g_pRegister[ModuleIndex];
 
 		for (i=0;i<24;i++) {
-        	WriteIODW(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
+        	WriteIO32(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
 		}
 		for (j=0;j<160;j++) {
-        	WriteIODW(&pRegister->ADDR_RC_YHFILTER[j], YHFinit[j]);
+        	WriteIO32(&pRegister->ADDR_RC_YHFILTER[j], YHFinit[j]);
 		}
 */
 	//@modified choiyk 2013/06/28
+	NX_RESCONV_RegisterSet* pRegister;
 	int	i, j, bcd_i, bcd_j;
 
 	U32 readreg;
@@ -960,16 +834,16 @@ void    NX_RESCONV_FINIT ( U32 ModuleIndex )
 			i = bcd_i ^ (bcd_i>>1);  // gray code 변환
 			if( i >= 24 ) continue; // 실제 index는 24까지만 존재하므로 !
 
-        	ReadIODW(&pRegister->ADDR_RC_YVFILTER[i]); // Dummy Read ( For Addr Stable )
-        	WriteIODW(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
-        	readreg = ReadIODW(&pRegister->ADDR_RC_YVFILTER[i]);
+        	ReadIO32(&pRegister->ADDR_RC_YVFILTER[i]); // Dummy Read ( For Addr Stable )
+        	WriteIO32(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
+        	readreg = ReadIO32(&pRegister->ADDR_RC_YVFILTER[i]);
 
         	// 같지 않으면 다시 쓰기..
         	rewrite_Cnt = 0;
         	while( readreg != YVFinit[i] )
         	{
-        		WriteIODW(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
-        		readreg = ReadIODW(&pRegister->ADDR_RC_YVFILTER[i]);
+        		WriteIO32(&pRegister->ADDR_RC_YVFILTER[i], YVFinit[i]);
+        		readreg = ReadIO32(&pRegister->ADDR_RC_YVFILTER[i]);
         		rewrite_Cnt++;
         		NX_ASSERT( rewrite_Cnt < 10 );
         	}
@@ -979,19 +853,18 @@ void    NX_RESCONV_FINIT ( U32 ModuleIndex )
 			j = bcd_j ^ (bcd_j>>1);  // gray code 변환
 			if( j >= 160 ) continue; // 실제 index는 160까지만 존재하므로
 
-        	ReadIODW(&pRegister->ADDR_RC_YHFILTER[j]); // Dummy Read ( For Addr Stable )
-        	WriteIODW(&pRegister->ADDR_RC_YHFILTER[j], YHFinit[j]);
+        	ReadIO32(&pRegister->ADDR_RC_YHFILTER[j]); // Dummy Read ( For Addr Stable )
+        	WriteIO32(&pRegister->ADDR_RC_YHFILTER[j], YHFinit[j]);
 
         	// // 같지 않으면 다시 쓰기..
         	// rewrite_Cnt = 0;
         	// while( readreg != YHFinit[i] )
         	// {
-        	// 	WriteIODW(&pRegister->ADDR_RC_YHFILTER[i], YHFinit[i]);
+        	// 	WriteIO32(&pRegister->ADDR_RC_YHFILTER[i], YHFinit[i]);
         	// 	rewrite_Cnt++;
         	// 	NX_ASSERT( rewrite_Cnt < 10 );
         	// }
 		}
-
 }
 
 #if defined(RESCONV_REISTER_TEST)
@@ -1049,10 +922,10 @@ void    NX_RESCONV_RUN ( U32 ModuleIndex )
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
     pRegister = __g_pRegister[ModuleIndex];
 
-        WriteIODW(&pRegister->ADDR_RC_REG00, (  (1          <<  8)  |
+        WriteIO32(&pRegister->ADDR_RC_REG00, (  (1          <<  8)  |
                                                 (1          <<  0)) );   // Scaler Continuous Frame, Scaler Run
 
-        WriteIODW(&pRegister->ADDR_RC_REG08, (   1          <<  0)  );            // SyncGen Run
+        WriteIO32(&pRegister->ADDR_RC_REG08, (   1          <<  0)  );            // SyncGen Run
 
 }
 
@@ -1064,9 +937,9 @@ void    NX_RESCONV_STOP ( U32 ModuleIndex )
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
     pRegister = __g_pRegister[ModuleIndex];
 
-        WriteIODW(&pRegister->ADDR_RC_REG08, (   0          <<  0)  );            // SyncGen Run
+        WriteIO32(&pRegister->ADDR_RC_REG08, (   0          <<  0)  );            // SyncGen Run
 
-        WriteIODW(&pRegister->ADDR_RC_REG00, (  (0          <<  8)  |
+        WriteIO32(&pRegister->ADDR_RC_REG00, (  (0          <<  8)  |
                                                 (0          <<  0)) );   // Scaler Continuous Frame, Scaler Run
 
 }
@@ -1080,7 +953,7 @@ void    NX_RESCONV_INTCLEAR ( U32 ModuleIndex )
     pRegister = __g_pRegister[ModuleIndex];
 
         // Interrupt Clear
-        WriteIODW(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
+        WriteIO32(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
                                                 (2          << 16)  |
                                                 (1          << 11)  |
                                                 (1          << 10)  |
@@ -1088,7 +961,7 @@ void    NX_RESCONV_INTCLEAR ( U32 ModuleIndex )
                                                 (1          <<  8)  |
                                                 (0          <<  0)) );
 
-        //WriteIODW(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
+        //WriteIO32(&pRegister->ADDR_RC_REG02, (  (0          << 20)  |
         //                                        (2          << 16)  |
         //                                        (0          << 11)  |
         //                                        (0          << 10)  |
@@ -1138,8 +1011,8 @@ U32 NX_RESCONV_SetFIFOIntrEnable( U32 ModuleIndex )
 	pRegister = __g_pRegister[ModuleIndex];
 
 	// FIFO Overflow만 호출되도록 수정하기.
-	regvalue  = ReadIODW(&pRegister->ADDR_RC_REG02) & (~(0xf<<16));
-	WriteIODW(&pRegister->ADDR_RC_REG02,  (regvalue | (0xc<<16)) );
+	regvalue  = ReadIO32(&pRegister->ADDR_RC_REG02) & (~(0xf<<16));
+	WriteIO32(&pRegister->ADDR_RC_REG02,  (regvalue | (0xc<<16)) );
 
     return 0;
 }
@@ -1152,7 +1025,7 @@ U32 NX_RESCONV_GetIntrPendBit( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->ADDR_RC_REG02);
+	regvalue  = ReadIO32(&pRegister->ADDR_RC_REG02);
 
 	return (regvalue & 0x0F);
 }
@@ -1178,9 +1051,9 @@ void NX_RESCONV_SetS2IN_VS( U32 ModuleIndex, int SG_S2IN_VS)
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->ADDR_RC_REG11);
+	regvalue = ReadIO32(&pRegister->ADDR_RC_REG11);
 	regvalue = regvalue & (~(1<<24));
-    WriteIODW(&pRegister->ADDR_RC_REG11, (  (SG_S2IN_VS << 24) | regvalue ) );    // Sync Gen Delay
+    WriteIO32(&pRegister->ADDR_RC_REG11, (  (SG_S2IN_VS << 24) | regvalue ) );    // Sync Gen Delay
 
 }
 
@@ -1194,15 +1067,15 @@ void NX_RESCONV_FIFO_Init( U32 ModuleIndex, U32 Enb )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->ADDR_RC_REG00);
+	regvalue = ReadIO32(&pRegister->ADDR_RC_REG00);
 	if( Enb )
 	{
-		WriteIODW(&pRegister->ADDR_RC_REG00, regvalue | (0x07<<24) );
-		WriteIODW(&pRegister->ADDR_RC_REG00, regvalue | (0x03<<29) );
+		WriteIO32(&pRegister->ADDR_RC_REG00, regvalue | (0x07<<24) );
+		WriteIO32(&pRegister->ADDR_RC_REG00, regvalue | (0x03<<29) );
 	}
 	else
 	{
-		WriteIODW(&pRegister->ADDR_RC_REG00, regvalue & (~(0x07<<24)) );
-		WriteIODW(&pRegister->ADDR_RC_REG00, regvalue & (~(0x03<<29)) );
+		WriteIO32(&pRegister->ADDR_RC_REG00, regvalue & (~(0x07<<24)) );
+		WriteIO32(&pRegister->ADDR_RC_REG00, regvalue & (~(0x03<<29)) );
 	}
 }

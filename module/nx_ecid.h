@@ -83,8 +83,8 @@ U32     NX_ECID_GetNumberOfModule( void );
 //@{
 U32     NX_ECID_GetPhysicalAddress( void );
 U32     NX_ECID_GetSizeOfRegisterSet( void );
-void    NX_ECID_SetBaseAddress( U32 BaseAddress );
-U32     NX_ECID_GetBaseAddress( void );
+void    NX_ECID_SetBaseAddress( void* BaseAddress );
+void*    NX_ECID_GetBaseAddress( void );
 CBOOL   NX_ECID_OpenModule( void );
 CBOOL   NX_ECID_CloseModule( void );
 CBOOL   NX_ECID_CheckBusy( void );

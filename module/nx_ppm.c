@@ -20,7 +20,6 @@
 
 static	NX_PPM_RegisterSet *__g_pRegister[NUMBER_OF_PPM_MODULE];
 
-
 //------------------------------------------------------------------------------
 //
 //	PPM Interface
@@ -287,7 +286,7 @@ U32		NX_PPM_GetSizeOfRegisterSet( void )
  *				NX_PPM_OpenModule,				NX_PPM_CloseModule,
  *				NX_PPM_CheckBusy,
  */
-void	NX_PPM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_PPM_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
@@ -303,10 +302,10 @@ void	NX_PPM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_PPM_OpenModule,				NX_PPM_CloseModule,
  *				NX_PPM_CheckBusy,
  */
-U32		NX_PPM_GetBaseAddress( U32 ModuleIndex )
+void*	NX_PPM_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
@@ -503,7 +502,7 @@ void	NX_PPM_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 	regvalue &=	~( 1UL << IntNum );
 	regvalue |= (U32)Enable << IntNum;
 
-	WriteIODW(&pRegister->PPM_CTRL, regvalue);
+	WriteIO32(&pRegister->PPM_CTRL, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -587,7 +586,7 @@ void	NX_PPM_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 	NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->PPM_STAT, 1UL << IntNum);
+	WriteIO32(&pRegister->PPM_STAT, 1UL << IntNum);
 }
 
 //------------------------------------------------------------------------------
@@ -623,7 +622,7 @@ void	NX_PPM_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	regvalue &=	~ENB_MASK;
 	regvalue  = Enable ? (regvalue | ENB_MASK) : regvalue ;
 
-	WriteIODW(&pRegister->PPM_CTRL, regvalue);
+	WriteIO32(&pRegister->PPM_CTRL, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -701,7 +700,7 @@ void	NX_PPM_ClearInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->PPM_STAT, 7);	// just write operation make pending clear
+	WriteIO32(&pRegister->PPM_STAT, 7);	// just write operation make pending clear
 }
 
 //------------------------------------------------------------------------------

@@ -27,8 +27,8 @@ static	struct NX_ADC_RegisterSet *__g_pRegister[NUMBER_OF_ADC_MODULE];
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.
+ *	@return CTRUE	indicate that Initialize is successed.
+ *			CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_ADC_Initialize( void )
 {
@@ -49,7 +49,7 @@ CBOOL	NX_ADC_Initialize( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get number of modules in the chip.
- *	@return		Module's number. \n
+ *	@return		Module's number. 
  *				It is equal to NUMBER_OF_ADC_MODULE in <nx_chip.h>.
  */
 U32		NX_ADC_GetNumberOfModule( void )
@@ -73,7 +73,7 @@ U32		NX_ADC_GetSizeOfRegisterSet( void )
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
  */
-void	NX_ADC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_ADC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_ADC_MODULE > ModuleIndex );
@@ -86,17 +86,17 @@ void	NX_ADC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
  */
-U32		NX_ADC_GetBaseAddress( U32 ModuleIndex )
+void*	NX_ADC_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_ADC_MODULE > ModuleIndex );
 
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's physical address.
- *	@return		Module's physical address. \n
+ *	@return		Module's physical address. 
  *				It is equal to PHY_BASEADDR_ADC?_MODULE in <nx_chip.h>.
  */
 U32		NX_ADC_GetPhysicalAddress( U32 ModuleIndex )
@@ -113,8 +113,8 @@ U32		NX_ADC_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
+ *	@return		CTRUE	indicate that Initialize is successed. 
+ *				CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_ADC_OpenModule( U32 ModuleIndex )
 {
@@ -127,8 +127,8 @@ CBOOL	NX_ADC_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
+ *	@return		CTRUE	indicate that Deinitialize is successed. 
+ *				CFALSE	indicate that Deinitialize is failed.
  */
 CBOOL	NX_ADC_CloseModule( U32 ModuleIndex )
 {
@@ -141,8 +141,8 @@ CBOOL	NX_ADC_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
+ *	@return		CTRUE	indicate that Module is Busy. 
+ *				CFALSE	indicate that Module is NOT Busy.
  */
 CBOOL	NX_ADC_CheckBusy( U32 ModuleIndex )
 {
@@ -152,13 +152,13 @@ CBOOL	NX_ADC_CheckBusy( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)((ReadIODW(&pRegister->ADCCON) >> ADEN_BITPOS) & 0x01 );
+	return (CBOOL)((ReadIO32(&pRegister->ADCCON) >> ADEN_BITPOS) & 0x01 );
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's reset index.
- *	@return		Module's reset index.\n
+ *	@return		Module's reset index.
  *				It is equal to RESETINDEX_OF_ADC?_MODULE_i_nRST in <nx_chip.h>.
  */
 U32 NX_ADC_GetResetNumber ( U32 ModuleIndex )
@@ -180,7 +180,7 @@ U32 NX_ADC_GetResetNumber ( U32 ModuleIndex )
 /**
  *	@brief		Get a interrupt number for the interrupt controller.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		A interrupt number.\n
+ *	@return		A interrupt number.
  *				It is equal to INTNUM_OF_ADC?_MODULE in <nx_chip.h>.
  */
 U32 	NX_ADC_GetInterruptNumber( U32 ModuleIndex )
@@ -197,10 +197,10 @@ U32 	NX_ADC_GetInterruptNumber( U32 ModuleIndex )
 /**
  *	@brief		Set a specified interrupt to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number .\n
+ *	@param[in]	IntNum	a interrupt Number .
  *						refer to NX_ADC_INTCH_xxx in <nx_adc.h>
- *	@param[in]	Enable	\b Set as CTRUE to enable a specified interrupt. \r\n
- *						\b Set as CFALSE to disable a specified interrupt.
+ *	@param[in]	Enable	Set as CTRUE to enable a specified interrupt. \r
+ *						Set as CFALSE to disable a specified interrupt.
  *	@return		None.
  */
 void	NX_ADC_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
@@ -213,22 +213,22 @@ void	NX_ADC_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 
 	pRegister = __g_pRegister[ModuleIndex];
-	regvalue  = ReadIODW(&pRegister->ADCINTENB);
+	regvalue  = ReadIO32(&pRegister->ADCINTENB);
 
 	regvalue &=	~( 1UL << IntNum );
 	regvalue |= (U32)Enable << IntNum;
 
-	WriteIODW(&pRegister->ADCINTENB, regvalue);
+	WriteIO32(&pRegister->ADCINTENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_ADC_INTCH_xxx in <nx_adc.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is enabled. \r\n
- *				\b CFALSE	indicates that a specified interrupt is disabled.
+ *	@return		CTRUE	indicates that a specified interrupt is enabled. \r
+ *				CFALSE	indicates that a specified interrupt is disabled.
  */
 CBOOL	NX_ADC_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 {
@@ -238,17 +238,17 @@ CBOOL	NX_ADC_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)( ( ReadIODW(&pRegister->ADCINTENB) >> IntNum ) & 0x01 );
+	return (CBOOL)( ( ReadIO32(&pRegister->ADCINTENB) >> IntNum ) & 0x01 );
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_ADC_INTCH_xxx in <nx_adc.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is pended. \r\n
- *				\b CFALSE	indicates that a specified interrupt is not pended.
+ *	@return		CTRUE	indicates that a specified interrupt is pended. \r
+ *				CFALSE	indicates that a specified interrupt is not pended.
  */
 CBOOL	NX_ADC_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 {
@@ -259,8 +259,8 @@ CBOOL	NX_ADC_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->ADCINTENB);
-	regvalue &= ReadIODW(&pRegister->ADCINTCLR);
+	regvalue  = ReadIO32(&pRegister->ADCINTENB);
+	regvalue &= ReadIO32(&pRegister->ADCINTCLR);
 
 	return (CBOOL)( ( regvalue >> IntNum ) & 0x01 );
 }
@@ -269,7 +269,7 @@ CBOOL	NX_ADC_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt number.\n
+ *	@param[in]	IntNum	a interrupt number.
  *						refer to NX_ADC_INTCH_xxx in <nx_adc.h>
  *	@return		None.
  */
@@ -281,15 +281,15 @@ void	NX_ADC_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->ADCINTCLR, 1UL << IntNum);
+	WriteIO32(&pRegister->ADCINTCLR, 1UL << IntNum);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	Enable	\b Set as CTRUE to enable all interrupts. \r\n
- *						\b Set as CFALSE to disable all interrupts.
+ *	@param[in]	Enable	Set as CTRUE to enable all interrupts. \r
+ *						Set as CFALSE to disable all interrupts.
  *	@return		None.
  */
 void	NX_ADC_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
@@ -305,15 +305,15 @@ void	NX_ADC_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 
 	regvalue  = Enable ? 0xFFFFFFFF : 0 ;
 
-	WriteIODW(&pRegister->ADCINTENB, regvalue);
+	WriteIO32(&pRegister->ADCINTENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are enabled or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are enabled. \r\n
- *				\b CFALSE	indicates that all interrupts are disabled.
+ *	@return		CTRUE	indicates that one or more interrupts are enabled. \r
+ *				CFALSE	indicates that all interrupts are disabled.
  */
 CBOOL	NX_ADC_GetInterruptEnableAll( U32 ModuleIndex )
 {
@@ -323,15 +323,15 @@ CBOOL	NX_ADC_GetInterruptEnableAll( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)(0!=( ReadIODW(&pRegister->ADCINTENB) ));
+	return (CBOOL)(0!=( ReadIO32(&pRegister->ADCINTENB) ));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are pended. \r\n
- *				\b CFALSE	indicates that no interrupt is pended.
+ *	@return		CTRUE	indicates that one or more interrupts are pended. \r
+ *				CFALSE	indicates that no interrupt is pended.
  */
 CBOOL	NX_ADC_GetInterruptPendingAll( U32 ModuleIndex )
 {
@@ -342,8 +342,8 @@ CBOOL	NX_ADC_GetInterruptPendingAll( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->ADCINTENB);
-	regvalue &= ReadIODW(&pRegister->ADCINTCLR);
+	regvalue  = ReadIO32(&pRegister->ADCINTENB);
+	regvalue &= ReadIO32(&pRegister->ADCINTCLR);
 
 	return (CBOOL)( 0 != ( regvalue ) );
 }
@@ -362,14 +362,14 @@ void	NX_ADC_ClearInterruptPendingAll( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	WriteIODW(&pRegister->ADCINTCLR, 0xFFFFFFFF);	// just write operation make pending clear
+	WriteIO32(&pRegister->ADCINTCLR, 0xFFFFFFFF);	// just write operation make pending clear
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.\n
+ *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.
  *				refer to NX_ADC_INTCH_xxx in <nx_adc.h>
  */
 S32		NX_ADC_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
@@ -381,8 +381,8 @@ S32		NX_ADC_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue  = ReadIODW(&pRegister->ADCINTENB);
-	regvalue &= ReadIODW(&pRegister->ADCINTCLR);
+	regvalue  = ReadIO32(&pRegister->ADCINTENB);
+	regvalue &= ReadIO32(&pRegister->ADCINTCLR);
 
 	if( 0!=regvalue )
 	{
@@ -404,7 +404,7 @@ S32		NX_ADC_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
  *	@brief		Set Clock Prescaler Value of A/D Converter
  *	@param[in]	value		Value of Prescaler ( Range 20 ~ 256 )
  *	@return		None.
- *	@remarks	This Function must be set before SetPrescalerEnable( ) Function.\n
+ *	@remarks	This Function must be set before SetPrescalerEnable( ) Function.
  *				Max ADC Clock is 2.5Mhz(400ns) when Prescaler Value is 256.
  *	@code
  *				NX_ADC_SetPrescalerValue(0x256);
@@ -425,7 +425,7 @@ void	NX_ADC_SetPrescalerValue( U32 ModuleIndex, U32 value )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue	=	ReadIODW(&pRegister->ADCCON);
+	regvalue	=	ReadIO32(&pRegister->ADCCON);
 
 	regvalue = ( regvalue & ~APSV_MASK ) | ( (value-1) << APSV_BITPOS ) ;
 
@@ -448,14 +448,14 @@ U32		NX_ADC_GetPrescalerValue( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32)((( ReadIODW(&pRegister->ADCCON) & APSV_MASK ) >> APSV_BITPOS ) + 1 ) ;
+	return (U32)((( ReadIO32(&pRegister->ADCCON) & APSV_MASK ) >> APSV_BITPOS ) + 1 ) ;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Prescaler Enable
- *	@param[in]	enable	\b CTRUE indicate that Prescaler Enable. \n
- *						\b CFALSE indicate that Prescaler Disable.
+ *	@param[in]	enable	CTRUE indicate that Prescaler Enable. 
+ *						CFALSE indicate that Prescaler Disable.
  *	@return		None.
  *	@remarks	This function is set after SetPrescalerValue() function
  *	@code
@@ -476,7 +476,7 @@ void	NX_ADC_SetPrescalerEnable( U32 ModuleIndex, CBOOL enable )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->ADCCON);
+	regvalue = ReadIO32(&pRegister->ADCCON);
 
 	regvalue &= ~APEN_MASK;
 	regvalue |= (U32)enable << APEN_POS;
@@ -487,8 +487,8 @@ void	NX_ADC_SetPrescalerEnable( U32 ModuleIndex, CBOOL enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Check Prescaler is enabled or disabled
- *	@return		\b CTRUE indicate that Prescaler is Enabled.\n
- *				\b CFALSE indicate that Prescaler is Disabled.
+ *	@return		CTRUE indicate that Prescaler is Enabled.
+ *				CFALSE indicate that Prescaler is Disabled.
  */
 CBOOL	NX_ADC_GetPrescalerEnable( U32 ModuleIndex )
 {
@@ -500,7 +500,7 @@ CBOOL	NX_ADC_GetPrescalerEnable( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)( ( ReadIODW(&pRegister->ADCCON) >> APEN_POS ) & 0x01 );
+	return (CBOOL)( ( ReadIO32(&pRegister->ADCCON) >> APEN_POS ) & 0x01 );
 }
 
 //------------------------------------------------------------------------------
@@ -518,11 +518,11 @@ void	NX_ADC_SetInputChannel( U32 ModuleIndex, U32 channel )
 
     NX_ASSERT( NUMBER_OF_ADC_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
-	NX_ASSERT( 5 > channel );
+	NX_ASSERT( NUMBER_OF_ADC_CHANNEL > channel );
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue	=	ReadIODW(&pRegister->ADCCON);
+	regvalue	=	ReadIO32(&pRegister->ADCCON);
 	regvalue	=	( regvalue & ~ASEL_MASK ) | ( channel << ASEL_BITPOS );
 
 	WriteIOW(&pRegister->ADCCON, (U16)regvalue);
@@ -544,16 +544,16 @@ U32		NX_ADC_GetInputChannel( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32)( ( ReadIODW(&pRegister->ADCCON) & ASEL_MASK ) >> ASEL_BITPOS );
+	return (U32)( ( ReadIO32(&pRegister->ADCCON) & ASEL_MASK ) >> ASEL_BITPOS );
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set Standby Mode
- *	@param[in]	enable	\b CTRUE indicate that Standby Mode ON. \n
- *						\b CFALSE indicate that Standby Mode OFF.
+ *	@param[in]	enable	CTRUE indicate that Standby Mode ON. 
+ *						CFALSE indicate that Standby Mode OFF.
  *	@return		None.
- *	@remark		If Standby Mode is enabled then ADC power is cut offed.\n
+ *	@remark		If Standby Mode is enabled then ADC power is cut offed.
  *				You have to disable the standby mode to use ADC.
  */
 void	NX_ADC_SetStandbyMode( U32 ModuleIndex, CBOOL enable )
@@ -569,7 +569,7 @@ void	NX_ADC_SetStandbyMode( U32 ModuleIndex, CBOOL enable )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->ADCCON);
+	regvalue = ReadIO32(&pRegister->ADCCON);
 
 	regvalue &= ~STBY_MASK;
 	regvalue |= (U32)enable << STBY_POS;
@@ -580,8 +580,8 @@ void	NX_ADC_SetStandbyMode( U32 ModuleIndex, CBOOL enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get ADC's Standby Mode
- *	@return		\b CTRUE indicate that Standby Mode is Enabled.\n
- *				\b CFALSE indicate that Standby Mode is Disabled.
+ *	@return		CTRUE indicate that Standby Mode is Enabled.
+ *				CFALSE indicate that Standby Mode is Disabled.
  */
 CBOOL	NX_ADC_GetStandbyMode( U32 ModuleIndex )
 {
@@ -594,7 +594,7 @@ CBOOL	NX_ADC_GetStandbyMode( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)( ( ReadIODW(&pRegister->ADCCON) & STBY_MASK ) >> STBY_POS );
+	return (CBOOL)( ( ReadIO32(&pRegister->ADCCON) & STBY_MASK ) >> STBY_POS );
 }
 
 //------------------------------------------------------------------------------
@@ -628,7 +628,7 @@ void	NX_ADC_Start( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	regvalue = ReadIODW(&pRegister->ADCCON);
+	regvalue = ReadIO32(&pRegister->ADCCON);
 
 	regvalue |= ADEN_MASK;
 
@@ -638,8 +638,8 @@ void	NX_ADC_Start( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Check ADC's operation
- *	@return		\b CTRUE indicate that ADC is Busy. \n
- *				\b CFALSE indicate that ADC Conversion is ended.
+ *	@return		CTRUE indicate that ADC is Busy. 
+ *				CFALSE indicate that ADC Conversion is ended.
  */
 CBOOL	NX_ADC_IsBusy( U32 ModuleIndex )
 {
@@ -651,7 +651,7 @@ CBOOL	NX_ADC_IsBusy( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (CBOOL)( ReadIODW(&pRegister->ADCCON) & ADEN_MASK );
+	return (CBOOL)( ReadIO32(&pRegister->ADCCON) & ADEN_MASK );
 }
 
 //------------------------------------------------------------------------------
@@ -668,6 +668,6 @@ U32		NX_ADC_GetConvertedData( U32 ModuleIndex )
 
 	pRegister = __g_pRegister[ModuleIndex];
 
-	return (U32)( ReadIODW(&pRegister->ADCDAT) );
+	return (U32)( ReadIO32(&pRegister->ADCDAT) );
 }
 

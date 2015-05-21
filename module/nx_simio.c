@@ -119,7 +119,7 @@ U32		NX_SIMIO_GetSizeOfRegisterSet( void )
  *				NX_SIMIO_OpenModule,			NX_SIMIO_CloseModule,
  *				NX_SIMIO_CheckBusy,			NX_SIMIO_CanPowerDown
  */
-void	NX_SIMIO_SetBaseAddress( U32 BaseAddress )
+void	NX_SIMIO_SetBaseAddress( void* BaseAddress )
 {
     U32 ModuleIndex = 0;
 	NX_ASSERT( NUMBER_OF_SIMIO_MODULE > ModuleIndex );
@@ -138,12 +138,12 @@ void	NX_SIMIO_SetBaseAddress( U32 BaseAddress )
  *				NX_SIMIO_OpenModule,			NX_SIMIO_CloseModule,
  *				NX_SIMIO_CheckBusy,			NX_SIMIO_CanPowerDown
  */
-U32		NX_SIMIO_GetBaseAddress( void )
+void*	NX_SIMIO_GetBaseAddress( void )
 {
     U32 ModuleIndex = 0;
 	NX_ASSERT( NUMBER_OF_SIMIO_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
