@@ -54,7 +54,7 @@ void	NX_PPM_SetPPMEnable
 		temp &= ~ENB_MASK;
 	}
 
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ void	NX_PPM_SetInputSignalPolarity
 		temp |= POL_MASK;
 	}
 
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
@@ -333,8 +333,8 @@ CBOOL	NX_PPM_OpenModule( U32 ModuleIndex )
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
     
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
     
 	return CTRUE;
 }
@@ -354,8 +354,8 @@ CBOOL	NX_PPM_CloseModule( U32 ModuleIndex )
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
     
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
     
 	return CTRUE;
 }
