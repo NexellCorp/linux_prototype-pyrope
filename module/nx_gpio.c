@@ -1241,7 +1241,7 @@ NX_GPIO_DRVSTRENGTH		NX_GPIO_GetDriveStrength	( U32 ModuleIndex, U32 BitNumber )
  *   @parma[in]  updown			0 : Pull Down	1: Pull Up	2: PullEnb - Disable 
  *	@return		None
  */
-void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL PullSel )
+void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL PullSel )
 {
 	register struct NX_GPIO_RegisterSet	*pRegister;
 
@@ -1251,7 +1251,7 @@ void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL Pul
 
 	NX_ASSERT( CNULL != pRegister );
 
-	if( PullSel == NX_GPIO_PADPULL_DN || PullSel == NX_GPIO_PADPULL_UP  )
+	if( PullSel == NX_GPIO_PULL_DN || PullSel == NX_GPIO_PULL_UP  )
 	{
 		NX_GPIO_SetBit(&pRegister->GPIOx_PULLSEL, BitNumber, (CBOOL)PullSel);
 		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
@@ -1268,7 +1268,7 @@ void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL Pul
  *	@return		GPIO PullUp Enable  -> return PullSel 
  *			      GPIO PullUp  Disble  -> return PullEnb
  */
-NX_GPIO_PADPULL NX_GPIO_GetPullEnable	( U32 ModuleIndex, U32 BitNumber )
+NX_GPIO_PULL NX_GPIO_GetPullEnable	( U32 ModuleIndex, U32 BitNumber )
 {
 	register struct NX_GPIO_RegisterSet	*pRegister;
 	register CBOOL bEnb;
@@ -1280,9 +1280,9 @@ NX_GPIO_PADPULL NX_GPIO_GetPullEnable	( U32 ModuleIndex, U32 BitNumber )
 	NX_ASSERT( CNULL != pRegister );	
 
 	if( bEnb == CTRUE )
-		return (NX_GPIO_PADPULL)NX_GPIO_GetBit(ReadIO32(&pRegister->GPIOx_PULLSEL), BitNumber);
+		return (NX_GPIO_PULL)NX_GPIO_GetBit(ReadIO32(&pRegister->GPIOx_PULLSEL), BitNumber);
 	else
-		return (NX_GPIO_PADPULL)(NX_GPIO_PADPULL_OFF);
+		return (NX_GPIO_PULL)(NX_GPIO_PULL_OFF);
 }
 
 //------------------------------------------------------------------------------
