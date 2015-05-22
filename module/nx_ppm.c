@@ -229,10 +229,12 @@ U32		NX_PPM_GetPPMHighPeriodValue ( U32 ModuleIndex )
 CBOOL	NX_PPM_Initialize( void )
 {
 	static CBOOL bInit = CFALSE;
+    int i = 0;
 
 	if( CFALSE == bInit )
 	{
-        __g_pRegister = 0;
+	    for(i = 0; i < NUMBER_OF_PPM_MODULE; i++)
+            __g_pRegister[i] = 0;
 		bInit = CTRUE;
 	}
 
