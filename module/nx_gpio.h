@@ -130,10 +130,10 @@ extern "C"
 
 	typedef enum
 	{
-		NX_GPIO_PADPULL_DN			= 0UL,
-		NX_GPIO_PADPULL_UP			= 1UL,
-		NX_GPIO_PADPULL_OFF			= 2UL
-	}NX_GPIO_PADPULL;
+		NX_GPIO_PULL_DOWN			= 0UL,
+		NX_GPIO_PULL_UP			    = 1UL,
+		NX_GPIO_PULL_OFF			= 2UL
+	} NX_GPIO_PULL;
 
 //------------------------------------------------------------------------------
 /// @name	Module Interface
