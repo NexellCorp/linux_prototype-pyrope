@@ -1251,7 +1251,7 @@ void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL PullSe
 
 	NX_ASSERT( CNULL != pRegister );
 
-	if( PullSel == NX_GPIO_PULL_DN || PullSel == NX_GPIO_PULL_UP  )
+	if( PullSel == NX_GPIO_PULL_DOWN || PullSel == NX_GPIO_PULL_UP  )
 	{
 		NX_GPIO_SetBit(&pRegister->GPIOx_PULLSEL, BitNumber, (CBOOL)PullSel);
 		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
