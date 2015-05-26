@@ -16,7 +16,7 @@
 #ifndef __NX_ECID_H__
 #define __NX_ECID_H__
 
-#include "nx_prototype.h"
+#include "../base/nx_prototype.h"
 
 #ifdef  __cplusplus
 extern "C"

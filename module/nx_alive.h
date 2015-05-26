@@ -17,7 +17,7 @@
 #define	__NX_ALIVE_H__
 
 
-//#include "../nx_base/nx_prototype.h"
+//#include "../base/nx_prototype.h"
 
 #ifdef __cplusplus
 extern "C"
