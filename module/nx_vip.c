@@ -1508,6 +1508,14 @@ NX_VIP_SetDecimation
 
 }
 
+/* psw0523 add */
+void NX_VIP_GetDeciSource(U32 ModuleIndex, U32 *pSrcWidth, U32 *pSrcHeight)
+{
+    if (pSrcWidth)
+        *pSrcWidth = DeciSrcWidth[ModuleIndex];
+    if (pSrcHeight)
+        *pSrcHeight = DeciSrcHeight[ModuleIndex];
+}
 
 //------------------------------------------------------------------------------
 /**
