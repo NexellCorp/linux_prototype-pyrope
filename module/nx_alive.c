@@ -992,7 +992,7 @@ void  NX_ALIVE_SetOutputEnable32( U32 value )
 	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBSETREG, value );
 }    
 
-void	NX_ALIVE_SetOutputEnable32( U32 value32 )
+void	NX_ALIVE_SetInputEnable32( U32 value32 )
 {
 	WriteIO32(&__g_pRegister->ALIVEGPIOPADOUTENBRSTREG, value & 0x3F );
 }  
