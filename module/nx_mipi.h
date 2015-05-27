@@ -219,7 +219,7 @@ void  NX_MIPI_CSI_SetPhy( U32 ModuleIndex,
 //	Read current state through shadow register
 void  NX_MIPI_CSI_GetCurrentState( U32 ModuleIndex, int Channel, int* pWidth, int* pHeight, int* pT1, int* pT2, int* pT5, NX_MIPI_CSI_FORMAT* pFormat, int* pInterleaveChannel );
 
-volatile U32 MIPI_CSIS_PKTDATA  [0x2000/4] ; 	// 0x2000 R   Specifies the memory area for storing non-image data., Odd frame.
+extern volatile U32 MIPI_CSIS_PKTDATA  [0x2000/4] ; 	// 0x2000 R   Specifies the memory area for storing non-image data., Odd frame.
 // 	                                             // 0x3000 R   Specifies the memory area for storing non-image data, Even frame.
 
 

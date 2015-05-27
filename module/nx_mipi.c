@@ -17,7 +17,7 @@
 #include "nx_chip.h"
 #include "nx_mipi.h"
 
-
+volatile U32 MIPI_CSIS_PKTDATA  [0x2000/4] ;
 static	NX_MIPI_RegisterSet *__g_pRegister[NUMBER_OF_MIPI_MODULE];
 
 NX_CASSERT( (&(((NX_MIPI_RegisterSet*)0)->DSIM_STATUS)) == (void*)0x0100 );
