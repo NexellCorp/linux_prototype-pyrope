@@ -1065,7 +1065,7 @@ void    NX_SCALER_SetDestAddr( U32 ModuleIndex, U32 DstIndex, U32 Addr )
  */
 U32     NX_SCALER_GetDestAddr( U32 ModuleIndex, U32 DstIndex )
 {
-    U32 DestAddr;
+    U32 DestAddr = 0;
 
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
     NX_ASSERT( DstIndex < 2 );
@@ -1116,7 +1116,8 @@ void    NX_SCALER_SetDestStride( U32 ModuleIndex, U32 DstIndex, U32 Stride )
  */
 U32     NX_SCALER_GetDestStride( U32 ModuleIndex, U32 DstIndex )
 {
-    U32 DestStride;
+    U32 DestStride = 0;
+	
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
 
     switch( DstIndex )

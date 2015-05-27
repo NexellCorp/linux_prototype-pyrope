@@ -429,7 +429,7 @@ void	NX_ADC_SetPrescalerValue( U32 ModuleIndex, U32 value )
 
 	regvalue = ( regvalue & ~APSV_MASK ) | ( (value-1) << APSV_BITPOS ) ;
 
-	WriteIOW(&pRegister->ADCCON, (U16)regvalue);
+	WriteIO32(&pRegister->ADCCON, (U16)regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -481,7 +481,7 @@ void	NX_ADC_SetPrescalerEnable( U32 ModuleIndex, CBOOL enable )
 	regvalue &= ~APEN_MASK;
 	regvalue |= (U32)enable << APEN_POS;
 
-	WriteIOW(&pRegister->ADCCON, (U16)regvalue);
+	WriteIO32(&pRegister->ADCCON, (U16)regvalue);
 }
 
 //------------------------------------------------------------------------------

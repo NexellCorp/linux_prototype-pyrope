@@ -64,7 +64,7 @@ void	NX_ECID_SetBaseAddress( void* BaseAddress )
 
 void*	NX_ECID_GetBaseAddress( void )
 {
-	return (U32*)__g_ModuleVariables.pRegister;
+	return (void*)__g_ModuleVariables.pRegister;
 }
 
 CBOOL	NX_ECID_OpenModule( void )
