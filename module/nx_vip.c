@@ -1465,6 +1465,9 @@ NX_VIP_GetClipRegion
  *				the Clipper. and the Decimator can only handle the even field data
  *				in the interlace scan mode.
  */
+/* psw0523 add for GetDecimationSource() */
+static U32 DeciSrcWidth[2];
+static U32 DeciSrcHeight[2];
 void
 NX_VIP_SetDecimation
 (
