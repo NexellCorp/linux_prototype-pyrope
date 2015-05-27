@@ -574,7 +574,7 @@ void	NX_ADC_SetStandbyMode( U32 ModuleIndex, CBOOL enable )
 	regvalue &= ~STBY_MASK;
 	regvalue |= (U32)enable << STBY_POS;
 
-	WriteIOW(&pRegister->ADCCON, regvalue);
+	WriteIO16(&pRegister->ADCCON, regvalue);
 }
 
 //------------------------------------------------------------------------------
