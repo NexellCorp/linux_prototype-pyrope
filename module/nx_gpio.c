@@ -84,8 +84,8 @@ enum { NX_GPIO_MAX_BIT = 32 };
  *	@brief		Set 1bit value
  *	@param[in]	Value	This Value is changed when SetBit() executed.
  *	@param[in]	Bit		Bit number
- *	@param[in]	Enable	\b CTRUE( Set ).\n
- *						\b CFALSE( Clear )
+ *	@param[in]	Enable	 CTRUE( Set ).
+ *						 CFALSE( Clear )
  *	@return		None.
  *	@see		NX_GPIO_GetBit
  */
@@ -109,7 +109,7 @@ __inline void NX_GPIO_SetBit
 	newvalue |=		(U32)Enable << Bit ;
 
 //	*Value = newvalue;
-	WriteIODW(Value, newvalue);
+	WriteIO32(Value, newvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -117,8 +117,8 @@ __inline void NX_GPIO_SetBit
  *	@brief		Get bit value
  *	@param[in]	Value	Check this value of 1bit state
  *	@param[in]	Bit		Bit number
- *	@return		\b CTRUE	indicate that bit is Seted.\n
- *				\b CFALSE	indicate that bit is cleared.
+ *	@return		 CTRUE	indicate that bit is Seted.
+ *				 CFALSE	indicate that bit is cleared.
  *	@see		NX_GPIO_SetBit
  */
 __inline CBOOL NX_GPIO_GetBit
@@ -139,7 +139,6 @@ __inline CBOOL NX_GPIO_GetBit
  *	@param[in]	Bit			Bit number
  *	@param[in]	BitValue	Set value of bit
  *	@return		None.
- *	@see		NX_GPIO_GetBit2
  */
 __inline void NX_GPIO_SetBit2
 (
@@ -156,7 +155,7 @@ __inline void NX_GPIO_SetBit2
 	newvalue = (U32)(newvalue & ~(3UL<<(Bit*2)));
 	newvalue = (U32)(newvalue | (BitValue<<(Bit*2)));
 //	*Value = newvalue;
-	WriteIODW(Value, newvalue);
+	WriteIO32(Value, newvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -165,7 +164,6 @@ __inline void NX_GPIO_SetBit2
  *	@param[in]	Value	Check this value of 2bit state
  *	@param[in]	Bit		Bit number
  *	@return		2bit value
- *	@see		NX_GPIO_SetBit2
  */
 
 __inline U32 NX_GPIO_GetBit2
@@ -184,9 +182,8 @@ __inline U32 NX_GPIO_GetBit2
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.\n
- *	@see									NX_GPIO_GetNumberOfModule
+ *	@return  CTRUE	indicate that Initialize is successed.
+ *			 CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_GPIO_Initialize( void )
 {
@@ -216,7 +213,6 @@ CBOOL	NX_GPIO_Initialize( void )
 /**
  *	@brief		Get number of modules in the chip.
  *	@return		Module's number.
- *	@see		NX_GPIO_Initialize
  */
 U32		NX_GPIO_GetNumberOfModule( void )
 {
@@ -230,10 +226,6 @@ U32		NX_GPIO_GetNumberOfModule( void )
  *	@brief		Get module's physical address.
  *	@param[in]	ModuleIndex		A index of module.
  *	@return		Module's physical address
- *	@see										NX_GPIO_GetSizeOfRegisterSet,
- *				NX_GPIO_SetBaseAddress,			NX_GPIO_GetBaseAddress,
- *				NX_GPIO_OpenModule,				NX_GPIO_CloseModule,
- *				NX_GPIO_CheckBusy,
  */
 U32		NX_GPIO_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -250,11 +242,7 @@ U32		NX_GPIO_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a size, in byte, of register set.
- *	@return		Size of module's register set.
- *	@see		NX_GPIO_GetPhysicalAddress,
- *				NX_GPIO_SetBaseAddress,			NX_GPIO_GetBaseAddress,
- *				NX_GPIO_OpenModule,				NX_GPIO_CloseModule,
- *				NX_GPIO_CheckBusy,
+ *	@return		Size of module's register set
  */
 U32		NX_GPIO_GetSizeOfRegisterSet( void )
 {
@@ -267,10 +255,6 @@ U32		NX_GPIO_GetSizeOfRegisterSet( void )
  *	@param[in]	ModuleIndex		A index of module.
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_GPIO_GetPhysicalAddress,		NX_GPIO_GetSizeOfRegisterSet,
- *												NX_GPIO_GetBaseAddress,
- *				NX_GPIO_OpenModule,				NX_GPIO_CloseModule,
- *				NX_GPIO_CheckBusy,
  */
 void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
 {
@@ -284,10 +268,6 @@ void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *	@brief		Get a base address of register set
  *	@param[in]	ModuleIndex		A index of module.
  *	@return		Module's base address.
- *	@see		NX_GPIO_GetPhysicalAddress,		NX_GPIO_GetSizeOfRegisterSet,
- *				NX_GPIO_SetBaseAddress,
- *				NX_GPIO_OpenModule,				NX_GPIO_CloseModule,
- *				NX_GPIO_CheckBusy,
  */
 U32		NX_GPIO_GetBaseAddress( U32 ModuleIndex )
 {
@@ -300,12 +280,8 @@ U32		NX_GPIO_GetBaseAddress( U32 ModuleIndex )
 /**
  *	@brief		Initialize selected modules with default value.
  *	@param[in]	ModuleIndex		A index of module.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
- *	@see		NX_GPIO_GetPhysicalAddress,		NX_GPIO_GetSizeOfRegisterSet,
- *				NX_GPIO_SetBaseAddress,			NX_GPIO_GetBaseAddress,
- *												NX_GPIO_CloseModule,
- *				NX_GPIO_CheckBusy,
+ *	@return		 CTRUE	indicate that Initialize is successed. 
+ *				 CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_GPIO_OpenModule( U32 ModuleIndex )
 {
@@ -318,12 +294,8 @@ CBOOL	NX_GPIO_OpenModule( U32 ModuleIndex )
 /**
  *	@brief		Deinitialize selected module to the proper stage.
  *	@param[in]	ModuleIndex		A index of module.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
- *	@see		NX_GPIO_GetPhysicalAddress,		NX_GPIO_GetSizeOfRegisterSet,
- *				NX_GPIO_SetBaseAddress,			NX_GPIO_GetBaseAddress,
- *				NX_GPIO_OpenModule,
- *				NX_GPIO_CheckBusy,
+ *	@return		 CTRUE	indicate that Deinitialize is successed. 
+ *				 CFALSE	indicate that Deinitialize is failed.
  */
 CBOOL	NX_GPIO_CloseModule( U32 ModuleIndex )
 {
@@ -336,11 +308,8 @@ CBOOL	NX_GPIO_CloseModule( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
  *	@param[in]	ModuleIndex		A index of module.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
- *	@see		NX_GPIO_GetPhysicalAddress,		NX_GPIO_GetSizeOfRegisterSet,
- *				NX_GPIO_SetBaseAddress,			NX_GPIO_GetBaseAddress,
- *				NX_GPIO_OpenModule,				NX_GPIO_CloseModule,
+ *	@return		 CTRUE	indicate that Module is Busy. 
+ *				 CFALSE	indicate that Module is NOT Busy.
  *
  */
 CBOOL	NX_GPIO_CheckBusy( U32 ModuleIndex )
@@ -357,13 +326,6 @@ CBOOL	NX_GPIO_CheckBusy( U32 ModuleIndex )
 /**
  *	@brief		Get a interrupt number for interrupt controller.
  *	@return		Interrupt number
- *	@see											NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
  */
  U32		NX_GPIO_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -387,16 +349,9 @@ CBOOL	NX_GPIO_CheckBusy( U32 ModuleIndex )
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	IntNum	Interrupt Number. ( 0 ~ 31 ), if ModuleIndex is GPIOC then IntNum is only 0 ~ 20.
- *	@param[in]	Enable	\b CTRUE	indicate that Interrupt Enable. \n
- *						\b CFALSE	indicate that Interrupt Disable.
- *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *	@param[in]	Enable	 CTRUE	indicate that Interrupt Enable. 
+ *						 CFALSE	indicate that Interrupt Disable.
+ *	@return		None
  */
 void	NX_GPIO_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 {
@@ -416,7 +371,7 @@ void	NX_GPIO_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 	ReadValue |=	( (U32)Enable	<< IntNum );
 
 //	pRegister->GPIOxINTENB = ReadValue;
-	WriteIODW(&pRegister->GPIOxINTENB, ReadValue);
+	WriteIO32(&pRegister->GPIOxINTENB, ReadValue);
 
 	NX_GPIO_SetDetectEnable(ModuleIndex, IntNum, Enable);
 }
@@ -426,15 +381,8 @@ void	NX_GPIO_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	IntNum	Interrupt Number.
- *	@return		\b CTRUE	indicate that Interrupt is enabled. \n
- *				\b CFALSE	indicate that Interrupt is disabled.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *													NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicate that Interrupt is enabled. 
+ *				 CFALSE	indicate that Interrupt is disabled.
  */
 CBOOL	NX_GPIO_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 {
@@ -454,18 +402,11 @@ CBOOL	NX_GPIO_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 /**
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	\n
- *							- EnableFlag[0] : Set GPIO0 interrupt enable or disable. \n
+ *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	
+ *							- EnableFlag[0] : Set GPIO0 interrupt enable or disable. 
  *							...
- *							- EnableFlag[31] : Set GPIO31 interrupt enable or disable. \n
+ *							- EnableFlag[31] : Set GPIO31 interrupt enable or disable. 
  *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
  */
 void	NX_GPIO_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 {
@@ -473,7 +414,7 @@ void	NX_GPIO_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 //	__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB = (EnableFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex] );
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB, (EnableFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex] ));
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB, (EnableFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex] ));
 
 	NX_GPIO_SetDetectEnable32(ModuleIndex, EnableFlag);
 }
@@ -482,19 +423,12 @@ void	NX_GPIO_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 /**
  *	@brief		Indicates current setting value of interrupt enable bit.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@return		Current setting value of interrupt. \n
- *				"1" means interrupt is enabled. \n
- *				"0" means interrupt is disabled. \n
- *				- Return Value[0] : GPIO0 interrupt's setting value. \n
+ *	@return		Current setting value of interrupt. 
+ *				"1" means interrupt is enabled. 
+ *				"0" means interrupt is disabled. 
+ *				- Return Value[0] : GPIO0 interrupt's setting value. 
  *				...
- *				- Return Value[31] : GPIO31 interrupt's setting value. \n
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *													NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *				- Return Value[31] : GPIO31 interrupt's setting value. 
  */
 U32		NX_GPIO_GetInterruptEnable32( U32 ModuleIndex )
 {
@@ -509,15 +443,8 @@ U32		NX_GPIO_GetInterruptEnable32( U32 ModuleIndex )
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	IntNum	Interrupt Number.
- *	@return		\b CTRUE	indicate that Pending is seted. \n
- *				\b CFALSE	indicate that Pending is Not Seted.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicate that Pending is seted. 
+ *				 CFALSE	indicate that Pending is Not Seted.
  */
 CBOOL	NX_GPIO_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -537,19 +464,12 @@ CBOOL	NX_GPIO_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 /**
  *	@brief		Indicates current setting value of interrupt pending bit.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@return		Current setting value of pending bit. \n
- *				"1" means pend bit is occured. \n
- *				"0" means pend bit is NOT occured. \n
- *				- Return Value[0] : GPIO0 pending state. \n
+ *	@return		Current setting value of pending bit. 
+ *				"1" means pend bit is occured. 
+ *				"0" means pend bit is NOT occured. 
+ *				- Return Value[0] : GPIO0 pending state. 
  *				...
- *				- Return Value[31] : GPIO31 pending state. \n
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *													NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *				- Return Value[31] : GPIO31 pending state. 
  */
 U32		NX_GPIO_GetInterruptPending32( U32 ModuleIndex )
 {
@@ -565,13 +485,6 @@ U32		NX_GPIO_GetInterruptPending32( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	IntNum	Interrupt number.
  *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
  */
 void	NX_GPIO_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -580,25 +493,18 @@ void	NX_GPIO_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 //	__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET = 1UL << IntNum;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, 1UL << IntNum);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, 1UL << IntNum);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	\n \n
- *								- PendingFlag[0] : GPIO0 pending bit. \n
+ *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	 
+ *								- PendingFlag[0] : GPIO0 pending bit. 
  *									...
- *								- PendingFlag[31] : GPIO31 pending bit. \n
+ *								- PendingFlag[31] : GPIO31 pending bit. 
  *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *													NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
  */
 void	NX_GPIO_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 {
@@ -606,23 +512,16 @@ void	NX_GPIO_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 //	__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET = (PendingFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex]);
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, (PendingFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex]));
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, (PendingFlag & __g_NX_GPIO_VALID_INT_MASK[ModuleIndex]));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enables or disables.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@param[in]	Enable	\b CTRUE	indicate that Set to all interrupt enable. \n
- *						\b CFALSE	indicate that Set to all interrupt disable.
+ *	@param[in]	Enable	 CTRUE	indicate that Set to all interrupt enable. 
+ *						 CFALSE	indicate that Set to all interrupt disable.
  *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
  */
 void	NX_GPIO_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 {
@@ -638,7 +537,7 @@ void	NX_GPIO_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	{	setvalue = 0UL;	}
 
 //	__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB	= setvalue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB, setvalue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxINTENB, setvalue);
 
 	NX_GPIO_SetInterruptEnable32(ModuleIndex, setvalue);
 }
@@ -647,15 +546,8 @@ void	NX_GPIO_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 /**
  *	@brief		Indicates whether some of interrupts are enable or not.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@return		\b CTRUE	indicate that At least one( or more ) interrupt is enabled. \n
- *				\b CFALSE	indicate that All interrupt is disabled.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *													NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicate that At least one( or more ) interrupt is enabled. 
+ *				 CFALSE	indicate that All interrupt is disabled.
  */
 CBOOL	NX_GPIO_GetInterruptEnableAll( U32 ModuleIndex )
 {
@@ -673,15 +565,8 @@ CBOOL	NX_GPIO_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
- *	@return		\b CTRUE	indicate that At least one( or more ) pending is seted. \n
- *				\b CFALSE	indicate that All pending is NOT seted.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,
- *				NX_GPIO_ClearInterruptPendingAll,	NX_GPIO_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicate that At least one( or more ) pending is seted. 
+ *				 CFALSE	indicate that All pending is NOT seted.
  */
 CBOOL	NX_GPIO_GetInterruptPendingAll( U32 ModuleIndex )
 {
@@ -700,19 +585,12 @@ CBOOL	NX_GPIO_GetInterruptPendingAll( U32 ModuleIndex )
  *	@brief		Clear pending state of all interrupts.
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		None.
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *													NX_GPIO_GetInterruptPendingNumber
  */
 void	NX_GPIO_ClearInterruptPendingAll( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, (U32)(0xFFFFFFFF));
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDET, (U32)(0xFFFFFFFF));
 }
 
 //------------------------------------------------------------------------------
@@ -720,13 +598,6 @@ void	NX_GPIO_ClearInterruptPendingAll( U32 ModuleIndex )
  *	@brief		Get a interrupt number which has the most prority of pended interrupts
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		Pending Number( If all pending is not set then return -1 ).
- *	@see		NX_GPIO_GetInterruptNumber,			NX_GPIO_SetInterruptEnable,
- *				NX_GPIO_GetInterruptEnable,			NX_GPIO_SetInterruptEnable32,
- *				NX_GPIO_GetInterruptEnable32,		NX_GPIO_GetInterruptPending,
- *				NX_GPIO_GetInterruptPending32,		NX_GPIO_ClearInterruptPending,
- *				NX_GPIO_ClearInterruptPending32,	NX_GPIO_SetInterruptEnableAll,
- *				NX_GPIO_GetInterruptEnableAll,		NX_GPIO_GetInterruptPendingAll,
- *				NX_GPIO_ClearInterruptPendingAll
  */
 S32		NX_GPIO_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 {
@@ -762,12 +633,6 @@ S32		NX_GPIO_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@param[in]	IntMode		GPIO interrupt detect mode
  *	@return		None.
- *	@see										NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void				NX_GPIO_SetInterruptMode( U32 ModuleIndex, U32 BitNumber, NX_GPIO_INTMODE IntMode )
 {
@@ -786,12 +651,6 @@ void				NX_GPIO_SetInterruptMode( U32 ModuleIndex, U32 BitNumber, NX_GPIO_INTMOD
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@return		GPIO interrupt detect mode
- *	@see		NX_GPIO_SetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 NX_GPIO_INTMODE	NX_GPIO_GetInterruptMode( U32 ModuleIndex, U32 BitNumber )
 {
@@ -807,15 +666,9 @@ NX_GPIO_INTMODE	NX_GPIO_GetInterruptMode( U32 ModuleIndex, U32 BitNumber )
  *	@brief		Get gpio output enable
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	OutputEnb	\b CTRUE	indicate that Output Mode. \n
- *							\b CFALSE	indicate that Input Mode.
+ *	@param[in]	OutputEnb	 CTRUE	indicate that Output Mode. 
+ *							 CFALSE	indicate that Input Mode.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *												NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetOutputEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL OutputEnb )
 {
@@ -832,15 +685,9 @@ void	NX_GPIO_SetOutputEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL OutputEnb )
  *	@brief		Get gpio Event Detect
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	OutputEnb	\b CTRUE	indicate that Event Detect Enabled. \n
- *							\b CFALSE	indicate that Event Detect Disabled.
+ *	@param[in]	OutputEnb	 CTRUE	indicate that Event Detect Enabled. 
+ *							 CFALSE	indicate that Event Detect Disabled.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *												NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 CBOOL			NX_GPIO_GetDetectEnable ( U32 ModuleIndex, U32 BitNumber )
 {
@@ -865,12 +712,6 @@ U32			NX_GPIO_GetDetectEnable32 ( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@return		GPIO interrupt detect mode
- *	@see		NX_GPIO_SetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void			NX_GPIO_SetDetectEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL DetectEnb )
 {
@@ -887,7 +728,7 @@ void			NX_GPIO_SetDetectEnable32 ( U32 ModuleIndex, U32 EnableFlag )
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDETENB, EnableFlag );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxDETENB, EnableFlag );
 }
 
 //------------------------------------------------------------------------------
@@ -895,14 +736,8 @@ void			NX_GPIO_SetDetectEnable32 ( U32 ModuleIndex, U32 EnableFlag )
  *	@brief		Get gpio output enable
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@return		\b CTRUE	indicate that GPIO's current Setting is Output Mode.\n
- *				\b CFALSE	indicate that GPIO's current Setting is Input Mode.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ *	@return		 CTRUE	indicate that GPIO's current Setting is Output Mode.
+ *				 CFALSE	indicate that GPIO's current Setting is Input Mode.
  */
 CBOOL	NX_GPIO_GetOutputEnable ( U32 ModuleIndex, U32 BitNumber )
 {
@@ -918,15 +753,9 @@ CBOOL	NX_GPIO_GetOutputEnable ( U32 ModuleIndex, U32 BitNumber )
  *	@brief		Get gpio output enable
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	OutputEnb	\b CTRUE	indicate that Output Mode. \n
- *							\b CFALSE	indicate that Input Mode.
+ *	@param[in]	OutputEnb	 CTRUE	indicate that Output Mode. 
+ *							 CFALSE	indicate that Input Mode.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *												NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetOutputEnable32 ( U32 ModuleIndex, CBOOL OutputEnb )
 {
@@ -937,9 +766,9 @@ void	NX_GPIO_SetOutputEnable32 ( U32 ModuleIndex, CBOOL OutputEnb )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 	if(OutputEnb)
-		WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUTENB, EnbMask );
+		WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUTENB, EnbMask );
 	else
-		WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUTENB, 0x0 );
+		WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUTENB, 0x0 );
 }
 
 //------------------------------------------------------------------------------
@@ -947,14 +776,8 @@ void	NX_GPIO_SetOutputEnable32 ( U32 ModuleIndex, CBOOL OutputEnb )
  *	@brief		Get gpio output enable
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@return		\b CTRUE	indicate that GPIO's current Setting is Output Mode.\n
- *				\b CFALSE	indicate that GPIO's current Setting is Input Mode.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ *	@return		 CTRUE	indicate that GPIO's current Setting is Output Mode.
+ *				 CFALSE	indicate that GPIO's current Setting is Input Mode.
  */
 U32		NX_GPIO_GetOutputEnable32 ( U32 ModuleIndex )
 {
@@ -969,15 +792,9 @@ U32		NX_GPIO_GetOutputEnable32 ( U32 ModuleIndex )
  *	@brief		Set gpio output value
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	Value		\b CTRUE	indicate that High Level. \n
- *							\b CFALSE	indicate that Low Level.
+ *	@param[in]	Value		 CTRUE	indicate that High Level. 
+ *							 CFALSE	indicate that Low Level.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *												NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetOutputValue	( U32 ModuleIndex, U32 BitNumber, CBOOL Value )
 {
@@ -994,14 +811,8 @@ void	NX_GPIO_SetOutputValue	( U32 ModuleIndex, U32 BitNumber, CBOOL Value )
  *	@brief		Get gpio output value
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@return		\b CTRUE	indicate that GPIO's output value is High Level.\n
- *				\b CFALSE	indicate that GPIO's output value is Low Level.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ *	@return		 CTRUE	indicate that GPIO's output value is High Level.
+ *				 CFALSE	indicate that GPIO's output value is Low Level.
  */
 CBOOL	NX_GPIO_GetOutputValue	( U32 ModuleIndex, U32 BitNumber )
 {
@@ -1017,22 +828,17 @@ CBOOL	NX_GPIO_GetOutputValue	( U32 ModuleIndex, U32 BitNumber )
  *	@brief		Set gpio output value
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	Value		\b CTRUE	indicate that High Level. \n
- *							\b CFALSE	indicate that Low Level.
+ *	@param[in]	Value		 CTRUE	indicate that High Level. 
+ *							 CFALSE	indicate that Low Level.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *												NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+
  */
 void	NX_GPIO_SetOutputValue32	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxOUT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1040,14 +846,9 @@ void	NX_GPIO_SetOutputValue32	( U32 ModuleIndex, U32 Value )
  *	@brief		Get gpio output value
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@return		\b CTRUE	indicate that GPIO's output value is High Level.\n
- *				\b CFALSE	indicate that GPIO's output value is Low Level.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ *	@return		 CTRUE	indicate that GPIO's output value is High Level.
+ *				 CFALSE	indicate that GPIO's output value is Low Level.
+
  */
 U32		NX_GPIO_GetOutputValue32	( U32 ModuleIndex )
 {
@@ -1064,14 +865,8 @@ U32		NX_GPIO_GetOutputValue32	( U32 ModuleIndex )
  *	@brief		Get gpio input value
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@return		\b CTRUE	indicate that GPIO's input value is High Level.\n
- *				\b CFALSE	indicate that GPIO's input value is Low Level.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *												NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+ *	@return		 CTRUE	indicate that GPIO's input value is High Level.
+ *				 CFALSE	indicate that GPIO's input value is Low Level.
  */
 CBOOL	NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber )
 {
@@ -1087,15 +882,9 @@ CBOOL	NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber )
  *	@brief		Set Pull sel of GPIO Pin
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	enable		\b CTRUE	indicate that Pull Up. \n
- *							\b CFALSE	indicate that NOT Pull Up.
+ *	@param[in]	enable		 CTRUE	indicate that Pull Up. 
+ *							 CFALSE	indicate that NOT Pull Up.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetPullSelect   ( U32 ModuleIndex, U32 BitNumber, CBOOL enable)
 {
@@ -1113,7 +902,7 @@ void	NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value )
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1122,12 +911,6 @@ void	NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@return		GPIO pull up value
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *												NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 CBOOL	NX_GPIO_GetPullSelect   ( U32 ModuleIndex, U32 BitNumber )
 {
@@ -1175,15 +958,9 @@ void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode)
  *	@brief		Set Pull up of GPIO Pin
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
- *	@param[in]	enable		\b CTRUE	indicate that Pull Up. \n
- *							\b CFALSE	indicate that NOT Pull Up.
+ *	@param[in]	enable		 CTRUE	indicate that Pull Up. 
+ *							 CFALSE	indicate that NOT Pull Up.
  *	@return		None.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetPullEnable ( U32 ModuleIndex, U32 BitNumber, CBOOL enable)
 {
@@ -1201,7 +978,7 @@ void	NX_GPIO_SetPullEnable32	( U32 ModuleIndex, U32 Value )
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxPUENB, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxPUENB, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1210,12 +987,7 @@ void	NX_GPIO_SetPullEnable32	( U32 ModuleIndex, U32 Value )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@return		GPIO pull up value
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *												NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
+
  */
 CBOOL	NX_GPIO_GetPullEnable ( U32 ModuleIndex, U32 BitNumber )
 {
@@ -1242,14 +1014,8 @@ U32		NX_GPIO_GetPullEnable32	( U32 ModuleIndex )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@param[in]	padfunc		Pad Function
  *	@return		None
- *	@remarks		Each gpio pins can use to GPIO Pin or Alternate Function 0 or Alternate Function 1 or \n
+ *	@remarks		Each gpio pins can use to GPIO Pin or Alternate Function 0 or Alternate Function 1 or 
  *				Alternate Function 2. So This function Sets gpio pin's function.
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,
- *				NX_GPIO_GetPadFunction,			NX_GPIO_GetValidBit
  */
 void	NX_GPIO_SetPadFunction( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADFUNC padfunc )
 {
@@ -1266,7 +1032,7 @@ void	NX_GPIO_SetPadFunction32_0( U32 ModuleIndex, U32 Value )
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxALTFN[0], Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxALTFN[0], Value );
 }
 
 void	NX_GPIO_SetPadFunction32_1( U32 ModuleIndex, U32 Value )
@@ -1274,7 +1040,7 @@ void	NX_GPIO_SetPadFunction32_1( U32 ModuleIndex, U32 Value )
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxALTFN[1], Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOxALTFN[1], Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1283,12 +1049,6 @@ void	NX_GPIO_SetPadFunction32_1( U32 ModuleIndex, U32 Value )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	BitNumber	Bit number ( 0 ~ 31 ), if ModuleIndex is GPIOC then Bit number is only 0 ~ 20.
  *	@return		None
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *												NX_GPIO_GetValidBit
  */
 NX_GPIO_PADFUNC	NX_GPIO_GetPadFunction( U32 ModuleIndex, U32 BitNumber )
 {
@@ -1306,12 +1066,6 @@ NX_GPIO_PADFUNC	NX_GPIO_GetPadFunction( U32 ModuleIndex, U32 BitNumber )
  *	@return		GPIO's valid bit
  *	@remarks	Each bit's indicate corresponding GPIO pin. If retun value is 0x0FF, then
  *				This indicate that GPIO have eight pins ( GPIO0 ~ GPIO7 ).
- *	@see		NX_GPIO_SetInterruptMode,		NX_GPIO_GetInterruptMode,
- *				NX_GPIO_SetOutputEnable,		NX_GPIO_GetOutputEnable,
- *				NX_GPIO_SetOutputValue,			NX_GPIO_GetOutputValue,
- *				NX_GPIO_GetInputValue,			NX_GPIO_SetPullUpEnable,
- *				NX_GPIO_GetPullUpEnable,		NX_GPIO_SetPadFunction,
- *				NX_GPIO_GetPadFunction
  */
 U32		NX_GPIO_GetValidBit( U32 ModuleIndex )
 {
@@ -1326,24 +1080,13 @@ U32		NX_GPIO_GetValidBit( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetSLEW	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_SLEW, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_SLEW, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1351,17 +1094,6 @@ void		NX_GPIO_SetSLEW	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO Slew
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO slew value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetSLEW	( U32 ModuleIndex )
 {
@@ -1377,24 +1109,13 @@ U32		NX_GPIO_GetSLEW	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetSLEW_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_SLEW_DISABLE_DEFAULT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_SLEW_DISABLE_DEFAULT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1402,17 +1123,6 @@ void		NX_GPIO_SetSLEW_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO Slew Disable Default
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO GPIO Slew Disable Default value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetSLEW_DISABLE_DEFAULT	( U32 ModuleIndex )
 {
@@ -1428,24 +1138,13 @@ U32		NX_GPIO_GetSLEW_DISABLE_DEFAULT	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetDRV1	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV1, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV1, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1453,17 +1152,6 @@ void		NX_GPIO_SetDRV1	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO DRV1
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO GPIO DRV1 value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetDRV1	( U32 ModuleIndex )
 {
@@ -1479,24 +1167,13 @@ U32		NX_GPIO_GetDRV1	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetDRV1_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV1_DISABLE_DEFAULT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV1_DISABLE_DEFAULT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1504,17 +1181,6 @@ void		NX_GPIO_SetDRV1_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
  *	@brief		Get DRV1 Disable Default
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO DRV1 Disable Default value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetDRV1_DISABLE_DEFAULT	( U32 ModuleIndex )
 {
@@ -1530,24 +1196,13 @@ U32		NX_GPIO_GetDRV1_DISABLE_DEFAULT	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetDRV0	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV0, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV0, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1555,17 +1210,6 @@ void		NX_GPIO_SetDRV0	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO DRV0
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO DRV0 value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetDRV0	( U32 ModuleIndex )
 {
@@ -1581,24 +1225,13 @@ U32		NX_GPIO_GetDRV0	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV0_DISABLE_DEFAULT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_DRV0_DISABLE_DEFAULT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1606,17 +1239,6 @@ void		NX_GPIO_SetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
  *	@brief		Get DRV0 Disable Default
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO DRV0 Disable Default value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex )
 {
@@ -1632,24 +1254,13 @@ U32		NX_GPIO_GetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetPULLSEL	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1657,17 +1268,6 @@ void		NX_GPIO_SetPULLSEL	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO PullSel
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO PullSel value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetPULLSEL	( U32 ModuleIndex )
 {
@@ -1683,24 +1283,13 @@ U32		NX_GPIO_GetPULLSEL	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1708,17 +1297,6 @@ void		NX_GPIO_SetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
  *	@brief		Get PullSel Disable Default
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO PullSel Disable Default value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex )
 {
@@ -1734,24 +1312,13 @@ U32		NX_GPIO_GetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetPULLENB	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1759,17 +1326,6 @@ void		NX_GPIO_SetPULLENB	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO PullEnb
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO PullEnb value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetPULLENB	( U32 ModuleIndex )
 {
@@ -1785,24 +1341,13 @@ U32		NX_GPIO_GetPULLENB	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void		NX_GPIO_SetPULLENB_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1810,17 +1355,6 @@ void		NX_GPIO_SetPULLENB_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value )
  *	@brief		Get GPIO PullEnb Disable Default
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@return		GPIO  value
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 U32		NX_GPIO_GetPULLENB_DISABLE_DEFAULT	( U32 ModuleIndex )
 {
@@ -1836,24 +1370,13 @@ U32		NX_GPIO_GetPULLENB_DISABLE_DEFAULT	( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void	NX_GPIO_SetInputMuxSelect0	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_InputMuxSelect0, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_InputMuxSelect0, Value );
 }
 
 //------------------------------------------------------------------------------
@@ -1862,24 +1385,13 @@ void	NX_GPIO_SetInputMuxSelect0	( U32 ModuleIndex, U32 Value )
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
  *	@return		None
- *	@see		NX_GPIO_SetSLEW,					NX_GPIO_GetSLEW,
- *				NX_GPIO_SetSLEW_DISABLE_DEFAULT,	NX_GPIO_GetSLEW_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV1,					NX_GPIO_GetDRV1,
- *				NX_GPIO_SetDRV1_DISABLE_DEFAULT,	NX_GPIO_GetDRV1_DISABLE_DEFAULT,
- *				NX_GPIO_SetDRV0,					NX_GPIO_GetDRV0,
- *				NX_GPIO_SetDRV0_DISABLE_DEFAULT,	NX_GPIO_GetDRV0_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLSEL,					NX_GPIO_GetPULLSEL,
- *				NX_GPIO_SetPULLSEL_DISABLE_DEFAULT,	NX_GPIO_GetPULLSEL_DISABLE_DEFAULT,
- *				NX_GPIO_SetPULLENB,					NX_GPIO_GetPULLENB,
- *				NX_GPIO_SetPULLENB_DISABLE_DEFAULT,	NX_GPIO_GetPULLENB_DISABLE_DEFAULT,
- *				NX_GPIO_SetInputMuxSelect0,			NX_GPIO_SetInputMuxSelect1,
  */
 void	NX_GPIO_SetInputMuxSelect1	( U32 ModuleIndex, U32 Value )
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_InputMuxSelect1, Value );
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_InputMuxSelect1, Value );
 }
 
 //---------------------------------------------------------
