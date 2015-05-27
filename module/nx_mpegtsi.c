@@ -55,7 +55,6 @@ U32		NX_MPEGTSI_GetSizeOfRegisterSet( void )
 	return sizeof( struct NX_MPEGTSI_RegisterSet );
 }
 
-
 void	NX_MPEGTSI_SetBaseAddress( void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
@@ -63,10 +62,8 @@ void	NX_MPEGTSI_SetBaseAddress( void* BaseAddress )
 	__g_ModuleVariables.pRegister = (struct NX_MPEGTSI_RegisterSet *) BaseAddress;
 }
 
-
 void*	NX_MPEGTSI_GetBaseAddress( void )
 {
-
 	return (void*)__g_ModuleVariables.pRegister;
 }
 
@@ -169,10 +166,28 @@ void    NX_MPEGTSI_SetIDMAEnable( U32 ChannelIndex, CBOOL Enable )
     WriteIO32( &pRegister->IDMAEN, RegVal );
 }
 
-U32     NX_MPEGTSI_GetIDMAEnable( void )
+CBOOL   NX_MPEGTSI_GetIDMAEnable( U32 ChannelIndex )
 {
+    U32 IDMA_BIT;
+
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
-    return (U32)__g_ModuleVariables.pRegister->IDMAEN;
+    NX_ASSERT( ChannelIndex <= 3 );
+
+    IDMA_BIT = 1UL << ChannelIndex;
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->IDMAEN & IDMA_BIT) >> ChannelIndex);
+}
+
+CBOOL   NX_MPEGTSI_GetIDMABusyStatus( U32 ChannelIndex )
+{
+    U32 IDMA_BIT;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( ChannelIndex <= 3 );
+
+    IDMA_BIT = 1UL << (ChannelIndex+16);
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->IDMAEN & IDMA_BIT) >> (ChannelIndex+16));
 }
 
 void    NX_MPEGTSI_RunIDMA( U32 ChannelIndex )
@@ -272,7 +287,7 @@ U32     NX_MPEGTSI_GetIDMAIntEnable( void )
     return (U32)(((__g_ModuleVariables.pRegister->IDMAINT)>>16) & 0xF);
 }
 
-void    NX_MPEGTSI_SetIDMAIntMask( U32 ChannelIndex, CBOOL Enable )
+void    NX_MPEGTSI_SetIDMAIntMaskClear( U32 ChannelIndex, CBOOL Unmask )
 {
     register struct NX_MPEGTSI_RegisterSet * pRegister;
     register U32    RegVal;
@@ -287,19 +302,19 @@ void    NX_MPEGTSI_SetIDMAIntMask( U32 ChannelIndex, CBOOL Enable )
 
     RegVal  = pRegister->IDMAINT;
     RegVal &= ~IDMA_MASK;
-    RegVal |= Enable << (ChannelIndex+24);
+    RegVal |= Unmask << (ChannelIndex+24);
 
     WriteIO32( &pRegister->IDMAINT, RegVal );
 }
 
-U32     NX_MPEGTSI_GetIDMAIntMask( void )
+U32     NX_MPEGTSI_GetIDMAIntMaskClear( void )
 {
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
 
     return (U32)(((__g_ModuleVariables.pRegister->IDMAINT)>>24) & 0xF);
 }
 
-CBOOL   NX_MPEGTSI_GetIDMAIntPending( U32 ChannelIndex )
+CBOOL   NX_MPEGTSI_GetIDMAIntStatus( U32 ChannelIndex )
 {
     U32 IDMA_MASK;
 
@@ -311,7 +326,14 @@ CBOOL   NX_MPEGTSI_GetIDMAIntPending( U32 ChannelIndex )
     return (CBOOL)((__g_ModuleVariables.pRegister->IDMAINT & IDMA_MASK)>>(ChannelIndex+8));
 }
 
-void    NX_MPEGTSI_ClearIDMAIntPending( U32 ChannelIndex )
+U32   NX_MPEGTSI_GetIDMAIntRawStatus( void )
+{
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+
+    return (U32)((__g_ModuleVariables.pRegister->IDMAINT>>8) & 0xF);
+}
+
+void    NX_MPEGTSI_SetIDMAIntClear( U32 ChannelIndex )
 {
     register struct NX_MPEGTSI_RegisterSet * pRegister;
     register U32    RegVal;
@@ -364,6 +386,38 @@ CBOOL   NX_MPEGTSI_GetCapEnable( U32 CapIdx )
     NX_ASSERT( CapIdx < 2 );
 
     return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & CAPENB_MASK) >> CAPENB_POS);
+}
+
+void    NX_MPEGTSI_SetBypassEnable( U32 CapIdx, CBOOL Enable )
+{
+    const U32   BYPASSENB_POS  = 31;
+    const U32   BYPASSENB_MASK = 1UL << BYPASSENB_POS;
+
+    register struct NX_MPEGTSI_RegisterSet * pRegister;
+    register U32    RegVal;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( CapIdx < 2 );
+    NX_ASSERT( (CTRUE==Enable) || (CFALSE==Enable) );
+
+    pRegister   = __g_ModuleVariables.pRegister;
+
+    RegVal  = pRegister->CAP_CTRL[CapIdx];
+    RegVal &= ~BYPASSENB_MASK;
+    RegVal |= Enable << BYPASSENB_POS;
+
+    WriteIO32( &pRegister->CAP_CTRL[CapIdx], RegVal );
+}
+
+CBOOL   NX_MPEGTSI_GetBypassEnable( U32 CapIdx )
+{
+    const U32   BYPASSENB_POS  = 31;
+    const U32   BYPASSENB_MASK = 1UL << BYPASSENB_POS;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( CapIdx < 2 );
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & BYPASSENB_MASK) >> BYPASSENB_POS);
 }
 
 void    NX_MPEGTSI_SetSerialEnable( U32 CapIdx, CBOOL Enable )
@@ -526,7 +580,7 @@ CBOOL   NX_MPEGTSI_GetTERRPolarityEnable( U32 CapIdx )
     return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & ERRPOL_MASK) >> ERRPOL_POS);
 }
 
-void    NX_MPEGTSI_SetCapSramSleepEnable( U32 CapIdx, CBOOL Enable )
+void    NX_MPEGTSI_SetCapSramWakeUp( U32 CapIdx, CBOOL WakeUp)
 {
     const U32   CAPSLP_POS  = 8;
     const U32   CAPSLP_MASK = 1UL << CAPSLP_POS;
@@ -536,18 +590,18 @@ void    NX_MPEGTSI_SetCapSramSleepEnable( U32 CapIdx, CBOOL Enable )
 
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
     NX_ASSERT( CapIdx < 2 );
-    NX_ASSERT( (CTRUE==Enable) || (CFALSE==Enable) );
+    NX_ASSERT( (CTRUE==WakeUp) || (CFALSE==WakeUp) );
 
     pRegister   = __g_ModuleVariables.pRegister;
 
     RegVal  = pRegister->CAP_CTRL[CapIdx];
     RegVal &= ~CAPSLP_MASK;
-    RegVal |= (!Enable) << CAPSLP_POS;
+    RegVal |= WakeUp << CAPSLP_POS;
 
     WriteIO32( &pRegister->CAP_CTRL[CapIdx], RegVal );
 }
 
-CBOOL   NX_MPEGTSI_GetCapSramSleepEnable( U32 CapIdx )
+CBOOL   NX_MPEGTSI_GetCapSramWakeUp( U32 CapIdx )
 {
     const U32   CAPSLP_POS  = 8;
     const U32   CAPSLP_MASK = 1UL << CAPSLP_POS;
@@ -640,6 +694,16 @@ void    NX_MPEGTSI_SetCap1OutTCLKPolarityEnable( CBOOL Enable )
     WriteIO32( &pRegister->CAP_CTRL[1], RegVal );
 }
 
+CBOOL   NX_MPEGTSI_GetCap1OutTCLKPolarityEnable( void )
+{
+    const U32   OUTPOL_POS  = 17;
+    const U32   OUTPOL_MASK = 1UL << OUTPOL_POS;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[1] & OUTPOL_MASK) >> OUTPOL_POS);
+}
+
 CBOOL   NX_MPEGTSI_GetCap1OutPolarityEnable( void )
 {
     const U32   OUTPOL_POS  = 17;
@@ -714,7 +778,7 @@ CBOOL   NX_MPEGTSI_GetCapIntEnable( U32 CapIdx )
     return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & CAPINT_MASK) >> CAPINT_POS);
 }
 
-void    NX_MPEGTSI_SetCapIntMaskEnable( U32 CapIdx, CBOOL Enable )
+void    NX_MPEGTSI_SetCapIntMaskClear( U32 CapIdx, CBOOL Unmask )
 {
     const U32   CAPMASK_POS  = 26;
     const U32   CAPMASK_MASK = 1UL << CAPMASK_POS;
@@ -724,18 +788,18 @@ void    NX_MPEGTSI_SetCapIntMaskEnable( U32 CapIdx, CBOOL Enable )
 
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
     NX_ASSERT( CapIdx < 2 );
-    NX_ASSERT( (CTRUE==Enable) || (CFALSE==Enable) );
+    NX_ASSERT( (CTRUE==Unmask) || (CFALSE==Unmask) );
 
     pRegister   = __g_ModuleVariables.pRegister;
 
     RegVal  = pRegister->CAP_CTRL[CapIdx];
     RegVal &= ~CAPMASK_MASK;
-    RegVal |= Enable << CAPMASK_POS;
+    RegVal |= Unmask << CAPMASK_POS;
 
     WriteIO32( &pRegister->CAP_CTRL[CapIdx], RegVal );
 }
 
-CBOOL   NX_MPEGTSI_GetCapIntMaskEnable( U32 CapIdx )
+CBOOL   NX_MPEGTSI_GetCapIntMaskClear( U32 CapIdx )
 {
     const U32   CAPMASK_POS  = 26;
     const U32   CAPMASK_MASK = 1UL << CAPMASK_POS;
@@ -746,11 +810,55 @@ CBOOL   NX_MPEGTSI_GetCapIntMaskEnable( U32 CapIdx )
     return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & CAPMASK_MASK) >> CAPMASK_POS);
 }
 
+void    NX_MPEGTSI_SetCapIntClear( U32 CapIdx )
+{
+    const U32   CAPMASK_POS  = 27;
+
+    register struct NX_MPEGTSI_RegisterSet * pRegister;
+    register U32    RegVal;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( CapIdx < 2 );
+
+    pRegister   = __g_ModuleVariables.pRegister;
+
+    RegVal  = pRegister->CAP_CTRL[CapIdx];
+    RegVal |= 1 << CAPMASK_POS;
+
+    WriteIO32( &pRegister->CAP_CTRL[CapIdx], RegVal );
+}
+
+CBOOL   NX_MPEGTSI_GetCapIntStatus( U32 CapIdx )
+{
+    const U32   CAPMASK_POS  = 27;
+    const U32   CAPMASK_MASK = 1UL << CAPMASK_POS;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( CapIdx < 2 );
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->CAP_CTRL[CapIdx] & CAPMASK_MASK) >> CAPMASK_POS);
+}
+
+U32     NX_MPEGTSI_GetCapFifoData( U32 CapIdx  )
+{
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+    NX_ASSERT( CapIdx < 2 );
+
+    return ReadIO32( &__g_ModuleVariables.pRegister->CAP_DATA[CapIdx] );
+}
+
 void    NX_MPEGTSI_SetCPUWrData( U32 WrData )
 {
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
 
     WriteIO32( &__g_ModuleVariables.pRegister->CPU_WRDATA, WrData );
+}
+
+U32     NX_MPEGTSI_GetCPUWrData( void )
+{
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+
+    return ReadIO32( &__g_ModuleVariables.pRegister->CPU_WRDATA );
 }
 
 void    NX_MPEGTSI_SetCPUWrAddr( U32 WrAddr )
@@ -760,7 +868,7 @@ void    NX_MPEGTSI_SetCPUWrAddr( U32 WrAddr )
     WriteIO32( &__g_ModuleVariables.pRegister->CPU_WRADDR, WrAddr );
 }
 
-void    NX_MPEGTSI_SetTsiRun( CBOOL Enable )
+void    NX_MPEGTSI_SetTsiEnable( CBOOL Enable )
 {
     const U32   TSIRUN_POS  = 0;
     const U32   TSIRUN_MASK = 1UL << TSIRUN_POS;
@@ -780,7 +888,7 @@ void    NX_MPEGTSI_SetTsiRun( CBOOL Enable )
     WriteIO32( &pRegister->CTRL0, RegVal );
 }
 
-CBOOL   NX_MPEGTSI_GetTsiRun( void )
+CBOOL   NX_MPEGTSI_GetTsiEnable( void )
 {
     const U32   TSIRUN_POS  = 0;
     const U32   TSIRUN_MASK = 1UL << TSIRUN_POS;
@@ -820,7 +928,7 @@ CBOOL   NX_MPEGTSI_GetTsiEncrypt( void )
     return (CBOOL)((__g_ModuleVariables.pRegister->CTRL0 & TSIENC_MASK) >> TSIENC_POS);
 }
 
-void    NX_MPEGTSI_SetTsiSramSleepEnable( CBOOL Enable )
+void    NX_MPEGTSI_SetTsiSramWakeUp( CBOOL WakeUp )
 {
     const U32   TSISLP_POS  = 6;
     const U32   TSISLP_MASK = 1UL << TSISLP_POS;
@@ -829,18 +937,18 @@ void    NX_MPEGTSI_SetTsiSramSleepEnable( CBOOL Enable )
     register U32    RegVal;
 
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
-    NX_ASSERT( (CTRUE==Enable) || (CFALSE==Enable) );
+    NX_ASSERT( (CTRUE==WakeUp) || (CFALSE==WakeUp) );
 
     pRegister   = __g_ModuleVariables.pRegister;
 
     RegVal  = pRegister->CTRL0;
     RegVal &= ~TSISLP_MASK;
-    RegVal |= (!Enable) << TSISLP_POS;
+    RegVal |= WakeUp << TSISLP_POS;
 
     WriteIO32( &pRegister->CTRL0, RegVal );
 }
 
-CBOOL   NX_MPEGTSI_GetTsiSramSleepEnable( void )
+CBOOL   NX_MPEGTSI_GetTsiSramWakeUp( void )
 {
     const U32   TSISLP_POS  = 6;
     const U32   TSISLP_MASK = 1UL << TSISLP_POS;
@@ -910,7 +1018,7 @@ CBOOL   NX_MPEGTSI_GetTsiIntEnable( void )
     return (CBOOL)((__g_ModuleVariables.pRegister->CTRL0 & TSIINT_MASK) >> TSIINT_POS);
 }
 
-void    NX_MPEGTSI_SetTsiIntMaskEnable( CBOOL Enable )
+void    NX_MPEGTSI_SetTsiIntMaskClear( CBOOL Enable )
 {
     const U32   TSIMASK_POS  = 17;
     const U32   TSIMASK_MASK = 1UL << TSIMASK_POS;
@@ -930,9 +1038,36 @@ void    NX_MPEGTSI_SetTsiIntMaskEnable( CBOOL Enable )
     WriteIO32( &pRegister->CTRL0, RegVal );
 }
 
-CBOOL   NX_MPEGTSI_GetTsiMaskIntEnable( void )
+CBOOL   NX_MPEGTSI_GetTsiIntMaskClear( void )
 {
     const U32   TSIMASK_POS  = 17;
+    const U32   TSIMASK_MASK = 1UL << TSIMASK_POS;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+
+    return (CBOOL)((__g_ModuleVariables.pRegister->CTRL0 & TSIMASK_MASK) >> TSIMASK_POS);
+}
+
+void    NX_MPEGTSI_SetTsiIntClear( void )
+{
+    const U32   TSIMASK_POS  = 18;
+
+    register struct NX_MPEGTSI_RegisterSet * pRegister;
+    register U32    RegVal;
+
+    NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
+
+    pRegister   = __g_ModuleVariables.pRegister;
+
+    RegVal  = pRegister->CTRL0;
+    RegVal |= 1 << TSIMASK_POS;
+
+    WriteIO32( &pRegister->CTRL0, RegVal );
+}
+
+CBOOL   NX_MPEGTSI_GetTsiIntStatus( void )
+{
+    const U32   TSIMASK_POS  = 18;
     const U32   TSIMASK_MASK = 1UL << TSIMASK_POS;
 
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
@@ -953,5 +1088,54 @@ U32     NX_MPEGTSI_GetTsiOutData( void )
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
 
     return (CBOOL)(__g_ModuleVariables.pRegister->TSP_OUTDATA);
+}
+
+U32     NX_MPEGTSI_ByteSwap( U32 Data )
+{
+    U32 SwapData = 0;
+    SwapData = (Data & 0x000000FF)<<24
+             | (Data & 0x0000FF00)<<8
+             | (Data & 0x00FF0000)>>8
+             | (Data & 0xFF000000)>>24;
+
+    return SwapData;
+}
+
+void    NX_MPEGTSI_WritePID( U32 Bank, U32 Type, U32 PidAddr, U32 PidData )
+{
+    U32 CpuWrAddr = ((Bank<<9) | (Type<<7) | PidAddr);
+    NX_MPEGTSI_SetCPUWrAddr( CpuWrAddr );
+    NX_MPEGTSI_SetCPUWrData( PidData );
+}
+
+void    NX_MPEGTSI_WriteAESKEYIV( U32 CwAddr, U32 Cw0, U32 Cw1, U32 Cw2, U32 Cw3,
+                                U32 Iv0, U32 Iv1, U32 Iv2, U32 Iv3 )
+{
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 0), NX_MPEGTSI_ByteSwap(Cw0) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 1), NX_MPEGTSI_ByteSwap(Cw1) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 2), NX_MPEGTSI_ByteSwap(Cw2) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 3), NX_MPEGTSI_ByteSwap(Cw3) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 4), NX_MPEGTSI_ByteSwap(Iv0) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 5), NX_MPEGTSI_ByteSwap(Iv1) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 6), NX_MPEGTSI_ByteSwap(Iv2) );
+    NX_MPEGTSI_WritePID( 2, 1, (CwAddr*8 + 7), NX_MPEGTSI_ByteSwap(Iv3) );
+}
+
+void    NX_MPEGTSI_WriteCASCW( U32 CwAddr, U32 Cw0, U32 Cw1, U32 Cw2, U32 Cw3 )
+{
+    if( CwAddr & 0x1 )
+    {
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 0), NX_MPEGTSI_ByteSwap(Cw0) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 1), NX_MPEGTSI_ByteSwap(Cw1) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 2), NX_MPEGTSI_ByteSwap(Cw2) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 3), NX_MPEGTSI_ByteSwap(Cw3) );
+    }
+    else
+    {
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 4), NX_MPEGTSI_ByteSwap(Cw0) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 5), NX_MPEGTSI_ByteSwap(Cw1) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 6), NX_MPEGTSI_ByteSwap(Cw2) );
+        NX_MPEGTSI_WritePID( 2, 1, ((CwAddr>>1)*8 + 7), NX_MPEGTSI_ByteSwap(Cw3) );
+    }
 }
 

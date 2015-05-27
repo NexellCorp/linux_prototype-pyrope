@@ -59,10 +59,8 @@ U32		NX_MPEGTSI_GetNumberOfModule( void );
 //@{
 U32     NX_MPEGTSI_GetPhysicalAddress( void );
 U32     NX_MPEGTSI_GetSizeOfRegisterSet( void );
-
 void    NX_MPEGTSI_SetBaseAddress( void* BaseAddress );
 void*   NX_MPEGTSI_GetBaseAddress( void );
-
 CBOOL   NX_MPEGTSI_OpenModule( void );
 CBOOL   NX_MPEGTSI_CloseModule( void );
 CBOOL   NX_MPEGTSI_CheckBusy( void );
@@ -94,7 +92,8 @@ U32     NX_MPEGTSI_GetDMABusWidth( void );
 /// @name   Internal DMA Interface
 //@{
 void    NX_MPEGTSI_SetIDMAEnable( U32 ChannelIndex, CBOOL Enable );
-U32     NX_MPEGTSI_GetIDMAEnable( void );
+CBOOL   NX_MPEGTSI_GetIDMAEnable( U32 ChannelIndex );
+CBOOL   NX_MPEGTSI_GetIDMABusyStatus( U32 ChannelIndex );
 void    NX_MPEGTSI_RunIDMA( U32 ChannelIndex );
 void    NX_MPEGTSI_StopIDMA( U32 ChannelIndex );
 void    NX_MPEGTSI_SetIDMABaseAddr( U32 ChannelIndex, U32 BaseAddr );
@@ -103,10 +102,11 @@ void    NX_MPEGTSI_SetIDMALength( U32 ChannelIndex, U32 Length );
 U32     NX_MPEGTSI_GetIDMALength( U32 ChannelIndex );
 void    NX_MPEGTSI_SetIDMAIntEnable( U32 ChannelIndex, CBOOL Enable );
 U32     NX_MPEGTSI_GetIDMAIntEnable( void );
-void    NX_MPEGTSI_SetIDMAIntMask( U32 ChannelIndex, CBOOL Enable );
-U32     NX_MPEGTSI_GetIDMAIntMask( void );
-CBOOL   NX_MPEGTSI_GetIDMAIntPending( U32 ChannelIndex );
-void    NX_MPEGTSI_ClearIDMAIntPending( U32 ChannelIndex );
+void    NX_MPEGTSI_SetIDMAIntMaskClear( U32 ChannelIndex, CBOOL Unmask );
+U32     NX_MPEGTSI_GetIDMAIntMaskClear( void );
+CBOOL   NX_MPEGTSI_GetIDMAIntStatus( U32 ChannelIndex );
+U32     NX_MPEGTSI_GetIDMAIntRawStatus( void );
+void    NX_MPEGTSI_SetIDMAIntClear( U32 ChannelIndex );
 
 //@}
 
@@ -115,6 +115,8 @@ void    NX_MPEGTSI_ClearIDMAIntPending( U32 ChannelIndex );
 //@{
 void    NX_MPEGTSI_SetCapEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetCapEnable( U32 CapIdx );
+void    NX_MPEGTSI_SetBypassEnable( U32 CapIdx, CBOOL Enable );
+CBOOL   NX_MPEGTSI_GetBypassEnable( U32 CapIdx );
 void    NX_MPEGTSI_SetSerialEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetSerialEnable( U32 CapIdx );
 void    NX_MPEGTSI_SetTCLKPolarityEnable( U32 CapIdx, CBOOL Enable );
@@ -126,38 +128,51 @@ CBOOL   NX_MPEGTSI_GetTSYNCPolarityEnable( U32 CapIdx );
 void    NX_MPEGTSI_SetTERRPolarityEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetTERRPolarityEnable( U32 CapIdx );
 void    NX_MPEGTSI_SetCapIntLockEnable( U32 CapIdx, CBOOL Enable );
-void    NX_MPEGTSI_SetCapSramSleepEnable( U32 CapIdx, CBOOL Enable );
-CBOOL   NX_MPEGTSI_GetCapSramSleepEnable( U32 CapIdx );
+void    NX_MPEGTSI_SetCapSramWakeUp( U32 CapIdx, CBOOL WakeOn );
+CBOOL   NX_MPEGTSI_GetCapSramWakeUp( U32 CapIdx );
 void    NX_MPEGTSI_SetCapSramPowerEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetCapSramPowerEnable( U32 CapIdx );
 
 void    NX_MPEGTSI_SetCap1OutputEnable( CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetCap1OutputEnable( void );
 void    NX_MPEGTSI_SetCap1OutTCLKPolarityEnable( CBOOL Enable );
+CBOOL   NX_MPEGTSI_GetCap1OutTCLKPolarityEnable( void );
 CBOOL   NX_MPEGTSI_GetCap1OutPolarityEnable( void );
 
 void    NX_MPEGTSI_SetCapIntLockEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetCapIntLockEnable( U32 CapIdx );
 void    NX_MPEGTSI_SetCapIntEnable( U32 CapIdx, CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetCapIntEnable( U32 CapIdx );
-void    NX_MPEGTSI_SetCapIntMaskEnable( U32 CapIdx, CBOOL Enable );
-CBOOL   NX_MPEGTSI_GetCapIntMaskEnable( U32 CapIdx );
+void    NX_MPEGTSI_SetCapIntMaskClear( U32 CapIdx, CBOOL Unmask );
+CBOOL   NX_MPEGTSI_GetCapIntMaskClear( U32 CapIdx );
+void    NX_MPEGTSI_SetCapIntClear( U32 CapIdx );
+CBOOL   NX_MPEGTSI_GetCapIntStatus( U32 CapIdx );
+U32     NX_MPEGTSI_GetCapFifoData( U32 CapIdx  );
 void    NX_MPEGTSI_SetCPUWrData( U32 WrData );
+U32     NX_MPEGTSI_GetCPUWrData( void );
 void    NX_MPEGTSI_SetCPUWrAddr( U32 WrAddr );
-void    NX_MPEGTSI_SetTsiRun( CBOOL Enable );
-CBOOL   NX_MPEGTSI_GetTsiRun( void );
+void    NX_MPEGTSI_SetTsiEnable( CBOOL Enable );
+CBOOL   NX_MPEGTSI_GetTsiEnable( void );
 void    NX_MPEGTSI_SetTsiEncrypt( CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetTsiEncrypt( void );
-void    NX_MPEGTSI_SetTsiSramSleepEnable( CBOOL Enable );
-CBOOL   NX_MPEGTSI_GetTsiSramSleepEnable( void );
+void    NX_MPEGTSI_SetTsiSramWakeUp( CBOOL WakeUp );
+CBOOL   NX_MPEGTSI_GetTsiSramWakeUp( void );
 void    NX_MPEGTSI_SetTsiSramPowerEnable( CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetTsiSramPowerEnable( void );
 void    NX_MPEGTSI_SetTsiIntEnable( CBOOL Enable );
 CBOOL   NX_MPEGTSI_GetTsiIntEnable( void );
-void    NX_MPEGTSI_SetTsiIntMaskEnable( CBOOL Enable );
-CBOOL   NX_MPEGTSI_GetTsiMaskIntEnable( void );
+void    NX_MPEGTSI_SetTsiIntMaskClear( CBOOL Enable );
+CBOOL   NX_MPEGTSI_GetTsiIntMaskClear( void );
+void    NX_MPEGTSI_SetTsiIntClear( void );
+CBOOL   NX_MPEGTSI_GetTsiIntStatus( void );
 U32     NX_MPEGTSI_GetCapData( U32 CapIdx );
 U32     NX_MPEGTSI_GetTsiOutData( void );
+
+U32     NX_MPEGTSI_ByteSwap( U32 Data );
+void    NX_MPEGTSI_WritePID( U32 Bank, U32 Type, U32 PidAddr, U32 PidData );
+void    NX_MPEGTSI_WriteAESKEYIV( U32 CwAddr, U32 Cw0, U32 Cw1, U32 Cw2, U32 Cw3,
+                                U32 Iv0, U32 Iv1, U32 Iv2, U32 Iv3 );
+void    NX_MPEGTSI_WriteCASCW( U32 CwAddr, U32 Cw0, U32 Cw1, U32 Cw2, U32 Cw3 );
 //@}
 
 
