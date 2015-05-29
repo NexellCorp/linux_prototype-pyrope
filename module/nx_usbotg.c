@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 #include <nx_chip.h>
 #include "nx_usb20otg.h"
-//#include <string.h> // for memset
+#include <string.h> // for memset
 
 static	NX_USB20OTG_RegisterSet *__g_pRegister[NUMBER_OF_USB20OTG_MODULE];
 static	NX_USB20OTG_APB_RegisterSet *__g_pApbRegister[0];
@@ -92,7 +92,7 @@ void	NX_USB20OTG_SetBaseAddress(  U32 ModuleIndex, U32* BaseAddress )
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
  */
-U32*    NX_USB20OTG_GetBaseAddress( U32 ModuleIndex )
+U32*    NX_USB20OTG_GetBaseAddress(U32 ModuleIndex )
 {
     if( ModuleIndex == 0 ) { return (U32*)__g_pRegister[0];	 }
     if( ModuleIndex == 1 ) { return (U32*)__g_pApbRegister[0];	 }
@@ -104,7 +104,7 @@ U32*    NX_USB20OTG_GetBaseAddress( U32 ModuleIndex )
  *	@return		Module's physical address. \n
  *				It is equal to PHY_BASEADDR_USB20OTG?_MODULE in <nx_chip.h>.
  */
-U32 		NX_USB20OTG_GetPhysicalAddress( U32 ModuleIndex  )
+U32 	NX_USB20OTG_GetPhysicalAddress( U32 ModuleIndex  )
 {
     if( ModuleIndex == 0 ) { return PHY_BASEADDR_WITH_CHANNEL_LIST( USB20OTG, AHBS0 ); }
     if( ModuleIndex == 1 ) { return PHY_BASEADDR_WITH_CHANNEL_LIST( USB20OTG, APB ); }
@@ -231,7 +231,7 @@ void	NX_USB20OTG_SetInterruptEnableAll(  CBOOL Enable )
 	regvalue  = Enable ? 0xF77EFCFE : 0 ;
 
 
-	WriteIODW(&pRegister->GINTMSK, regvalue);
+	WriteIO32(&pRegister->GINTMSK, regvalue);
 
 }
 
@@ -284,8 +284,8 @@ void	NX_USB20OTG_ClearInterruptPendingAll(  )
 	register U32 	regvalue;
 	pRegister = __g_pRegister[0];
 	regvalue  = pRegister->GAHBCFG;
-	WriteIODW(&pRegister->GAHBCFG, regvalue & 0xFFFFFFFE);
-	WriteIODW(&pRegister->GINTSTS, 0xFFFFFFFF);
+	WriteIO32(&pRegister->GAHBCFG, regvalue & 0xFFFFFFFE);
+	WriteIO32(&pRegister->GINTSTS, 0xFFFFFFFF);
 }
 
 //------------------------------------------------------------------------------

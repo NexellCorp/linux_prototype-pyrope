@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 #include <nx_chip.h>
 #include "nx_usb20host.h"
-//#include <string.h> // for memset
+#include <string.h> // for memset
 
 static	NX_USB20HOST_RegisterSet *__g_pRegister[0];
 static	NX_USB20HOST_OHCI_RegisterSet *__g_pOhciRegister[0];
@@ -89,10 +89,10 @@ void	NX_USB20HOST_SetBaseAddress( U32 ModuleIndex, U32* BaseAddress )
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
  */
-U32*	NX_USB20HOST_GetBaseAddress( U32 ModuleIndex )
+U32		NX_USB20HOST_GetBaseAddress( U32 ModuleIndex )
 {
     //NX_ASSERT( NUMBER_OF_USB20HOST_MODULE > ModuleIndex );
-	return (U32*)__g_pRegister[ModuleIndex];
+	return (U32)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
@@ -197,60 +197,6 @@ U32 NX_USB20HOST_GetResetNumber ( U32 ModuleIndex )
 	NX_CASSERT( NUMBER_OF_USB20HOST_MODULE == (sizeof(ResetNumber)/sizeof(ResetNumber[0])) );
     //NX_ASSERT( NUMBER_OF_USB20HOST_MODULE > ModuleIndex );
 	return	ResetNumber[ModuleIndex];
-}
-
-
-//------------------------------------------------------------------------------
-//	PAD Interface
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-/**
- *	@brief		Get number of PAD mode
- *	@param[in]	ModuleIndex	an index of module.
- *	@return		number of PAD mode.
- */
-U32 NX_USB20HOST_GetNumberOfPADMode ( U32 ModuleIndex )
-{
-	NX_DISABLE_UNUSED_VAR_WARNING(ModuleIndex);
-	return 1;
-}
-
-//------------------------------------------------------------------------------
-/**
- *	@brief		Enable PAD for a module. 
- *	@param[in]	ModuleIndex	an index of module.
- *	@see		NX_USB20HOST_GetNumberOfPADMode
- */
-U32 NX_USB20HOST_EnablePAD ( U32 ModuleIndex, U32 ModeIndex )
-{
-	U32 i;
-	const U32  PADNumber[][NUMBER_OF_USB20HOST_MODULE] =	{
-	     { PADINDEX_WITH_CHANNEL_LIST( USB20HOST, io_DP0    ) },
-	     { PADINDEX_WITH_CHANNEL_LIST( USB20HOST, io_DM0    ) },
-	     { PADINDEX_WITH_CHANNEL_LIST( USB20HOST, io_RKELVIN) },
-	     { PADINDEX_WITH_CHANNEL_LIST( USB20HOST, io_STROBE1) },
-	     { PADINDEX_WITH_CHANNEL_LIST( USB20HOST, io_DATA1  ) }
-	};
-	NX_CASSERT( NUMBER_OF_USB20HOST_MODULE == (sizeof(PADNumber[0])/sizeof(PADNumber[0][0])) ); 
-	NX_ASSERT( NUMBER_OF_USB20HOST_MODULE > 0 );
-	
-	for(i=0; i<sizeof( PADNumber)/sizeof(PADNumber[0]); i++)
-	{
-//		NX_SWITCHDEVICE_Set_Switch_Enable ( PADNumber[i][0] );
-		NX_PAD_SetPadFunctionEnable       ( PADNumber[i][0], ModeIndex );		
-	}
-	
-	//for(i=7; i<sizeof( PADNumber)/sizeof(PADNumber[0]); i++)
-	//{
-	//	NX_SWITCHDEVICE_Set_Switch_Enable ( PADNumber[i][0] );
-	//	NX_PAD_SetPadFunctionEnable       ( PADNumber[i][0], 0 );		
-	//}
-}
-
-void NX_PAD_SetPadFunctionEnable( U32 PADIndex, U32 ModeIndex )
-{	
-	NX_DISABLE_UNUSED_VAR_WARNING(ModeIndex);
-	NX_GPIO_SetPadFunctionEnable( PADIndex );		
 }
 
 

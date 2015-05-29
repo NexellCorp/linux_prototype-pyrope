@@ -20,31 +20,31 @@ static struct NX_TIEOFF_RegisterSet *__g_pRegister;
 
 CBOOL	NX_TIEOFF_Initialize( void )
 {
-    /* buggy code !!!! */
-#if 0
 	static CBOOL bInit = CFALSE;
 
 	if( CFALSE == bInit )
 	{
-		__g_pRegister =(struct NX_TIEOFF_RegisterSet *) NX_TIEOFF_GetPhysicalAddress();
+		__g_pRegister =(struct NX_TIEOFF_RegisterSet *)CNULL;
 
 		bInit = CTRUE;
 	}
-#endif
+
 	return CTRUE;
 }
 
-void NX_TIEOFF_SetBaseAddress(U32 baseaddr)
+
+void    NX_TIEOFF_SetBaseAddress( void* BaseAddress )
 {
-    __g_pRegister = (struct NX_TIEOFF_RegisterSet *)baseaddr;
+    __g_pRegister = (struct NX_TIEOFF_RegisterSet *)BaseAddress;
 }
 
-U32 NX_TIEOFF_GetPhysicalAddress( void )
+U32     NX_TIEOFF_GetPhysicalAddress( void )
 {
-    const U32 PhysicalAddr[] =  {   PHY_BASEADDR_LIST( TIEOFF )  }; // PHY_BASEADDR_INTC_MODULE
-    NX_CASSERT( 1 == (sizeof(PhysicalAddr)/sizeof(PhysicalAddr[0])) );
-    //NX_ASSERT( PHY_BASEADDR_TIEOFF_MODULE == PhysicalAddr[0] );
-    return (U32)PhysicalAddr[0];
+    const U32 PhysicalAddr[] =  {   PHY_BASEADDR_LIST( TIEOFF )  }; // PHY_BASEADDR_TIEOFF_MODULE
+
+    NX_CASSERT( NUMBER_OF_TIEOFF_MODULE == (sizeof(PhysicalAddr)/sizeof(PhysicalAddr[0])) );
+
+    return (U32)PhysicalAddr[0]; 
 }
 
 //void		NX_TIEOFF_Set(TIEOFFREG_POS Position, TIEOFFREG_BITS BitWidth, U32 tieoff_value)
@@ -57,8 +57,8 @@ U32 NX_TIEOFF_GetPhysicalAddress( void )
 //	mask		= (0xffffffff<<MSB) | (0xffffffff<<(32-LSB));
 //	regval		= (U32)__g_pRegister->TIEOFFREG[regindex] & mask;
 //	regval		= regval & (tieoff_value & ~(0xffffffff<<BitWidth));
-//	WriteIODW(&__g_pRegister->TIEOFFREG[regNum], regval);
-//
+//	WriteIO32(&__g_pRegister->TIEOFFREG[regNum], regval);
+//	
 //}
 //
 //U32		NX_TIEOFF_Get(TIEOFFREG_POS Position, TIEOFFREG_BITS BitWidth)
@@ -71,7 +71,7 @@ U32 NX_TIEOFF_GetPhysicalAddress( void )
 //	mask		= (0xffffffff<<MSB) | (0xffffffff<<(32-LSB));
 //	regval		= (U32)__g_pRegister->TIEOFFREG[regindex];
 //	regval		= (regval>>LSB) | ~(0xffffffff << BitWidth);
-//
+//	
 //	return regval;
 //}
 
@@ -95,7 +95,7 @@ void		NX_TIEOFF_Set(U32 tieoff_index, U32 tieoff_value)
 	mask		= (0xffffffff<<MSB) | (~(0xffffffff<<LSB));
 	regval		= (U32)__g_pRegister->TIEOFFREG[regindex] & mask;
 	regval		= regval | ((tieoff_value & ~(0xffffffff<<BitWidth))<<LSB);
-	WriteIODW(&__g_pRegister->TIEOFFREG[regindex], regval);
+	WriteIO32(&__g_pRegister->TIEOFFREG[regindex], regval);
 }
 
 U32			NX_TIEOFF_Get(U32 tieoff_index)
@@ -116,6 +116,7 @@ U32			NX_TIEOFF_Get(U32 tieoff_index)
 	mask		= (0xffffffff<<MSB) | ~(0xffffffff<<LSB);
 	regval		= (U32)__g_pRegister->TIEOFFREG[regindex] & ~mask;
 	regval		= (regval>>LSB);
-
+	
 	return regval;
 }
+

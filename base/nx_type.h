@@ -85,7 +85,7 @@ typedef S32	CBOOL;							///< boolean type is 32bits signed integer
 //------------------------------------------------------------------------------
 /// @{
 
-#if NX_DEBUG
+#ifdef NX_DEBUG
 #ifndef __GNUC__
 #define NX_CASSERT(expr) typedef char __NX_C_ASSERT__[(expr)?1:-1]
 #else

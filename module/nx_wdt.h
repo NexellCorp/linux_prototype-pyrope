@@ -9,7 +9,7 @@
 //	FOR A PARTICULAR PURPOSE.
 //
 //	Module		: WDT
-//	File		: nx_wdt.h
+//	File			: nx_wdt.h
 //	Description	:
 //	Author		: Jonghyuk Park(charles@nexell.co.kr)
 //	History		: 20120814 first implementation
@@ -20,7 +20,7 @@
 //------------------------------------------------------------------------------
 //  includes
 //------------------------------------------------------------------------------
-#include "nx_prototype.h"
+#include "../base/nx_prototype.h"
 
 #ifdef	__cplusplus
 extern "C"
@@ -41,14 +41,14 @@ struct NX_WDT_RegisterSet
 //------------------------------------------------------------------------------
 /// enum
 //------------------------------------------------------------------------------
-//enum
-//{
-//	NX_WDT_FFLV_INTR_EN			= 15,	///< FIFO_level interrupt enable bitnum
-//	NX_WDT_USDA_INTR_EN			= 10,	///< User data interrupt enable bitnum
-//	NX_WDT_BFEM_INTR_EN			= 8,	///< Buffer enpty interrupt enable bitnum
-//	NX_WDT_STED_INTR_EN			= 6		///< Stream end interrupt enable bitnum
-//};
-
+typedef enum
+{
+	WDT_CLOCK_DIV16	 = 0,
+	WDT_CLOCK_DIV32  = 1,
+	WDT_CLOCK_DIV64  = 2,
+	WDT_CLOCK_DIV128 = 3
+	
+} NX_WDT_CLOCK_DIV;
 
 //------------------------------------------------------------------------------
 /// @name	Module Interface
@@ -62,8 +62,8 @@ U32		NX_WDT_GetNumberOfModule( void );
 //@{
 U32		NX_WDT_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_WDT_GetSizeOfRegisterSet( void );
-void	NX_WDT_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_WDT_GetBaseAddress( U32 ModuleIndex );
+void	NX_WDT_SetBaseAddress( U32 ModuleIndex, U32* BaseAddress );
+U32*	NX_WDT_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_WDT_OpenModule( U32 ModuleIndex );
 CBOOL	NX_WDT_CloseModule( U32 ModuleIndex );
 CBOOL	NX_WDT_CheckBusy( U32 ModuleIndex );
@@ -103,18 +103,21 @@ void	NX_WDT_ClearInterruptPending( U32 ModuleIndex, U32 IntNum );
 /// @name	Configuration operations
 //--------------------------------------------------------------------------
 //@{
-void	NX_WDT_SetWTCON( U32 ModuleIndex, U32 value );
-U32		NX_WDT_GetWTCON( U32 ModuleIndex );
+void	NX_WDT_SetPrescaler( U32 ModuleIndex, U8 Prescaler );
+U8		NX_WDT_GetPrescaler( U32 ModuleIndex );
+void				NX_WDT_SetClockDivide( U32 ModuleIndex, NX_WDT_CLOCK_DIV ClkSel );
+NX_WDT_CLOCK_DIV	NX_WDT_GetClockDivide( U32 ModuleIndex );
 
-void NX_WDT_SetResetEnable( U32 ModuleIndex, CBOOL enable );
+void	NX_WDT_SetEnable( U32 ModuleIndex, CBOOL Enable );
+CBOOL	NX_WDT_GetEnable( U32 ModuleIndex );
+void	NX_WDT_SetResetEnable( U32 ModuleIndex, CBOOL Enable );
+CBOOL	NX_WDT_GetResetEnable( U32 ModuleIndex );
 
-void	NX_WDT_SetWTDAT( U32 ModuleIndex, U32 value );
-U32		NX_WDT_GetWTDAT( U32 ModuleIndex );
-
-void	NX_WDT_SetWTCNT( U32 ModuleIndex, U32 value );
-U32		NX_WDT_GetWTCNT( U32 ModuleIndex );
-
-void	NX_WDT_SetWTCLRINT( U32 ModuleIndex, U32 value );
+void	NX_WDT_SetReloadCount( U32 ModuleIndex, U16 ReloadData );
+U16		NX_WDT_GetReloadCount( U32 ModuleIndex );
+void	NX_WDT_SetCurrentCount( U32 ModuleIndex, U16 CurData );
+U16		NX_WDT_GetCurrentCount( U32 ModuleIndex );
+	
 //@}
 
 #ifdef	__cplusplus

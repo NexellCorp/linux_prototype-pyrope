@@ -139,8 +139,8 @@ U32		NX_GPIO_GetNumberOfModule( void );
 //@{
 U32		NX_GPIO_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_GPIO_GetSizeOfRegisterSet( void );
-void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_GPIO_GetBaseAddress( U32 ModuleIndex );
+void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*	NX_GPIO_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_GPIO_OpenModule( U32 ModuleIndex );
 CBOOL	NX_GPIO_CloseModule( U32 ModuleIndex );
 CBOOL	NX_GPIO_CheckBusy( U32 ModuleIndex );
