@@ -62,8 +62,8 @@ U32		NX_WDT_GetNumberOfModule( void );
 //@{
 U32		NX_WDT_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_WDT_GetSizeOfRegisterSet( void );
-void	NX_WDT_SetBaseAddress( U32 ModuleIndex, U32* BaseAddress );
-U32*	NX_WDT_GetBaseAddress( U32 ModuleIndex );
+void	NX_WDT_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*	NX_WDT_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_WDT_OpenModule( U32 ModuleIndex );
 CBOOL	NX_WDT_CloseModule( U32 ModuleIndex );
 CBOOL	NX_WDT_CheckBusy( U32 ModuleIndex );
