@@ -1404,35 +1404,6 @@ NX_GPIO_DRVSTRENGTH		NX_GPIO_GetDriveStrength	( U32 ModuleIndex, U32 BitNumber )
 
 //------------------------------------------------------------------------------
 /**
- *	@brief		Set GPIO PullEnb
- *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
- *	@param[in]	BitNumber		Bit number ( 0 ~ 31 )
- *	@param[in]	PullEnb			CTRUE: pull enable, CFALSE: pull disable
- *   @parma[in]  updown			0 : Pull Down	1: Pull Up	2: PullEnb - Disable 
- *	@return		None
- */
-void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL PullSel )
-{
-	register struct NX_GPIO_RegisterSet	*pRegister;
-
-	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
-
-	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
-
-	NX_ASSERT( CNULL != pRegister );
-
-	if( PullSel == NX_GPIO_PULL_DOWN || PullSel == NX_GPIO_PULL_UP  )
-	{
-		NX_GPIO_SetBit(&pRegister->GPIOx_PULLSEL, BitNumber, (CBOOL)PullSel);
-		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
-	}
-	else
-		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CFALSE);
-}
-
-
-//------------------------------------------------------------------------------
-/**
  *	@brief		Set GPIO PullSel
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
