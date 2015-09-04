@@ -196,7 +196,7 @@ CBOOL			NX_GPIO_GetOutputValue	( U32 ModuleIndex, U32 BitNumber );
 void			NX_GPIO_SetOutputValue32	( U32 ModuleIndex, U32 Value );
 U32				NX_GPIO_GetOutputValue32	( U32 ModuleIndex );
 CBOOL			NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber );
-void			NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode);
+void			NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL mode);
 void			NX_GPIO_SetPullSelect ( U32 ModuleIndex, U32 BitNumber, CBOOL enable);
 CBOOL			NX_GPIO_GetPullSelect ( U32 ModuleIndex, U32 BitNumber );
 void			NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value );
