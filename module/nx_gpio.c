@@ -928,7 +928,7 @@ U32		NX_GPIO_GetPullSelect32 ( U32 ModuleIndex )
 	return __g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL;
 }
 
-void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode)
+void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL mode)
 {
 	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
 	NX_ASSERT( (0==mode) || (1==mode) || (2==mode) );
@@ -937,7 +937,7 @@ void	NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode)
 	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLSEL_DISABLE_DEFAULT, BitNumber, CTRUE );
 	NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CTRUE );
 
-	if (mode == NX_GPIO_PADPULL_OFF)
+	if (mode == NX_GPIO_PULL_OFF)
 	{
 //NX_GPIO_SetBit( &__g_ModuleVariables[ModuleIndex].pRegister->GPIOx_PULLENB_DISABLE_DEFAULT, BitNumber, CFALSE );
 
