@@ -226,6 +226,18 @@ void	NX_GPIO_SetDRV0	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetDRV0	( U32 ModuleIndex );
 void	NX_GPIO_SetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex );
+
+void	NX_GPIO_SetSlew	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+CBOOL	NX_GPIO_GetSlew	( U32 ModuleIndex, U32 BitNumber );
+void	NX_GPIO_SetSlewDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+
+void	NX_GPIO_SetSlew32	( U32 ModuleIndex, U32 Value );
+U32		NX_GPIO_GetSlew32	( U32 ModuleIndex );
+void	NX_GPIO_SetDriveStrength(U32 ModuleIndex, U32 BitNumber, NX_GPIO_DRVSTRENGTH drvstrength);
+NX_GPIO_DRVSTRENGTH		NX_GPIO_GetDriveStrength(U32 ModuleIndex, U32 BitNumber);
+void	NX_GPIO_SetDriveStrengthDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+
+
 void	NX_GPIO_SetPULLSEL	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetPULLSEL	( U32 ModuleIndex );
 void	NX_GPIO_SetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value );

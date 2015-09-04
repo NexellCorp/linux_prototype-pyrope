@@ -1250,6 +1250,189 @@ U32		NX_GPIO_GetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex )
 
 //------------------------------------------------------------------------------
 /**
+ *	@brief		Set GPIO Slew
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@param[in]	BitNumber	Bit number ( 0 ~ 31 )
+ *	@param[in]	Enable		Slew On/Off
+ *	@return		None
+ */
+void		NX_GPIO_SetSlew	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	NX_GPIO_SetBit(&pRegister->GPIOx_SLEW, BitNumber, Enable);
+}
+
+void		NX_GPIO_SetSlewDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	NX_GPIO_SetBit(&pRegister->GPIOx_SLEW_DISABLE_DEFAULT, BitNumber, Enable);
+}
+
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get GPIO Slew
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@return		CTRUE	indicate that GPIO's slew is turned on.
+ *				CFALSE	indicate that GPIO's slew is turned off.
+ */
+CBOOL		NX_GPIO_GetSlew	( U32 ModuleIndex, U32 BitNumber )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	return (CBOOL)NX_GPIO_GetBit(ReadIO32(&pRegister->GPIOx_SLEW), BitNumber);
+}
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set GPIO Slew
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@param[in]	Value			32bit input data
+ *	@return		None
+ */
+void		NX_GPIO_SetSlew32	( U32 ModuleIndex, U32 Value )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	WriteIO32(&pRegister->GPIOx_SLEW, Value );
+}
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get GPIO Slew
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@return		GPIO slew value
+ */
+U32		NX_GPIO_GetSlew32	( U32 ModuleIndex )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	return ReadIO32(&pRegister->GPIOx_SLEW);
+}
+
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set GPIO Drive Strength
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@param[in]	BitNumber	Bit number ( 0 ~ 31 )
+ *	@param[in]	DriveStrength
+ *	@return		None
+ */
+void		NX_GPIO_SetDriveStrength	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_DRVSTRENGTH drvstrength)
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	NX_GPIO_SetBit(&pRegister->GPIOx_DRV1, BitNumber, (CBOOL)(((U32)drvstrength>>0) & 0x1));
+	NX_GPIO_SetBit(&pRegister->GPIOx_DRV0, BitNumber, (CBOOL)(((U32)drvstrength>>1) & 0x1));
+}
+
+void		NX_GPIO_SetDriveStrengthDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	NX_GPIO_SetBit(&pRegister->GPIOx_DRV1_DISABLE_DEFAULT, BitNumber, (CBOOL)(Enable) );
+	NX_GPIO_SetBit(&pRegister->GPIOx_DRV0_DISABLE_DEFAULT, BitNumber, (CBOOL)(Enable) );
+}
+
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get GPIO Drive Strength
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@param[in]	BitNumber	Bit number ( 0 ~ 31 )
+ *	@return		GPIO GPIO Drive Strength
+ */
+NX_GPIO_DRVSTRENGTH		NX_GPIO_GetDriveStrength	( U32 ModuleIndex, U32 BitNumber )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+	register U32 retvalue;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	retvalue  = NX_GPIO_GetBit(ReadIO32(&pRegister->GPIOx_DRV0), BitNumber)<<1;
+	retvalue |= NX_GPIO_GetBit(ReadIO32(&pRegister->GPIOx_DRV1), BitNumber)<<0;
+
+	return (NX_GPIO_DRVSTRENGTH)retvalue;
+}
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set GPIO PullEnb
+ *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC, 3:GPIOD, 4:GPIOE )
+ *	@param[in]	BitNumber		Bit number ( 0 ~ 31 )
+ *	@param[in]	PullEnb			CTRUE: pull enable, CFALSE: pull disable
+ *   @parma[in]  updown			0 : Pull Down	1: Pull Up	2: PullEnb - Disable 
+ *	@return		None
+ */
+void	NX_GPIO_SetPullEnable	( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL PullSel )
+{
+	register struct NX_GPIO_RegisterSet	*pRegister;
+
+	NX_ASSERT( NUMBER_OF_GPIO_MODULE > ModuleIndex );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	NX_ASSERT( CNULL != pRegister );
+
+	if( PullSel == NX_GPIO_PULL_DOWN || PullSel == NX_GPIO_PULL_UP  )
+	{
+		NX_GPIO_SetBit(&pRegister->GPIOx_PULLSEL, BitNumber, (CBOOL)PullSel);
+		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CTRUE );
+	}
+	else
+		NX_GPIO_SetBit(&pRegister->GPIOx_PULLENB, BitNumber, CFALSE);
+}
+
+
+//------------------------------------------------------------------------------
+/**
  *	@brief		Set GPIO PullSel
  *	@param[in]	ModuleIndex		A index of module. (0:GPIOA, 1:GPIOB, 2:GPIOC )
  *	@param[in]	Value			32bit input data
