@@ -810,7 +810,7 @@ NX_VIP_SetHVSync
 	WriteIO32(&pRegister->VIP_CONFIG, (U16)temp);
 
 	temp = (U32)pRegister->VIP_SYNCCTRL;
-	temp |= 0x0300;		// EXTHSPOL = EXTVSPOL = 1
+/*	temp |= 0x0300;		// EXTHSPOL = EXTVSPOL = 1 */
 
 //	pRegister->VIP_SYNCCTRL = (U16)temp;
 	WriteIO32(&pRegister->VIP_SYNCCTRL, (U16)temp);
