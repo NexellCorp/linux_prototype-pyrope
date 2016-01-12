@@ -31,7 +31,7 @@ CBOOL	NX_CLKGEN_Initialize( void )
 	{
 		for( i=0; i < NUMBER_OF_CLKGEN_MODULE; i++ )
 		{
-			__g_ModuleVariables[i] = CNULL;
+			__g_ModuleVariables[i] = (struct NX_CLKGEN_RegisterSet*)CNULL;
 		}
 
 		bInit = CTRUE;

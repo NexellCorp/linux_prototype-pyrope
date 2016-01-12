@@ -453,7 +453,6 @@ extern "C"
 #define  HDMI_CEC_FILTER_CTRL         (OTHER_ADDR_OFFSET + 0x00000180)    //CEC Filter control register                                                     0x81
 #define  HDMI_CEC_FILTER_TH           (OTHER_ADDR_OFFSET + 0x00000184)    //CEC Filter Threshold register                                                   0x03
 
-
 // HDMI는 각 비트별로.. 8비트까지 사용한다.
 // PHY는 (1MB+2KB ~ 1MB+4KB)
 #define HDMI_PHY_OFFSET 0x400 // [19:10] == 0x01

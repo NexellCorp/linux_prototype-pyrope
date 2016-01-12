@@ -171,7 +171,6 @@ void	NX_DISPTOP_CLKGEN_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 	regvalue &= ~(1UL<<PCLKMODE_POS);
 	regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
 
-//	__g_pRegister->CLKENB = regvalue;
 	WriteIO32(&__g_pRegister->CLKENB, regvalue);
 }
 

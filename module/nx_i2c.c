@@ -883,7 +883,6 @@ void        NX_I2C_ControlMode ( U32 ModuleIndex, NX_I2C_TXRXMODE TxRxMode, NX_I
     const U32   TX_RX_POS       =   6;
     const U32   ST_BUSY_POS     =   5;
     const U32   TXRX_ENB_MASK   =   1UL << 4;
-    //const U32   ST_ENB_MASK     =   1UL << 12;
 
     register struct NX_I2C_RegisterSet*    pRegister;
     register U32    temp;
@@ -894,13 +893,9 @@ void        NX_I2C_ControlMode ( U32 ModuleIndex, NX_I2C_TXRXMODE TxRxMode, NX_I
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
-
-    //temp = pRegister->ICSR & 0x1F0F;
+	
     temp = pRegister->ICSR & 0x0F;
 
-    // State enable ÀÌ ¹»±î??
-    //pRegister->ICSR =   ( temp | (TxRxMode<<TX_RX_POS) | (Signal<<ST_BUSY_POS) | TXRX_ENB_MASK | ST_ENB_MASK );
-    //WriteIO32(&pRegister->ICSR , ( temp | (TxRxMode<<TX_RX_POS) | (Signal<<ST_BUSY_POS) | TXRX_ENB_MASK | ST_ENB_MASK ));
     WriteIO32(&pRegister->ICSR , ( temp | (TxRxMode<<TX_RX_POS) | (Signal<<ST_BUSY_POS) | TXRX_ENB_MASK ));
 }
 
