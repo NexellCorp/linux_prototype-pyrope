@@ -427,7 +427,7 @@ extern "C"
 	//};
 	CBOOL		NX_TIEOFF_Initialize(void);
 	U32			NX_TIEOFF_GetPhysicalAddress(void);
-    void        NX_TIEOFF_SetBaseAddress(U32 baseaddr);
+    void        NX_TIEOFF_SetBaseAddress( void* BaseAddr );
 	//void		NX_TIEOFF_Set(TIEOFFREG_POS Position, TIEOFFREG_BITS BitWidth, U32 tieoff_value);
 	//U32			NX_TIEOFF_Get(TIEOFFREG_POS Position, TIEOFFREG_BITS BitWidth);
 	void		NX_TIEOFF_Set(U32 tieoff_index, U32 tieoff_value);

@@ -53,8 +53,8 @@ extern "C"
 	U32			NX_CLKGEN_GetNumberOfModule( void );
 	U32 		NX_CLKGEN_GetPhysicalAddress( U32 ModuleIndex );
 	U32			NX_CLKGEN_GetSizeOfRegisterSet( void );
-	void		NX_CLKGEN_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-	U32			NX_CLKGEN_GetBaseAddress( U32 ModuleIndex );
+	void		NX_CLKGEN_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+	void*		NX_CLKGEN_GetBaseAddress( U32 ModuleIndex );
 
 	void		NX_CLKGEN_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode );
 	NX_PCLKMODE	NX_CLKGEN_GetClockPClkMode( U32 ModuleIndex );

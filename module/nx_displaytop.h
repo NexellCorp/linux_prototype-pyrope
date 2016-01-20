@@ -293,15 +293,6 @@ struct NX_DISPLAYTOP_RegisterSet
 };
 
 
-
-
-
-
-
-
-
-
-
 //------------------------------------------------------------------------------
 /// @name	Module Interface
 //@{
@@ -316,8 +307,8 @@ U32		NX_DISPLAYTOP_GetNumberOfModule( void );
 
 U32		NX_DISPLAYTOP_GetPhysicalAddress   ( void );
 U32		NX_DISPLAYTOP_GetSizeOfRegisterSet ( void );
-void	NX_DISPLAYTOP_SetBaseAddress       ( U32 BaseAddress );
-U32		NX_DISPLAYTOP_GetBaseAddress       ( void );
+void	NX_DISPLAYTOP_SetBaseAddress       ( void* BaseAddress );
+void*	NX_DISPLAYTOP_GetBaseAddress       ( void );
 CBOOL	NX_DISPLAYTOP_OpenModule           ( void );
 CBOOL	NX_DISPLAYTOP_CloseModule          ( void );
 CBOOL	NX_DISPLAYTOP_CheckBusy            ( void );

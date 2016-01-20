@@ -31,8 +31,8 @@ static	struct
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicates that Initialize is successed.\r\n
- *			\b CFALSE	indicates that Initialize is failed.\r\n
+ *	@return CTRUE	indicates that Initialize is successed.
+ *			CFALSE	indicates that Initialize is failed.
  *	@see	NX_I2S_GetNumberOfModule
  */
 CBOOL	NX_I2S_Initialize( void )
@@ -70,10 +70,6 @@ U32		NX_I2S_GetNumberOfModule( void )
 /**
  *	@brief		Get module's physical address.
  *	@return		Module's physical address
- *	@see		NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
  */
 U32		NX_I2S_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -91,10 +87,6 @@ U32		NX_I2S_GetPhysicalAddress( U32 ModuleIndex )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_I2S_GetPhysicalAddress,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
  */
 U32		NX_I2S_GetSizeOfRegisterSet( void )
 {
@@ -106,12 +98,8 @@ U32		NX_I2S_GetSizeOfRegisterSet( void )
  *	@brief		Set a base address of register set.
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
  */
-void	NX_I2S_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_I2S_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
@@ -123,27 +111,19 @@ void	NX_I2S_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
 /**
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
  */
-U32		NX_I2S_GetBaseAddress( U32 ModuleIndex )
+void*	NX_I2S_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicates that Initialize is successed. \r\n
- *				\b CFALSE	indicates that Initialize is failed.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
+ *	@return		CTRUE	indicates that Initialize is successed. 
+ *				CFALSE	indicates that Initialize is failed.
  */
 CBOOL	NX_I2S_OpenModule( U32 ModuleIndex )
 {
@@ -155,12 +135,8 @@ CBOOL	NX_I2S_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicates that Deinitialize is successed. \r\n
- *				\b CFALSE	indicates that Deinitialize is failed.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,
- *				NX_I2S_CheckBusy,			NX_I2S_CanPowerDown
+ *	@return		CTRUE	indicates that Deinitialize is successed. 
+ *				CFALSE	indicates that Deinitialize is failed.
  */
 CBOOL	NX_I2S_CloseModule( U32 ModuleIndex )
 {
@@ -172,12 +148,8 @@ CBOOL	NX_I2S_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicates that Module is Busy. \r\n
- *				\b CFALSE	indicates that Module is NOT Busy.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CanPowerDown
+ *	@return		CTRUE	indicates that Module is Busy. 
+ *				CFALSE	indicates that Module is NOT Busy.
  */
 CBOOL	NX_I2S_CheckBusy( U32 ModuleIndex )
 {
@@ -189,12 +161,8 @@ CBOOL	NX_I2S_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicaes whether the selected modules is ready to enter power-down stage
- *	@return		\b CTRUE	indicates that Ready to enter power-down stage. \r\n
- *				\b CFALSE	indicates that This module can't enter to power-down stage.
- *	@see		NX_I2S_GetPhysicalAddress,	NX_I2S_GetSizeOfRegisterSet,
- *				NX_I2S_SetBaseAddress,		NX_I2S_GetBaseAddress,
- *				NX_I2S_OpenModule,			NX_I2S_CloseModule,
- *				NX_I2S_CheckBusy
+ *	@return		CTRUE	indicates that Ready to enter power-down stage. 
+ *				CFALSE	indicates that This module can't enter to power-down stage.
  */
 CBOOL	NX_I2S_CanPowerDown( U32 ModuleIndex )
 {
@@ -209,7 +177,6 @@ CBOOL	NX_I2S_CanPowerDown( U32 ModuleIndex )
 /**
  *	@brief	Get DMA peripheral index of I2S controller's DMA number
  *	@return DMA peripheral index of I2S controller's DMA number
- *	@see	NX_I2S_GetDMAIndex_PCMOut, NX_I2S_GetDMANumber, NX_I2S_GetDMABusWidth
  */
 U32		NX_I2S_GetDMAIndex_PCMIn( U32 ModuleIndex )
 {
@@ -226,7 +193,6 @@ U32		NX_I2S_GetDMAIndex_PCMIn( U32 ModuleIndex )
 /**
  *	@brief	Get DMA peripheral index of I2S controller's DMA number
  *	@return DMA peripheral index of I2S controller's DMA number
- *	@see	NX_I2S_GetDMAIndex_PCMIn, NX_I2S_GetDMANumber, NX_I2S_GetDMABusWidth
  */
 U32		NX_I2S_GetDMAIndex_PCMOut( U32 ModuleIndex )
 {
@@ -243,7 +209,6 @@ U32		NX_I2S_GetDMAIndex_PCMOut( U32 ModuleIndex )
 /**
  *	@brief		Get bus width of I2S controller
  *	@return		DMA bus width of I2S controller.
- *	@see		NX_I2S_GetDMAIndex_PCMIn, NX_I2S_GetDMAIndex_PCMOut
  */
 U32		NX_I2S_GetDMABusWidth( U32 ModuleIndex )
 {
@@ -273,7 +238,6 @@ U32		NX_I2S_GetClockNumber( U32 ModuleIndex )
  *  @param[in]  ModuleIndex		A index of module.
  *  @return     Current reset number
  *  @remarks
- *  @see        NX_I2S_GetClockNumber
  */
 U32     NX_I2S_GetResetNumber( U32 ModuleIndex )
 {
@@ -359,7 +323,7 @@ void    NX_I2S_TxDmaPauseEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~TDP_MASK;
     RegVal     |= Enable<<TDP_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_RxDmaPauseEnable( U32 ModuleIndex, CBOOL Enable )
@@ -378,7 +342,7 @@ void    NX_I2S_RxDmaPauseEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~RDP_MASK;
     RegVal     |= Enable<<RDP_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_TxChPauseEnable( U32 ModuleIndex, CBOOL Enable )
@@ -397,7 +361,7 @@ void    NX_I2S_TxChPauseEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~TCP_MASK;
     RegVal     |= Enable<<TCP_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_RxChPauseEnable( U32 ModuleIndex, CBOOL Enable )
@@ -416,7 +380,7 @@ void    NX_I2S_RxChPauseEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~RCP_MASK;
     RegVal     |= Enable<<RCP_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_TxDmaEnable( U32 ModuleIndex, CBOOL Enable )
@@ -435,7 +399,7 @@ void    NX_I2S_TxDmaEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~TXD_MASK;
     RegVal     |= Enable<<TXD_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_RxDmaEnable( U32 ModuleIndex, CBOOL Enable )
@@ -454,7 +418,7 @@ void    NX_I2S_RxDmaEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~RXD_MASK;
     RegVal     |= Enable<<RXD_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
 
 void    NX_I2S_I2SEnable( U32 ModuleIndex, CBOOL Enable )
@@ -473,8 +437,23 @@ void    NX_I2S_I2SEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~ACT_MASK;
     RegVal     |= Enable<<ACT_POS;
 
-    WriteIODW(&pRegister->CON, RegVal);
+    WriteIO32(&pRegister->CON, RegVal);
 }
+
+U32    NX_I2S_GetI2SEnable( U32 ModuleIndex )
+{
+    const U32 ACT_POS   = 0;
+    const U32 ACT_MASK  = 1UL<<ACT_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->CON >>ACT_POS) & ACT_MASK;
+}
+
 
 // i2s mod
 void    NX_I2S_SetBitLengthControl( U32 ModuleIndex, NX_I2S_BLC BitLength )
@@ -493,8 +472,23 @@ void    NX_I2S_SetBitLengthControl( U32 ModuleIndex, NX_I2S_BLC BitLength )
     RegVal     &= ~BLC_MASK;
     RegVal     |= BitLength<<BLC_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
+
+ U32   NX_I2S_GetBitLengthControl( U32 ModuleIndex )
+{
+    const U32 BLC_POS   = 13;
+    const U32 BLC_MASK  = 3UL<<BLC_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->MOD & BLC_MASK) >> BLC_POS;
+}
+
 
 void    NX_I2S_CodecClockDisable( U32 ModuleIndex, CBOOL Disable )
 {
@@ -512,8 +506,23 @@ void    NX_I2S_CodecClockDisable( U32 ModuleIndex, CBOOL Disable )
     RegVal     &= ~CCE_MASK;
     RegVal     |= Disable<<CCE_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
+
+U32    NX_I2S_GetCodecClockDisable( U32 ModuleIndex )
+{
+    const U32 CCE_POS   = 12;
+    const U32 CCE_MASK  = 1UL<<CCE_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	return (pRegister->MOD & CCE_MASK) >> CCE_POS;
+}
+
 
 void    NX_I2S_SetMasterSlaveMode( U32 ModuleIndex, NX_I2S_IMS Mode )
 {
@@ -531,9 +540,22 @@ void    NX_I2S_SetMasterSlaveMode( U32 ModuleIndex, NX_I2S_IMS Mode )
     RegVal     &= ~IMS_MASK;
     RegVal     |= Mode<<IMS_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
 
+U32    NX_I2S_GetMasterSlaveMode( U32 ModuleIndex )
+{
+    const U32 IMS_POS   = 10;
+    const U32 IMS_MASK  = 3UL<<IMS_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->MOD & IMS_MASK) >> IMS_POS;
+}
 void    NX_I2S_SetTxRxMode( U32 ModuleIndex, NX_I2S_TXR Mode )
 {
     const U32 TXR_POS   = 8;
@@ -550,10 +572,25 @@ void    NX_I2S_SetTxRxMode( U32 ModuleIndex, NX_I2S_TXR Mode )
     RegVal     &= ~TXR_MASK;
     RegVal     |= Mode<<TXR_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
 
-void    NX_I2S_SetLRClockPoarity( U32 ModuleIndex, NX_I2S_LRP Polarity )
+ U32   NX_I2S_GetTxRxMode( U32 ModuleIndex )
+{
+    const U32 TXR_POS   = 8;
+    const U32 TXR_MASK  = 3UL<<TXR_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->MOD & TXR_MASK) >> TXR_POS;
+}
+
+
+void    NX_I2S_SetLRClockPolarity( U32 ModuleIndex, NX_I2S_LRP Polarity )
 {
     const U32 LRP_POS   = 7;
     const U32 LRP_MASK  = 1UL<<LRP_POS;
@@ -569,8 +606,23 @@ void    NX_I2S_SetLRClockPoarity( U32 ModuleIndex, NX_I2S_LRP Polarity )
     RegVal     &= ~LRP_MASK;
     RegVal     |= Polarity<<LRP_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
+
+ U32   NX_I2S_GetLRClockPolarity( U32 ModuleIndex )
+{
+    const U32 LRP_POS   = 7;
+    const U32 LRP_MASK  = 1UL<<LRP_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->MOD & LRP_MASK) >> LRP_POS;
+}
+
 
 void    NX_I2S_SetSerialDataFormat( U32 ModuleIndex, NX_I2S_SDF DataFormat )
 {
@@ -588,7 +640,21 @@ void    NX_I2S_SetSerialDataFormat( U32 ModuleIndex, NX_I2S_SDF DataFormat )
     RegVal     &= ~SDF_MASK;
     RegVal     |= DataFormat<<SDF_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
+}
+
+ U32   NX_I2S_GetSerialDataFormat( U32 ModuleIndex )
+{
+    const U32 SDF_POS   = 5;
+    const U32 SDF_MASK  = 3UL<<SDF_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+    return (pRegister->MOD & SDF_MASK) >> SDF_POS;
 }
 
 void    NX_I2S_SetRootClockFrequency( U32 ModuleIndex, NX_I2S_ROOTCLOCK RootClock )
@@ -607,8 +673,25 @@ void    NX_I2S_SetRootClockFrequency( U32 ModuleIndex, NX_I2S_ROOTCLOCK RootCloc
     RegVal     &= ~RFS_MASK;
     RegVal     |= RootClock<<RFS_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
 }
+
+ U32   NX_I2S_GetRootClockFrequency( U32 ModuleIndex )
+{
+    const U32 RFS_POS   = 3;
+    const U32 RFS_MASK  = 3UL<<RFS_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+    register U32 RegVal;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+	RegVal		= (pRegister->MOD & RFS_MASK) >> RFS_POS;
+
+    return RegVal;
+}
+
 
 void    NX_I2S_SetBitClockFrequency( U32 ModuleIndex, NX_I2S_BITCLOCK BitClock )
 {
@@ -626,7 +709,24 @@ void    NX_I2S_SetBitClockFrequency( U32 ModuleIndex, NX_I2S_BITCLOCK BitClock )
     RegVal     &= ~BFS_MASK;
     RegVal     |= BitClock<<BFS_POS;
 
-    WriteIODW(&pRegister->MOD, RegVal);
+    WriteIO32(&pRegister->MOD, RegVal);
+}
+
+ U32   NX_I2S_GetBitClockFrequency( U32 ModuleIndex )
+{
+    const U32 BFS_POS   = 1;
+    const U32 BFS_MASK  = 3UL<<BFS_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+    register U32 RegVal;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+	RegVal		= (pRegister->MOD & BFS_MASK) >> BFS_POS;
+
+    return RegVal;
+
 }
 
 // fifo control
@@ -646,7 +746,7 @@ void    NX_I2S_TxFifoFlushEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~TFL_MASK;
     RegVal     |= Enable<<TFL_POS;
 
-    WriteIODW(&pRegister->FIC, RegVal);
+    WriteIO32(&pRegister->FIC, RegVal);
 }
 
 U32     NX_I2S_GetTxFifoDataCount( U32 ModuleIndex )
@@ -675,7 +775,7 @@ void    NX_I2S_RxFifoFlushEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~RFL_MASK;
     RegVal     |= Enable<<RFL_POS;
 
-    WriteIODW(&pRegister->FIC, RegVal);
+    WriteIO32(&pRegister->FIC, RegVal);
 }
 
 U32     NX_I2S_GetRxFifoDataCount( U32 ModuleIndex )
@@ -705,12 +805,27 @@ void    NX_I2S_PrescalerEnable( U32 ModuleIndex, CBOOL Enable )
     RegVal     &= ~PSE_MASK;
     RegVal     |= Enable<<PSE_POS;
 
-    WriteIODW(&pRegister->PSR, RegVal);
+    WriteIO32(&pRegister->PSR, RegVal);
+}
+
+U32    	NX_I2S_GetPrescalerEnable( U32 ModuleIndex )
+{
+    const U32 PSE_POS   = 15;
+    const U32 PSE_MASK  = 1UL<<PSE_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	return (pRegister->PSR & PSE_MASK) >> PSE_POS;
 }
 
 void    NX_I2S_SetPrescalerValue( U32 ModuleIndex, U32 PsVal )
 {
-    const U32 PSV_MASK  = 0xFF;
+    const U32 PSV_POS  = 8;
+	const U32 PSV_MASK = 0x3F << PSV_POS;
 
     register struct NX_I2S_RegisterSet* pRegister;
     register U32 RegVal;
@@ -722,34 +837,52 @@ void    NX_I2S_SetPrescalerValue( U32 ModuleIndex, U32 PsVal )
 
     RegVal      = pRegister->PSR;
     RegVal     &= ~PSV_MASK;
-    RegVal     |= PsVal;
+    RegVal     |= (PsVal-1) << PSV_POS;
 
-    WriteIODW(&pRegister->PSR, RegVal);
+    WriteIO32(&pRegister->PSR, RegVal);
 }
+
+U32    NX_I2S_GetPrescalerValue( U32 ModuleIndex )
+{
+    const U32 PSV_POS  = 8;
+	const U32 PSV_MASK = 0x3F << PSV_POS;
+
+    register struct NX_I2S_RegisterSet* pRegister;
+
+    NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
+
+    pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	return (U32)((pRegister->PSR & PSV_MASK) >> PSV_POS) + 1;
+}
+
 
 // txd register
 void    NX_I2S_SetTxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLENGTH BitLength, U32 TxData )
 {
-    const U32 TXD_POS[]   = {0, 16};
-    const U32 TXD_MASK[]  = {0xFFFF, 0xFF};
-
     register struct NX_I2S_RegisterSet* pRegister;
-    register U32 RegVal;
 
     NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
-    NX_ASSERT( BitLength==NX_I2S_BITLENGTH_16 || BitLength==NX_I2S_BITLENGTH_8 );
-
-    U32 TxDataPos   = TXD_POS[ChannelIndex];
-    U32 TxDataMask  = TXD_MASK[BitLength];
+    NX_ASSERT( BitLength==NX_I2S_BITLENGTH_24 || BitLength==NX_I2S_BITLENGTH_16 || BitLength==NX_I2S_BITLENGTH_8 );
 
     pRegister   = __g_ModuleVariables[ModuleIndex].pRegister;
 
-    RegVal      = pRegister->TXD;
-    RegVal     &= ~(TxDataMask<<TxDataPos);
-    RegVal     |= TxData<<TxDataPos;
+    ChannelIndex = ChannelIndex;
+/*
+	U32 tData	= 0;
 
-    WriteIODW(&pRegister->TXD, RegVal);
+	if( BitLength == NX_I2S_BITLENGTH_8 )
+	{
+		tData  = (TxData & 0xFF);
+		tData |= (TxData & 0xFF00 ) << 8; 
+		WriteIO32(&pRegister->TXD, tData);
+	}
+	else
+*/
+		 WriteIO32(&pRegister->TXD, TxData);
+
 }
+
 
 // rxd register
 U32     NX_I2S_GetRxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLENGTH BitLength )
@@ -758,7 +891,7 @@ U32     NX_I2S_GetRxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLEN
     const U32 RXD_MASK[]  = {0xFFFF, 0xFF};
 
     NX_ASSERT( NUMBER_OF_I2S_MODULE > ModuleIndex );
-    NX_ASSERT( BitLength==NX_I2S_BITLENGTH_16 || BitLength==NX_I2S_BITLENGTH_8 );
+    NX_ASSERT( BitLength == NX_I2S_BITLENGTH_24 || BitLength==NX_I2S_BITLENGTH_16 || BitLength==NX_I2S_BITLENGTH_8 );
 
     U32 RxDataPos   = RXD_POS[ChannelIndex];
     U32 RxDataMask  = RXD_MASK[BitLength];
@@ -774,16 +907,9 @@ U32     NX_I2S_GetRxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLEN
 /**
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	IntNum	Interrupt Number ( 0 : PCM Output Buffer Underfow, 1 : PCM Input Buffer Overflow ).
- *	@param[in]	Enable	\b CTRUE	indicates that Interrupt Enable. \r\n
- *						\b CFALSE	indicates that Interrupt Disable.
+ *	@param[in]	Enable	CTRUE	indicates that Interrupt Enable. 
+ *						CFALSE	indicates that Interrupt Disable.
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_SetInterruptEnable( S32 IntNum, CBOOL Enable )
 {
@@ -805,15 +931,8 @@ void	NX_I2S_SetInterruptEnable( S32 IntNum, CBOOL Enable )
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	IntNum	Interrupt Number( 0 : PCM Output Buffer Underfow, 1 : PCM Input Buffer Overflow ).
- *	@return		\b CTRUE	indicates that Interrupt is enabled. \r\n
- *				\b CFALSE	indicates that Interrupt is disabled.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *													NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		CTRUE	indicates that Interrupt is enabled. 
+ *				CFALSE	indicates that Interrupt is disabled.
  */
 CBOOL	NX_I2S_GetInterruptEnable( S32 IntNum )
 {
@@ -826,17 +945,10 @@ CBOOL	NX_I2S_GetInterruptEnable( S32 IntNum )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set a specified interrupt to be enable or disable.
- *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	\r\n
- *							- EnableFlag[0] : Set PCM Output Buffer Underfow interrupt enable or disable. \r\n
- *							- EnableFlag[1] : Set PCM Input Buffer Overflow	interrupt enable or disable. \r\n
+ *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	
+ *							- EnableFlag[0] : Set PCM Output Buffer Underfow interrupt enable or disable. 
+ *							- EnableFlag[1] : Set PCM Input Buffer Overflow	interrupt enable or disable. 
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_SetInterruptEnable32( U32 EnableFlag )
 {
@@ -850,18 +962,11 @@ void	NX_I2S_SetInterruptEnable32( U32 EnableFlag )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates current setting value of interrupt enable bit.
- *	@return		Current setting value of interrupt. \r\n
- *				"1" means interrupt is enabled. \r\n
- *				"0" means interrupt is disabled. \r\n
- *				- Return Value[0] : PCM Output Buffer Underfow interrupt's setting value. \r\n
- *				- Return Value[1] : PCM Input Buffer Overflow	interrupt's setting value. \r\n
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *													NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		Current setting value of interrupt. 
+ *				"1" means interrupt is enabled. 
+ *				"0" means interrupt is disabled. 
+ *				- Return Value[0] : PCM Output Buffer Underfow interrupt's setting value. 
+ *				- Return Value[1] : PCM Input Buffer Overflow	interrupt's setting value. 
  */
 U32		NX_I2S_GetInterruptEnable32( void )
 {
@@ -876,15 +981,8 @@ U32		NX_I2S_GetInterruptEnable32( void )
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	IntNum	Interrupt Number( 0 : PCM Output Buffer Underfow, 1 : PCM Input Buffer Overflow ).
- *	@return		\b CTRUE	indicates that Pending is seted. \r\n
- *				\b CFALSE	indicates that Pending is Not Seted.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		CTRUE	indicates that Pending is seted. 
+ *				CFALSE	indicates that Pending is Not Seted.
  */
 CBOOL	NX_I2S_GetInterruptPending( S32 IntNum )
 {
@@ -897,18 +995,11 @@ CBOOL	NX_I2S_GetInterruptPending( S32 IntNum )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates current setting value of interrupt pending bit.
- *	@return		Current setting value of pending bit. \r\n
- *				"1" means pend bit is occured. \r\n
- *				"0" means pend bit is NOT occured. \r\n
- *				- Return Value[0] : PCM Output Buffer Underfow pending state. \r\n
- *				- Return Value[1] : PCM Input Buffer Overflow	pending state. \r\n
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *													NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		Current setting value of pending bit. 
+ *				"1" means pend bit is occured. 
+ *				"0" means pend bit is NOT occured. 
+ *				- Return Value[0] : PCM Output Buffer Underfow pending state. 
+ *				- Return Value[1] : PCM Input Buffer Overflow	pending state. 
  */
 U32		NX_I2S_GetInterruptPending32( void )
 {
@@ -924,13 +1015,6 @@ U32		NX_I2S_GetInterruptPending32( void )
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	IntNum	Interrupt number( 0 : PCM Output Buffer Underfow, 1 : PCM Input Buffer Overflow ).
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_ClearInterruptPending( S32 IntNum )
 {
@@ -943,17 +1027,10 @@ void	NX_I2S_ClearInterruptPending( S32 IntNum )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Clear a pending state of specified interrupt.
- *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	\r\n \r\n
- *								- PendingFlag[0] : PCM Output Buffer Underfow pending bit. \r\n
- *								- PendingFlag[1] : PCM Input Buffer Overflow	pending bit. \r\n
+ *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	 
+ *								- PendingFlag[0] : PCM Output Buffer Underfow pending bit. 
+ *								- PendingFlag[1] : PCM Input Buffer Overflow	pending bit. 
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *													NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_ClearInterruptPending32( U32 PendingFlag )
 {
@@ -967,16 +1044,9 @@ void	NX_I2S_ClearInterruptPending32( U32 PendingFlag )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enables or disables.
- *	@param[in]	Enable	\b CTRUE	indicates that Set to all interrupt enable. \r\n
- *						\b CFALSE	indicates that Set to all interrupt disable.
+ *	@param[in]	Enable	CTRUE	indicates that Set to all interrupt enable. 
+ *						CFALSE	indicates that Set to all interrupt disable.
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_SetInterruptEnableAll( CBOOL Enable )
 {
@@ -989,15 +1059,8 @@ void	NX_I2S_SetInterruptEnableAll( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are enable or not.
- *	@return		\b CTRUE	indicates that At least one( or more ) interrupt is enabled. \r\n
- *				\b CFALSE	indicates that All interrupt is disabled.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *													NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		CTRUE	indicates that At least one( or more ) interrupt is enabled. 
+ *				CFALSE	indicates that All interrupt is disabled.
  */
 CBOOL	NX_I2S_GetInterruptEnableAll( void )
 {
@@ -1015,15 +1078,8 @@ CBOOL	NX_I2S_GetInterruptEnableAll( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
- *	@return		\b CTRUE	indicates that At least one( or more ) pending is seted. \r\n
- *				\b CFALSE	indicates that All pending is NOT seted.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,
- *				NX_I2S_ClearInterruptPendingAll,	NX_I2S_GetInterruptPendingNumber
+ *	@return		CTRUE	indicates that At least one( or more ) pending is seted. 
+ *				CFALSE	indicates that All pending is NOT seted.
  */
 CBOOL	NX_I2S_GetInterruptPendingAll( void )
 {
@@ -1042,13 +1098,6 @@ CBOOL	NX_I2S_GetInterruptPendingAll( void )
 /**
  *	@brief		Clear pending state of all interrupts.
  *	@return		None.
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *													NX_I2S_GetInterruptPendingNumber
  */
 void	NX_I2S_ClearInterruptPendingAll( void )
 {
@@ -1061,15 +1110,8 @@ void	NX_I2S_ClearInterruptPendingAll( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts
- *	@return		Pending Number( If all pending is not set then return -1 ).\r\n
+ *	@return		Pending Number( If all pending is not set then return -1 ).
  *				0 (PCM Out), 1 (PCM In)
- *	@see		NX_I2S_GetInterruptNumber,			NX_I2S_SetInterruptEnable,
- *				NX_I2S_GetInterruptEnable,			NX_I2S_SetInterruptEnable32,
- *				NX_I2S_GetInterruptEnable32,		NX_I2S_GetInterruptPending,
- *				NX_I2S_GetInterruptPending32,		NX_I2S_ClearInterruptPending,
- *				NX_I2S_ClearInterruptPending32,		NX_I2S_SetInterruptEnableAll,
- *				NX_I2S_GetInterruptEnableAll,		NX_I2S_GetInterruptPendingAll,
- *				NX_I2S_ClearInterruptPendingAll
  */
 S32		NX_I2S_GetInterruptPendingNumber( void )	// -1 if None
 {
@@ -1103,7 +1145,6 @@ S32		NX_I2S_GetInterruptPendingNumber( void )	// -1 if None
 /**
  *	@brief	Get DMA peripheral index of I2S controller's pcm input
  *	@return DMA peripheral index of I2S controller's pcm input
- *	@see	NX_I2S_GetDMAIndex_PCMOut, NX_I2S_GetDMABusWidth
  */
 U32		NX_I2S_GetDMAIndex_PCMIn( void )
 {
@@ -1113,7 +1154,6 @@ U32		NX_I2S_GetDMAIndex_PCMIn( void )
 /**
  *	@brief	Get DMA peripheral index of pcm output
  *	@return DMA peripheral index of I2S controller's pcm output
- *	@see	NX_I2S_GetDMAIndex_PCMIn, NX_I2S_GetDMABusWidth
  */
 U32		NX_I2S_GetDMAIndex_PCMOut( void )
 {
@@ -1123,7 +1163,6 @@ U32		NX_I2S_GetDMAIndex_PCMOut( void )
 /**
  *	@brief		Get bus width of I2S controller
  *	@return		DMA bus width of I2S controller.
- *	@see		NX_I2S_GetDMAIndex_PCMIn, NX_I2S_GetDMAIndex_PCMOut
  */
 U32		NX_I2S_GetDMABusWidth( void )
 {
@@ -1138,14 +1177,8 @@ U32		NX_I2S_GetDMABusWidth( void )
  *	@brief		Set a PCLK mode
  *	@param[in]	mode	PCLK mode
  *	@return		None.
- *	@remarks	I2S controller only support NX_PCLKMODE_ALWAYS.\r\n
- *				If user set to NX_PCLKMODE_DYNAMIC, then I2S controller \b NOT operate.
- *	@see		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
+ *	@remarks	I2S controller only support NX_PCLKMODE_ALWAYS.
+ *				If user set to NX_PCLKMODE_DYNAMIC, then I2S controller NOT operate.
  */
 void			NX_I2S_SetClockPClkMode( NX_PCLKMODE mode )
 {
@@ -1179,12 +1212,6 @@ void			NX_I2S_SetClockPClkMode( NX_PCLKMODE mode )
 /**
  *	@brief		Get current PCLK mode
  *	@return		Current PCLK mode
- *	@see		NX_I2S_SetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 NX_PCLKMODE	NX_I2S_GetClockPClkMode( void )
 {
@@ -1204,17 +1231,11 @@ NX_PCLKMODE	NX_I2S_GetClockPClkMode( void )
 /**
  *	@brief		Set clock source of clock generator
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@param[in]	ClkSrc	Select clock source of clock generator.\r\n
- *						0:PLL0, 1:PLL1, 2:None, 3:Bit Clock, 4: Invert Bit Clock\r\n
+ *	@param[in]	ClkSrc	Select clock source of clock generator.
+ *						0:PLL0, 1:PLL1, 2:None, 3:Bit Clock, 4: Invert Bit Clock
  *						5:AV Clock, 6:Invert AV Clock, 7: CLKGEN0's output clock ( Only clock generator1 use ).
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
  *	@return		None.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 void	NX_I2S_SetClockSource( U32 Index, U32 ClkSrc )
 {
@@ -1241,16 +1262,10 @@ void	NX_I2S_SetClockSource( U32 Index, U32 ClkSrc )
 /**
  *	@brief		Get clock source of specified clock generator.
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@return		Clock source of clock generator \r\n
- *				0:PLL0, 1:PLL1, 2:None, 3:Bit Clock, 4: Invert Bit Clock\r\n
+ *	@return		Clock source of clock generator 
+ *				0:PLL0, 1:PLL1, 2:None, 3:Bit Clock, 4: Invert Bit Clock
  *				5:AV Clock, 6:Invert AV Clock, 7: CLKGEN0's output clock
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 U32				NX_I2S_GetClockSource( U32 Index )
 {
@@ -1270,12 +1285,6 @@ U32				NX_I2S_GetClockSource( U32 Index )
  *	@param[in]	Divisor		Clock divisor ( 1 ~ 256 ).
  *	@return		None.
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 void			NX_I2S_SetClockDivisor( U32 Index, U32 Divisor )
 {
@@ -1302,12 +1311,6 @@ void			NX_I2S_SetClockDivisor( U32 Index, U32 Divisor )
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 );
  *	@return		Clock divisor ( 1 ~ 256 ).
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 U32				NX_I2S_GetClockDivisor( U32 Index )
 {
@@ -1325,16 +1328,10 @@ U32				NX_I2S_GetClockDivisor( U32 Index )
 /**
  *	@brief		Set inverting of output clock
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@param[in]	OutClkInv	\b CTRUE	indicates that Output clock Invert.\r\n
- *							\b CFALSE	indicates that Output clock Normal.
+ *	@param[in]	OutClkInv	CTRUE	indicates that Output clock Invert.
+ *							CFALSE	indicates that Output clock Normal.
  *	@return		None.
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 void			NX_I2S_SetClockOutInv( U32 Index, CBOOL OutClkInv )
 {
@@ -1359,15 +1356,9 @@ void			NX_I2S_SetClockOutInv( U32 Index, CBOOL OutClkInv )
 /**
  *	@brief		Get invert status of output clock.
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 )
- *	@return		\b CTRUE	indicates that Output clock is Inverted. \r\n
- *				\b CFALSE	indicates that Output clock is Normal.
+ *	@return		CTRUE	indicates that Output clock is Inverted. 
+ *				CFALSE	indicates that Output clock is Normal.
  *	@remarks	I2S controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 CBOOL			NX_I2S_GetClockOutInv( U32 Index )
 {
@@ -1384,17 +1375,11 @@ CBOOL			NX_I2S_GetClockOutInv( U32 Index )
 /**
  *	@brief		Set clock output pin's direction.
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@param[in]	OutClkEnb	\b CTRUE	indicates that Pin's direction is Output.\r\n
- *							\b CFALSE	indicates that Pin's direction is Iutput.
+ *	@param[in]	OutClkEnb	CTRUE	indicates that Pin's direction is Output.
+ *							CFALSE	indicates that Pin's direction is Iutput.
  *	@return		None.
- *	@remarks	Decides the I/O direction when the output clock is connected to a bidirectional PAD.\r\n
+ *	@remarks	Decides the I/O direction when the output clock is connected to a bidirectional PAD.
  *				Only clock generator 1 can set the output pin's direction.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 void			NX_I2S_SetClockOutEnb( U32 Index, CBOOL OutClkEnb )
 {
@@ -1423,15 +1408,9 @@ void			NX_I2S_SetClockOutEnb( U32 Index, CBOOL OutClkEnb )
 /**
  *	@brief		Get clock output pin's direction.
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@return		\b CTRUE	indicates that Pin's direction is Output.\r\n
- *				\b CFALSE	indicates that Pin's direction is Input.
+ *	@return		CTRUE	indicates that Pin's direction is Output.
+ *				CFALSE	indicates that Pin's direction is Input.
  *	@remarks	Only clock generator 1 can set the output pin's direction. so \e Index must set to 1.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable,	NX_I2S_GetClockDivisorEnable
  */
 CBOOL			NX_I2S_GetClockOutEnb( U32 Index )
 {
@@ -1452,15 +1431,9 @@ CBOOL			NX_I2S_GetClockOutEnb( U32 Index )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set clock generator's operation
- *	@param[in]	Enable	\b CTRUE	indicates that Enable of clock generator. \r\n
- *						\b CFALSE	indicates that Disable of clock generator.
+ *	@param[in]	Enable	CTRUE	indicates that Enable of clock generator. 
+ *						CFALSE	indicates that Disable of clock generator.
  *	@return		None.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_GetClockDivisorEnable
  */
 void			NX_I2S_SetClockDivisorEnable( CBOOL Enable )
 {
@@ -1484,14 +1457,8 @@ void			NX_I2S_SetClockDivisorEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get status of clock generator's operation
- *	@return		\b CTRUE	indicates that Clock generator is enabled.\r\n
- *				\b CFALSE	indicates that Clock generator is disabled.
- *	@see		NX_I2S_SetClockPClkMode,		NX_I2S_GetClockPClkMode,
- *				NX_I2S_SetClockSource,			NX_I2S_GetClockSource,
- *				NX_I2S_SetClockDivisor,			NX_I2S_GetClockDivisor,
- *				NX_I2S_SetClockOutInv,			NX_I2S_GetClockOutInv,
- *				NX_I2S_SetClockOutEnb,			NX_I2S_GetClockOutEnb,
- *				NX_I2S_SetClockDivisorEnable
+ *	@return		CTRUE	indicates that Clock generator is enabled.
+ *				CFALSE	indicates that Clock generator is disabled.
  */
 CBOOL			NX_I2S_GetClockDivisorEnable( void )
 {
@@ -1509,12 +1476,9 @@ CBOOL			NX_I2S_GetClockDivisorEnable( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set I2S's Controller Mode ( Master or Slave )
- *	@param[in]	Enable	\b CTRUE	indicates that Master mode. \r\n
- *						\b CFALSE	indicates that Slave mode.
+ *	@param[in]	Enable	CTRUE	indicates that Master mode. 
+ *						CFALSE	indicates that Slave mode.
  *	@return		None.
- *	@see		NX_I2S_GetSMasterMode,
- *				NX_I2S_SetSyncPeriod,		NX_I2S_GetSyncPeriod,
- *				NX_I2S_SetInterfaceMode,	NX_I2S_GetInterfaceMode
  */
 void		NX_I2S_SetMasterMode( CBOOL Enable )
 {
@@ -1539,11 +1503,8 @@ void		NX_I2S_SetMasterMode( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get I2S's Controller Mode ( Master or Slave )
- *	@return		\b CTRUE	indicates that Master mode.\r\n
- *				\b CFALSE	indicates that Slave mode.
- *	@see		NX_I2S_SetI2SMasterMode,
- *				NX_I2S_SetSyncPeriod,		NX_I2S_GetSyncPeriod,
- *				NX_I2S_SetInterfaceMode,	NX_I2S_GetInterfaceMode
+ *	@return		CTRUE	indicates that Master mode.
+ *				CFALSE	indicates that Slave mode.
  */
 CBOOL		NX_I2S_GetMasterMode( void )
 {
@@ -1565,9 +1526,6 @@ CBOOL		NX_I2S_GetMasterMode( void )
  *	@brief		Set I2S interface mode.
  *	@param[in]	mode	Interface mode ( 0 : I2S, 1 : None, 2 : Left-Justified, 3 : Right-Justified )
  *	@return		None.
- *	@see		NX_I2S_SetSMasterMode,		NX_I2S_GetSMasterMode,
- *				NX_I2S_GetInterfaceMode
- *				NX_I2S_SetSyncPeriod,		NX_I2S_GetSyncPeriod,
  */
 void			NX_I2S_SetInterfaceMode( NX_I2S_IF mode )
 {
@@ -1591,9 +1549,6 @@ void			NX_I2S_SetInterfaceMode( NX_I2S_IF mode )
 /**
  *	@brief		Get status of I2S interface mode.
  *	@return		Interface mode ( 0 : I2S, 1 : None, 2 : Left-Justified, 3 : Right-Justified	)
- *	@see		NX_I2S_SetSMasterMode,		NX_I2S_GetSMasterMode,
- *				NX_I2S_SetInterfaceMode,
- *				NX_I2S_SetSyncPeriod,		NX_I2S_GetSyncPeriod
  */
 NX_I2S_IF	NX_I2S_GetInterfaceMode( void )
 {
@@ -1611,9 +1566,6 @@ NX_I2S_IF	NX_I2S_GetInterfaceMode( void )
  *	@param[in]	period		Sync Period ( 32fs, 48fs, 64fs )
  *	@return		None.
  *	@remarks	The setting is required in mater mode also.
- *	@see		NX_I2S_SetSMasterMode,		NX_I2S_GetMasterMode,
- *				NX_I2S_SetInterfaceMode,	NX_I2S_GetInterfaceMode
- *				NX_I2S_GetSyncPeriod,
  */
 void	NX_I2S_SetSyncPeriod( U32 period )
 {
@@ -1646,9 +1598,6 @@ void	NX_I2S_SetSyncPeriod( U32 period )
 /**
  *	@brief		Get Sync Period of I2S ( 32fs, 48fs, 64fs )
  *	@return		Sync Period ( 32fs, 48fs, 64fs )
- *	@see		NX_I2S_SetMasterMode,		NX_I2S_GetMasterMode,
- *				NX_I2S_SetInterfaceMode,	NX_I2S_GetInterfaceMode,
- *				NX_I2S_SetSyncPeriod
  */
 U32	NX_I2S_GetSyncPeriod( void )
 {
@@ -1681,11 +1630,6 @@ U32	NX_I2S_GetSyncPeriod( void )
  *	@brief		Set I2S controller Link On
  *	@return		None.
  *	@remarks	If user want I2S link off, reset the I2S controller
- *	@see										NX_I2S_GetI2SLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
  */
 void	NX_I2S_SetLinkOn( void )
 {
@@ -1708,13 +1652,8 @@ void	NX_I2S_SetLinkOn( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get link status of I2S controller
- *	@return		\b CTRUE	indicates that Link On. \r\n
- *				\b CFALSE	indicates that None.
- *	@see		NX_I2S_SetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
+ *	@return		CTRUE	indicates that Link On. 
+ *				CFALSE	indicates that None.
  */
 CBOOL NX_I2S_GetI2SLinkOn( void )
 {
@@ -1729,19 +1668,14 @@ CBOOL NX_I2S_GetI2SLinkOn( void )
  //------------------------------------------------------------------------------
 /**
  *	@brief		I2S Controller Reset
- *	@param[in]	Enable		\b CTRUE	indicates that Contoller Reset.\r\n
- *							\b CFALSE	indicates that Nomal Operation.
+ *	@param[in]	Enable		CTRUE	indicates that Contoller Reset.
+ *							CFALSE	indicates that Nomal Operation.
  *	@return		None.
  *	@remarks	After Reset You should set normal operation
  *	@code
  *				NX_I2S_SetControllerReset( CTRUE );		// I2S Controller Reset
  *				NX_I2S_SetControllerReset( CFALSE );	// Normal Operation
  *	@endcode
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *												NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
  */
 void	NX_I2S_SetControllerReset( CBOOL Enable )
 {
@@ -1762,13 +1696,8 @@ void	NX_I2S_SetControllerReset( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get status of I2S Controller
- *	@return		\b CTRUE	indicates that Contoller Reset.\r\n
- *				\b CFALSE	indicates that Nomal Operation.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
+ *	@return		CTRUE	indicates that Contoller Reset.
+ *				CFALSE	indicates that Nomal Operation.
  */
 CBOOL NX_I2S_GetControllerReset( void )
 {
@@ -1787,14 +1716,9 @@ CBOOL NX_I2S_GetControllerReset( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set I2S controller's output operation
- *	@param[in]	Enable	\b CTRUE	indicates that Output Enable. \r\n
- *						\b CFALSE	indicates that Output Disable.
+ *	@param[in]	Enable	CTRUE	indicates that Output Enable. 
+ *						CFALSE	indicates that Output Disable.
  *	@return		None.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *												NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
  */
 void	NX_I2S_SetOutputEnable( CBOOL Enable )
 {
@@ -1820,13 +1744,8 @@ void	NX_I2S_SetOutputEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get output operation status of I2S controller
- *	@return		\b CTRUE	indicates that Output is Enabled. \r\n
- *				\b CFALSE	indicates that Output is Disabled.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
+ *	@return		CTRUE	indicates that Output is Enabled. 
+ *				CFALSE	indicates that Output is Disabled.
  */
 CBOOL NX_I2S_GetI2SOutputEnable( void )
 {
@@ -1841,13 +1760,8 @@ CBOOL NX_I2S_GetI2SOutputEnable( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set I2S controller's input operation
- *	@param[in]	Enable	\b CTRUE	indicates that Input Enable. \r\n
- *						\b CFALSE	indicates that Input Disable.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *												NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
+ *	@param[in]	Enable	CTRUE	indicates that Input Enable. 
+ *						CFALSE	indicates that Input Disable.
  */
 void	NX_I2S_SetInputEnable( CBOOL Enable )
 {
@@ -1873,13 +1787,8 @@ void	NX_I2S_SetInputEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get Input operation status of I2S controller
- *	@return		\b CTRUE	indicates that Input is Enabled. \r\n
- *				\b CFALSE	indicates that Input is Disabled.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,
- *				NX_I2S_SetLoopBackEnable,		NX_I2S_GetLoopBackEnable
+ *	@return		CTRUE	indicates that Input is Enabled. 
+ *				CFALSE	indicates that Input is Disabled.
  */
 CBOOL NX_I2S_GetInputEnable( void )
 {
@@ -1894,15 +1803,10 @@ CBOOL NX_I2S_GetInputEnable( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set Loop Back operation
- *	@param[in]	Enable	\b CTRUE	indicates that Loop Back mode Enable. \r\n
- *						\b CFALSE	indicates that Loop Back mode Disable.
+ *	@param[in]	Enable	CTRUE	indicates that Loop Back mode Enable. 
+ *						CFALSE	indicates that Loop Back mode Disable.
  *	@return		None.
  *	@remarks	User need to set NX_I2S_SetI2SInputEnable( CTRUE ) for look back operation.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *												NX_I2S_GetLoopBackEnable
  */
 void	NX_I2S_SetLoopBackEnable( CBOOL Enable )
 {
@@ -1928,13 +1832,8 @@ void	NX_I2S_SetLoopBackEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get status of Loop Back operation
- *	@return		\b CTRUE	indicates that Loop Back mode is Enabled.\r\n
- *				\b CFALSE	indicates that Loop Back mode is Disabled.
- *	@see		NX_I2S_SetLinkOn,				NX_I2S_GetLinkOn,
- *				NX_I2S_SetControllerReset,		NX_I2S_GetControllerReset,
- *				NX_I2S_SetOutputEnable,			NX_I2S_GetOutputEnable,
- *				NX_I2S_SetInputEnable,			NX_I2S_GetInputEnable,
- *				NX_I2S_SetLoopBackEnable
+ *	@return		CTRUE	indicates that Loop Back mode is Enabled.
+ *				CFALSE	indicates that Loop Back mode is Disabled.
  */
 CBOOL NX_I2S_GetLoopBackEnable( void )
 {
@@ -1951,16 +1850,13 @@ CBOOL NX_I2S_GetLoopBackEnable( void )
 //--------------------------------------------------------------------------
 /**
  *	@brief		Set I2S's output buffer operation.
- *	@param[in]	Enable	\b CTRUE	indicates that PCM output buffer Enable. \r\n
- *						\b CFALSE	indicates that PCM output buffer Disable.
+ *	@param[in]	Enable	CTRUE	indicates that PCM output buffer Enable. 
+ *						CFALSE	indicates that PCM output buffer Disable.
  *	@return		None.
  *	@remarks	I2S output buffer's enable and disable means that setting data transfer to the
- *				I2S buffer throught DMA.\r\n
- *				Enable( DMA \b can transfer data to I2S's output buffer )\r\n
- *				Disable( DMA \b can't transfer data to I2S's output buffer )
- *	@see											NX_I2S_GetBufferPCMOUTEnable,
- *				NX_I2S_SetBufferPCMINEnable,		NX_I2S_GetBufferPCMINEnable,
- *				NX_I2S_IsPCMInBufferReady,			NX_I2S_IsPCMOutBufferReady
+ *				I2S buffer throught DMA.
+ *				Enable( DMA can transfer data to I2S's output buffer )
+ *				Disable( DMA can't transfer data to I2S's output buffer )
  */
 void	NX_I2S_SetBufferPCMOUTEnable( CBOOL Enable )
 {
@@ -1986,15 +1882,12 @@ void	NX_I2S_SetBufferPCMOUTEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get operation status of I2S output buffer
- *	@return		\b CTRUE	indicates that PCM output buffer is Enabled. \r\n
- *				\b CFALSE	indicates that PCM output buffer is Disabled.
+ *	@return		CTRUE	indicates that PCM output buffer is Enabled. 
+ *				CFALSE	indicates that PCM output buffer is Disabled.
  *	@remarks	I2S output buffer's enable and disable means that setting data transfer to the
- *				I2S buffer throught DMA.\r\n
- *				Enable( DMA \b can transfer data to I2S's output buffer )\r\n
- *				Disable( DMA \b can't transfer data to I2S's output buffer )
- *	@see		NX_I2S_SetBufferPCMOUTEnable,
- *				NX_I2S_SetBufferPCMINEnable,		NX_I2S_GetBufferPCMINEnable,
- *				NX_I2S_IsPCMInBufferReady,			NX_I2S_IsPCMOutBufferReady
+ *				I2S buffer throught DMA.
+ *				Enable( DMA can transfer data to I2S's output buffer )
+ *				Disable( DMA can't transfer data to I2S's output buffer )
  */
 CBOOL NX_I2S_GetBufferPCMOUTEnable( void )
 {
@@ -2009,16 +1902,13 @@ CBOOL NX_I2S_GetBufferPCMOUTEnable( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set I2S's input buffer operation.
- *	@param[in]	Enable	\b CTRUE	indicates that PCM input buffer Enable. \r\n
- *						\b CFALSE	indicates that PCM input buffer Disable.
+ *	@param[in]	Enable	CTRUE	indicates that PCM input buffer Enable. 
+ *						CFALSE	indicates that PCM input buffer Disable.
  *	@return		None.
  *	@remarks	I2S input buffer's enable and disable means that setting data transfer to the
- *				I2S buffer throught DMA.\r\n
- *				Enable( DMA \b can receive data from	I2S's input buffer )\r\n
- *				Disable( DMA \b can't receive data from I2S's input buffer )
- *	@see		NX_I2S_SetBufferPCMOUTEnable,			NX_I2S_GetBufferPCMOUTEnable,
- *														NX_I2S_GetBufferPCMINEnable,
- *				NX_I2S_IsPCMInBufferReady,				NX_I2S_IsPCMOutBufferReady
+ *				I2S buffer throught DMA.
+ *				Enable( DMA can receive data from	I2S's input buffer )
+ *				Disable( DMA can't receive data from I2S's input buffer )
  */
 void	NX_I2S_SetBufferPCMINEnable( CBOOL Enable )
 {
@@ -2044,15 +1934,12 @@ void	NX_I2S_SetBufferPCMINEnable( CBOOL Enable )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get operation status of I2S input buffer
- *	@return		\b CTRUE	indicates that PCM input buffer is Enabled. \r\n
- *				\b CFALSE	indicates that PCM input buffer is Disabled.
+ *	@return		CTRUE	indicates that PCM input buffer is Enabled. 
+ *				CFALSE	indicates that PCM input buffer is Disabled.
  *	@remarks	I2S input buffer's enable and disable means that setting data transfer to the
- *				I2S buffer throught DMA.\r\n
- *				Enable( DMA \b can receive data from	I2S's input buffer )\r\n
- *				Disable( DMA \b can't receive data from I2S's input buffer )
- *	@see		NX_I2S_SetBufferPCMOUTEnable,		NX_I2S_GetBufferPCMOUTEnable,
- *				NX_I2S_SetBufferPCMINEnable,
- *				NX_I2S_IsPCMInBufferReady,			NX_I2S_IsPCMOutBufferReady
+ *				I2S buffer throught DMA.
+ *				Enable( DMA can receive data from	I2S's input buffer )
+ *				Disable( DMA can't receive data from I2S's input buffer )
  */
 CBOOL NX_I2S_GetBufferPCMINEnable( void )
 {
@@ -2067,12 +1954,9 @@ CBOOL NX_I2S_GetBufferPCMINEnable( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Check PCM input buffer's status
- *	@return		\b CTRUE	indicates that Input buffer is ready. \r\n
- *				\b CFALSE	indicates that None.
+ *	@return		CTRUE	indicates that Input buffer is ready. 
+ *				CFALSE	indicates that None.
  *	@remarks	Input buffer's ready means that Input buffer have some space to receive data.
- *	@see		NX_I2S_SetBufferPCMOUTEnable,		NX_I2S_GetBufferPCMOUTEnable,
- *				NX_I2S_SetBufferPCMINEnable,		NX_I2S_GetBufferPCMINEnable,
- *													NX_I2S_IsPCMOutBufferReady
  */
 CBOOL NX_I2S_IsPCMInBufferReady( void )
 {
@@ -2087,12 +1971,9 @@ CBOOL NX_I2S_IsPCMInBufferReady( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Check PCM output buffer's status
- *	@return		\b CTRUE	indicates that output buffer is ready. \r\n
- *				\b CFALSE	indicates that None.
+ *	@return		CTRUE	indicates that output buffer is ready. 
+ *				CFALSE	indicates that None.
  *	@remarks	Output buffer's ready means that Output buffer have some data to send.
- *	@see		NX_I2S_SetBufferPCMOUTEnable,	NX_I2S_GetBufferPCMOUTEnable,
- *				NX_I2S_SetBufferPCMINEnable,	NX_I2S_GetBufferPCMINEnable,
- *				NX_I2S_IsPCMInBufferReady
  */
 CBOOL NX_I2S_IsPCMOutBufferReady( void )
 {

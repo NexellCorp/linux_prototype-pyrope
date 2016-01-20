@@ -32,7 +32,7 @@ extern "C"
 
 //--------------------------------------------------------------------------
 /// @brief	register map
-typedef struct
+struct NX_PDM_RegisterSet
 {
     volatile U32 PDM_CTRL	    ;
     volatile U32 PDM_GAIN0	    ;
@@ -41,7 +41,7 @@ typedef struct
     volatile U32 PDM_DATA	    ;
     volatile U32 PDM_CTRL1      ;
     volatile U32 PDM_IRQCTRL	;
-} NX_PDM_RegisterSet;
+};
 
 //------------------------------------------------------------------------------
 ///	@name	PDM Interface
@@ -58,8 +58,8 @@ CBOOL NX_PDM_Initialize( void );
 U32   NX_PDM_GetNumberOfModule( void );
 
 U32   NX_PDM_GetSizeOfRegisterSet( void );
-void  NX_PDM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32   NX_PDM_GetBaseAddress( U32 ModuleIndex );
+void  NX_PDM_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*  NX_PDM_GetBaseAddress( U32 ModuleIndex );
 U32   NX_PDM_GetPhysicalAddress ( U32 ModuleIndex );
 CBOOL NX_PDM_OpenModule( U32 ModuleIndex );
 CBOOL NX_PDM_CloseModule( U32 ModuleIndex );

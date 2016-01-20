@@ -9,17 +9,16 @@
 //	FOR A PARTICULAR PURPOSE.
 //
 //	Module		:
-//	File		: nx_ppm.c
+//	File               : nx_ppm.c
 //	Description	:
 //	Author		:
 //	History		:
 //------------------------------------------------------------------------------
+
 #include <nx_chip.h>
 #include "nx_ppm.h"
-//#include <string.h> // for memset
 
 static	NX_PPM_RegisterSet *__g_pRegister[NUMBER_OF_PPM_MODULE];
-
 
 //------------------------------------------------------------------------------
 //
@@ -29,9 +28,8 @@ static	NX_PPM_RegisterSet *__g_pRegister[NUMBER_OF_PPM_MODULE];
 
 /**
  *	@brief		Set PPM Enable or Disable
- *	@param[in]	enable		CTRUE( PPM Enable ), CFALSE( PPM Disable )
+ *	@param[in]	enable		CTRUE( PPM Enable )CFALSE( PPM Disable )
  *	@return		None.
- *	@see		NX_PPM_GetPPMEnable
  */
 void	NX_PPM_SetPPMEnable
 (
@@ -56,16 +54,14 @@ void	NX_PPM_SetPPMEnable
 		temp &= ~ENB_MASK;
 	}
 
-//	__g_pRegister[ModuleIndex]->PPM_CTRL = (U16)temp;
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get State of PPM is Enable or Disable
- *	@return		CTRUE	indicate that PPM is Enabled.\n
+ *	@return		CTRUE	indicate that PPM is Enabled.
  *				CFALSE	indicate that PPM is Disabled.
- *	@see		NX_PPM_SetPPMEnable
  */
 
 CBOOL	NX_PPM_GetPPMEnable ( U32 ModuleIndex )
@@ -90,7 +86,6 @@ CBOOL	NX_PPM_GetPPMEnable ( U32 ModuleIndex )
  *	@brief		Set Polarity of PPM Input Signal
  *	@param[in]	polarity		Set Polarity ( Invert or Bypass )
  *	@return		None.
- *	@see		NX_PPM_GetInputSignalPolarity
  */
 void	NX_PPM_SetInputSignalPolarity
 (
@@ -118,15 +113,13 @@ void	NX_PPM_SetInputSignalPolarity
 		temp |= POL_MASK;
 	}
 
-//	__g_pRegister[ModuleIndex]->PPM_CTRL = (U16)temp;
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get Polarity of PPM Input Signal
  *	@return		Value of input signal's polarity ( Invert or Bypass )
- *	@see		NX_PPM_SetInputSignalPolarity
  */
 
 NX_PPM_INPUTPOL	NX_PPM_GetInputSignalPolarity( U32 ModuleIndex )
@@ -149,10 +142,9 @@ NX_PPM_INPUTPOL	NX_PPM_GetInputSignalPolarity( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get Overflow State In High Period
- *	@return		CTRUE indicate that High period value is overflowed.\n
+ *	@return		CTRUE indicate that High period value is overflowed.
  *				CFALSE indicate that High period value is NOT overflowed.
  *	@remarks	Check overflow state ( high period's value ) when Overflow interrupt is occurred.
- *	@see		NX_PPM_IsLowOverflow
  */
 CBOOL	NX_PPM_IsHighOverflow( U32 ModuleIndex )
 {
@@ -174,10 +166,9 @@ CBOOL	NX_PPM_IsHighOverflow( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get Overflow State In Low Period
- *	@return		CTRUE indicate that Low period value is overflowed.\n
+ *	@return		CTRUE indicate that Low period value is overflowed.
  *				CFALSE indicate that Low period value is NOT overflowed.
  *	@remarks	Check overflow state ( low period's value ) when Overflow interrupt is occured.
- *	@see		NX_PPM_CheckHighOverflow
  */
 
 CBOOL	NX_PPM_IsLowOverflow( U32 ModuleIndex )
@@ -201,7 +192,6 @@ CBOOL	NX_PPM_IsLowOverflow( U32 ModuleIndex )
 /**
  *	@brief		Read Count Value of Low Period
  *	@return		Value of Low period ( 0 ~ 0xFFFF )
- *	@see		NX_PPM_GetPPMHighPeriodValue
  */
 U32		NX_PPM_GetPPMLowPeriodValue ( U32 ModuleIndex )
 {
@@ -215,7 +205,6 @@ U32		NX_PPM_GetPPMLowPeriodValue ( U32 ModuleIndex )
 /**
  *	@brief		Read Count Value of High Period
  *	@return		Value of High period ( 0 ~ 0xFFFF )
- *	@see		NX_PPM_GetPPMLowPeriodValue
  */
 U32		NX_PPM_GetPPMHighPeriodValue ( U32 ModuleIndex )
 {
@@ -234,17 +223,18 @@ U32		NX_PPM_GetPPMHighPeriodValue ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.
- *	@see	NX_PPM_GetNumberOfModule
+ *	@return  CTRUE	indicate that Initialize is successed.
+ *			 CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_PPM_Initialize( void )
 {
 	static CBOOL bInit = CFALSE;
+    int i = 0;
 
 	if( CFALSE == bInit )
 	{
-//		memset( __g_pRegister, 0, sizeof(__g_pRegister) );
+	    for(i = 0; i < NUMBER_OF_PPM_MODULE; i++)
+            __g_pRegister[i] = 0;
 		bInit = CTRUE;
 	}
 
@@ -254,7 +244,7 @@ CBOOL	NX_PPM_Initialize( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get number of modules in the chip.
- *	@return		Module's number. \n
+ *	@return		Module's number. 
  *				It is equal to NUMBER_OF_PPM_MODULE in <nx_chip.h>.
  *	@see		NX_PPM_Initialize
  */
@@ -287,7 +277,7 @@ U32		NX_PPM_GetSizeOfRegisterSet( void )
  *				NX_PPM_OpenModule,				NX_PPM_CloseModule,
  *				NX_PPM_CheckBusy,
  */
-void	NX_PPM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_PPM_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
@@ -303,16 +293,16 @@ void	NX_PPM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_PPM_OpenModule,				NX_PPM_CloseModule,
  *				NX_PPM_CheckBusy,
  */
-U32		NX_PPM_GetBaseAddress( U32 ModuleIndex )
+void*	NX_PPM_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's physical address.
- *	@return		Module's physical address. \n
+ *	@return		Module's physical address. 
  *				It is equal to PHY_BASEADDR_PPM?_MODULE in <nx_chip.h>.
  *	@see		NX_PPM_GetSizeOfRegisterSet,
  *				NX_PPM_SetBaseAddress,			NX_PPM_GetBaseAddress,
@@ -333,8 +323,8 @@ U32		NX_PPM_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
+ *	@return		 CTRUE	indicate that Initialize is successed. 
+ *				 CFALSE	indicate that Initialize is failed.
  *	@see		NX_PPM_GetPhysicalAddress,		NX_PPM_GetSizeOfRegisterSet,
  *				NX_PPM_SetBaseAddress,			NX_PPM_GetBaseAddress,
  *				NX_PPM_CloseModule,
@@ -344,16 +334,18 @@ CBOOL	NX_PPM_OpenModule( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+    
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+    
 	return CTRUE;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
+ *	@return		 CTRUE	indicate that Deinitialize is successed. 
+ *				 CFALSE	indicate that Deinitialize is failed.
  *	@see		NX_PPM_GetPhysicalAddress,		NX_PPM_GetSizeOfRegisterSet,
  *				NX_PPM_SetBaseAddress,			NX_PPM_GetBaseAddress,
  *				NX_PPM_OpenModule,
@@ -363,16 +355,18 @@ CBOOL	NX_PPM_CloseModule( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
-	WriteIOW(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+    
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_CTRL, 0x4000);
+	WriteIO32(&__g_pRegister[ModuleIndex]->PPM_STAT, 0x0007);
+    
 	return CTRUE;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
+ *	@return		 CTRUE	indicate that Module is Busy. 
+ *				 CFALSE	indicate that Module is NOT Busy.
  *	@see		NX_PPM_GetPhysicalAddress,		NX_PPM_GetSizeOfRegisterSet,
  *				NX_PPM_SetBaseAddress,			NX_PPM_GetBaseAddress,
  *				NX_PPM_OpenModule,				NX_PPM_CloseModule,
@@ -400,14 +394,8 @@ CBOOL	NX_PPM_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's clock index.
- *	@return		Module's clock index.\n
+ *	@return		Module's clock index.
  *				It is equal to CLOCKINDEX_OF_PPM?_MODULE in <nx_chip.h>.
- *	@see		NX_CLKGEN_SetClockDivisorEnable,
- *				NX_CLKGEN_GetClockDivisorEnable,
- *				NX_CLKGEN_SetClockSource,
- *				NX_CLKGEN_GetClockSource,
- *				NX_CLKGEN_SetClockDivisor,
- *				NX_CLKGEN_GetClockDivisor
  */
 U32 NX_PPM_GetClockNumber ( U32 ModuleIndex )
 {
@@ -423,11 +411,8 @@ U32 NX_PPM_GetClockNumber ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's reset index.
- *	@return		Module's reset index.\n
+ *	@return		Module's reset index.
  *				It is equal to RESETINDEX_OF_PPM?_MODULE_i_nRST in <nx_chip.h>.
- *	@see		NX_RSTCON_Enter,
- *				NX_RSTCON_Leave,
- *				NX_RSTCON_GetStatus
  */
 U32 NX_PPM_GetResetNumber ( U32 ModuleIndex )
 {
@@ -447,17 +432,8 @@ U32 NX_PPM_GetResetNumber ( U32 ModuleIndex )
 /**
  *	@brief		Get a interrupt number for the interrupt controller.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		A interrupt number.\n
+ *	@return		A interrupt number.
  *				It is equal to INTNUM_OF_PPM?_MODULE in <nx_chip.h>.
- *	@see		NX_PPM_SetInterruptEnable,
- *				NX_PPM_GetInterruptEnable,
- *				NX_PPM_GetInterruptPending,
- *				NX_PPM_ClearInterruptPending,
- *				NX_PPM_SetInterruptEnableAll,
- *				NX_PPM_GetInterruptEnableAll,
- *				NX_PPM_GetInterruptPendingAll,
- *				NX_PPM_ClearInterruptPendingAll,
- *				NX_PPM_GetInterruptPendingNumber
  */
 U32 	NX_PPM_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -473,20 +449,11 @@ U32 	NX_PPM_GetInterruptNumber( U32 ModuleIndex )
 /**
  *	@brief		Set a specified interrupt to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number .\n
+ *	@param[in]	IntNum	a interrupt Number .
  *						refer to NX_PPM_INTCH_xxx in <nx_ppm.h>
- *	@param[in]	Enable	\b Set as CTRUE to enable a specified interrupt. \r\n
- *						\b Set as CFALSE to disable a specified interrupt.
+ *	@param[in]	Enable	 Set as CTRUE to enable a specified interrupt. 
+ *						 Set as CFALSE to disable a specified interrupt.
  *	@return		None.
- *	@see		NX_PPM_GetInterruptNumber,
- *				NX_PPM_GetInterruptEnable,
- *				NX_PPM_GetInterruptPending,
- *				NX_PPM_ClearInterruptPending,
- *				NX_PPM_SetInterruptEnableAll,
- *				NX_PPM_GetInterruptEnableAll,
- *				NX_PPM_GetInterruptPendingAll,
- *				NX_PPM_ClearInterruptPendingAll,
- *				NX_PPM_GetInterruptPendingNumber
  */
 void	NX_PPM_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 {
@@ -503,17 +470,17 @@ void	NX_PPM_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 	regvalue &=	~( 1UL << IntNum );
 	regvalue |= (U32)Enable << IntNum;
 
-	WriteIODW(&pRegister->PPM_CTRL, regvalue);
+	WriteIO32(&pRegister->PPM_CTRL, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_PPM_INTCH_xxx in <nx_ppm.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is enabled. \r\n
- *				\b CFALSE	indicates that a specified interrupt is disabled.
+ *	@return		 CTRUE	indicates that a specified interrupt is enabled. 
+ *				 CFALSE	indicates that a specified interrupt is disabled.
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,
  *				NX_PPM_GetInterruptPending,
@@ -536,10 +503,10 @@ CBOOL	NX_PPM_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_PPM_INTCH_xxx in <nx_ppm.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is pended. \r\n
- *				\b CFALSE	indicates that a specified interrupt is not pended.
+ *	@return		 CTRUE	indicates that a specified interrupt is pended. 
+ *				 CFALSE	indicates that a specified interrupt is not pended.
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,
  *				NX_PPM_GetInterruptEnable,
@@ -567,7 +534,7 @@ CBOOL	NX_PPM_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt number.\n
+ *	@param[in]	IntNum	a interrupt number.
  *						refer to NX_PPM_INTCH_xxx in <nx_ppm.h>
  *	@return		None.
  *	@see		NX_PPM_GetInterruptNumber,
@@ -587,15 +554,15 @@ void	NX_PPM_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 	NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->PPM_STAT, 1UL << IntNum);
+	WriteIO32(&pRegister->PPM_STAT, 1UL << IntNum);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	Enable	\b Set as CTRUE to enable all interrupts. \r\n
- *						\b Set as CFALSE to disable all interrupts.
+ *	@param[in]	Enable	 Set as CTRUE to enable all interrupts. 
+ *						 Set as CFALSE to disable all interrupts.
  *	@return		None.
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,
@@ -623,15 +590,15 @@ void	NX_PPM_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	regvalue &=	~ENB_MASK;
 	regvalue  = Enable ? (regvalue | ENB_MASK) : regvalue ;
 
-	WriteIODW(&pRegister->PPM_CTRL, regvalue);
+	WriteIO32(&pRegister->PPM_CTRL, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are enabled or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are enabled. \r\n
- *				\b CFALSE	indicates that all interrupts are disabled.
+ *	@return		 CTRUE	indicates that one or more interrupts are enabled. 
+ *				 CFALSE	indicates that all interrupts are disabled.
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,
  *				NX_PPM_GetInterruptEnable,
@@ -654,8 +621,8 @@ CBOOL	NX_PPM_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are pended. \r\n
- *				\b CFALSE	indicates that no interrupt is pended.
+ *	@return		 CTRUE	indicates that one or more interrupts are pended. 
+ *				 CFALSE	indicates that no interrupt is pended.
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,
  *				NX_PPM_GetInterruptEnable,
@@ -701,14 +668,14 @@ void	NX_PPM_ClearInterruptPendingAll( U32 ModuleIndex )
 	NX_ASSERT( NUMBER_OF_PPM_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
 	pRegister = __g_pRegister[ModuleIndex];
-	WriteIODW(&pRegister->PPM_STAT, 7);	// just write operation make pending clear
+	WriteIO32(&pRegister->PPM_STAT, 7);	// just write operation make pending clear
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.\n
+ *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.
  *				refer to NX_PPM_INTCH_xxx in <nx_ppm.h>
  *	@see		NX_PPM_GetInterruptNumber,
  *				NX_PPM_SetInterruptEnable,

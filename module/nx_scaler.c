@@ -29,8 +29,8 @@ static  struct
 //------------------------------------------------------------------------------
 /**
  *  @brief  Initialize of prototype enviroment & local variables.
- *  @return \b CTRUE    indicates that Initialize is successed.\n
- *          \b CFALSE   indicates that Initialize is failed.\n
+ *  @return  CTRUE    indicates that Initialize is successed.
+ *           CFALSE   indicates that Initialize is failed.
  *  @see    NX_SCALER_GetNumberOfModule
  */
 CBOOL   NX_SCALER_Initialize( void )
@@ -68,10 +68,6 @@ U32     NX_SCALER_GetNumberOfModule( void )
 /**
  *  @brief      Get module's physical address.
  *  @return     Module's physical address
- *  @see        NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
  */
 U32     NX_SCALER_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -90,10 +86,6 @@ U32     NX_SCALER_GetPhysicalAddress( U32 ModuleIndex )
 /**
  *  @brief      Get a size, in byte, of register set.
  *  @return     Size of module's register set.
- *  @see        NX_SCALER_GetPhysicalAddress,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
  */
 U32     NX_SCALER_GetSizeOfRegisterSet( void )
 {
@@ -105,12 +97,8 @@ U32     NX_SCALER_GetSizeOfRegisterSet( void )
  *  @brief      Set a base address of register set.
  *  @param[in]  BaseAddress Module's base address
  *  @return     None.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
  */
-void    NX_SCALER_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void    NX_SCALER_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
     NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
@@ -122,27 +110,19 @@ void    NX_SCALER_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
 /**
  *  @brief      Get a base address of register set
  *  @return     Module's base address.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
  */
-U32     NX_SCALER_GetBaseAddress( U32 ModuleIndex )
+void*    NX_SCALER_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
 
-    return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+    return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Initialize selected modules with default value.
- *  @return     \b CTRUE    indicates that Initialize is successed. \n
- *              \b CFALSE   indicates that Initialize is failed.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
+ *  @return      CTRUE    indicates that Initialize is successed. 
+ *               CFALSE   indicates that Initialize is failed.
  */
 CBOOL   NX_SCALER_OpenModule( U32 ModuleIndex )
 {
@@ -153,34 +133,23 @@ CBOOL   NX_SCALER_OpenModule( U32 ModuleIndex )
 
     pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-    //pRegister->SCRUNREG         = 0x00000000;
-    //pRegister->SCCFGREG         = 0x00000000;
-    //pRegister->SCINTREG         = 0x00000100;
-    //pRegister->SCSRCADDREG      = 0x00000000;
-    //pRegister->SCSRCSIZEREG     = 0x00000000;
-    //pRegister->SCDESTADDREG     = 0x00000000;
-    //pRegister->SCDESTSIZEREG    = 0x00000000;
-    //pRegister->DELTAXREG        = 0x00000000;
-    //pRegister->DELTAYREG        = 0x00000000;
-    //pRegister->HVSOFTREG        = 0x00000000;
-    //pRegister->CLKENB           = 0x00000000;
 
-    WriteIODW(&pRegister->SCRUNREG,     0x00000000);
-    WriteIODW(&pRegister->SCCFGREG,     0x00000000);
-    WriteIODW(&pRegister->SCINTREG,     0x00000100);
-    WriteIODW(&pRegister->SCSRCADDREG,  0x00000000);
-    WriteIODW(&pRegister->SCSRCSTRIDE,  0x00000000);
-    WriteIODW(&pRegister->SCSRCSIZEREG, 0x00000000);
-    WriteIODW(&pRegister->SCDESTADDREG0,0x00000000);
-    WriteIODW(&pRegister->SCDESTSTRIDE0,0x00000000);
-    WriteIODW(&pRegister->SCDESTADDREG1,0x00000000);
-    WriteIODW(&pRegister->SCDESTSTRIDE1,0x00000000);
-    WriteIODW(&pRegister->SCDESTSIZEREG,0x00000000);
-    WriteIODW(&pRegister->DELTAXREG,    0x00000000);
-    WriteIODW(&pRegister->DELTAYREG,    0x00000000);
-    WriteIODW(&pRegister->HVSOFTREG,    0x00000000);
-    WriteIODW(&pRegister->CMDBUFCON,    0x00000000);
-    WriteIODW(&pRegister->CMDBUFADDR,   0x00000000);
+    WriteIO32(&pRegister->SCRUNREG,     0x00000000);
+    WriteIO32(&pRegister->SCCFGREG,     0x00000000);
+    WriteIO32(&pRegister->SCINTREG,     0x00000100);
+    WriteIO32(&pRegister->SCSRCADDREG,  0x00000000);
+    WriteIO32(&pRegister->SCSRCSTRIDE,  0x00000000);
+    WriteIO32(&pRegister->SCSRCSIZEREG, 0x00000000);
+    WriteIO32(&pRegister->SCDESTADDREG0,0x00000000);
+    WriteIO32(&pRegister->SCDESTSTRIDE0,0x00000000);
+    WriteIO32(&pRegister->SCDESTADDREG1,0x00000000);
+    WriteIO32(&pRegister->SCDESTSTRIDE1,0x00000000);
+    WriteIO32(&pRegister->SCDESTSIZEREG,0x00000000);
+    WriteIO32(&pRegister->DELTAXREG,    0x00000000);
+    WriteIO32(&pRegister->DELTAYREG,    0x00000000);
+    WriteIO32(&pRegister->HVSOFTREG,    0x00000000);
+    WriteIO32(&pRegister->CMDBUFCON,    0x00000000);
+    WriteIO32(&pRegister->CMDBUFADDR,   0x00000000);
 
     return CTRUE;
 }
@@ -188,12 +157,8 @@ CBOOL   NX_SCALER_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Deinitialize selected module to the proper stage.
- *  @return     \b CTRUE    indicates that Deinitialize is successed. \n
- *              \b CFALSE   indicates that Deinitialize is failed.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,
- *              NX_SCALER_CheckBusy,            NX_SCALER_CanPowerDown
+ *  @return      CTRUE    indicates that Deinitialize is successed. 
+ *               CFALSE   indicates that Deinitialize is failed.
  */
 CBOOL   NX_SCALER_CloseModule( U32 ModuleIndex )
 {
@@ -204,34 +169,22 @@ CBOOL   NX_SCALER_CloseModule( U32 ModuleIndex )
 
     pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-    //pRegister->SCRUNREG         = 0x00000000;
-    //pRegister->SCCFGREG         = 0x00000000;
-    //pRegister->SCINTREG         = 0x00000100;
-    //pRegister->SCSRCADDREG      = 0x00000000;
-    //pRegister->SCSRCSIZEREG     = 0x00000000;
-    //pRegister->SCDESTADDREG     = 0x00000000;
-    //pRegister->SCDESTSIZEREG    = 0x00000000;
-    //pRegister->DELTAXREG        = 0x00000000;
-    //pRegister->DELTAYREG        = 0x00000000;
-    //pRegister->HVSOFTREG        = 0x00000000;
-    //pRegister->CLKENB           = 0x00000000;
-
-    WriteIODW(&pRegister->SCRUNREG,     0x00000000);
-    WriteIODW(&pRegister->SCCFGREG,     0x00000000);
-    WriteIODW(&pRegister->SCINTREG,     0x00000100);
-    WriteIODW(&pRegister->SCSRCADDREG,  0x00000000);
-    WriteIODW(&pRegister->SCSRCSTRIDE,  0x00000000);
-    WriteIODW(&pRegister->SCSRCSIZEREG, 0x00000000);
-    WriteIODW(&pRegister->SCDESTADDREG0,0x00000000);
-    WriteIODW(&pRegister->SCDESTSTRIDE0,0x00000000);
-    WriteIODW(&pRegister->SCDESTADDREG1,0x00000000);
-    WriteIODW(&pRegister->SCDESTSTRIDE1,0x00000000);
-    WriteIODW(&pRegister->SCDESTSIZEREG,0x00000000);
-    WriteIODW(&pRegister->DELTAXREG,    0x00000000);
-    WriteIODW(&pRegister->DELTAYREG,    0x00000000);
-    WriteIODW(&pRegister->HVSOFTREG,    0x00000000);
-    WriteIODW(&pRegister->CMDBUFCON,    0x00000000);
-    WriteIODW(&pRegister->CMDBUFADDR,   0x00000000);
+    WriteIO32(&pRegister->SCRUNREG,     0x00000000);
+    WriteIO32(&pRegister->SCCFGREG,     0x00000000);
+    WriteIO32(&pRegister->SCINTREG,     0x00000100);
+    WriteIO32(&pRegister->SCSRCADDREG,  0x00000000);
+    WriteIO32(&pRegister->SCSRCSTRIDE,  0x00000000);
+    WriteIO32(&pRegister->SCSRCSIZEREG, 0x00000000);
+    WriteIO32(&pRegister->SCDESTADDREG0,0x00000000);
+    WriteIO32(&pRegister->SCDESTSTRIDE0,0x00000000);
+    WriteIO32(&pRegister->SCDESTADDREG1,0x00000000);
+    WriteIO32(&pRegister->SCDESTSTRIDE1,0x00000000);
+    WriteIO32(&pRegister->SCDESTSIZEREG,0x00000000);
+    WriteIO32(&pRegister->DELTAXREG,    0x00000000);
+    WriteIO32(&pRegister->DELTAYREG,    0x00000000);
+    WriteIO32(&pRegister->HVSOFTREG,    0x00000000);
+    WriteIO32(&pRegister->CMDBUFCON,    0x00000000);
+    WriteIO32(&pRegister->CMDBUFADDR,   0x00000000);
 
     return CTRUE;
 }
@@ -239,12 +192,8 @@ CBOOL   NX_SCALER_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates whether the selected modules is busy or not.
- *  @return     \b CTRUE    indicates that Module is Busy. \n
- *              \b CFALSE   indicates that Module is NOT Busy.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CanPowerDown
+ *  @return      CTRUE    indicates that Module is Busy. 
+ *               CFALSE   indicates that Module is NOT Busy.
  */
 CBOOL   NX_SCALER_CheckBusy( U32 ModuleIndex )
 {
@@ -257,12 +206,8 @@ CBOOL   NX_SCALER_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicaes whether the selected modules is ready to enter power-down stage
- *  @return     \b CTRUE    indicates that Ready to enter power-down stage. \n
- *              \b CFALSE   indicates that This module can't enter to power-down stage.
- *  @see        NX_SCALER_GetPhysicalAddress,   NX_SCALER_GetSizeOfRegisterSet,
- *              NX_SCALER_SetBaseAddress,       NX_SCALER_GetBaseAddress,
- *              NX_SCALER_OpenModule,           NX_SCALER_CloseModule,
- *              NX_SCALER_CheckBusy
+ *  @return      CTRUE    indicates that Ready to enter power-down stage. 
+ *               CFALSE   indicates that This module can't enter to power-down stage.
  */
 CBOOL   NX_SCALER_CanPowerDown( U32 ModuleIndex )
 {
@@ -277,13 +222,6 @@ CBOOL   NX_SCALER_CanPowerDown( U32 ModuleIndex )
 /**
  *  @brief      Get a interrupt number for interrupt controller.
  *  @return     Interrupt number
- *  @see                                                NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 S32     NX_SCALER_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -298,16 +236,9 @@ S32     NX_SCALER_GetInterruptNumber( U32 ModuleIndex )
 /**
  *  @brief      Set a specified interrupt to be enable or disable.
  *  @param[in]  IntNum  Interrupt Number ( 0: Scaler End ).
- *  @param[in]  Enable  \b CTRUE    indicates that Interrupt Enable. \n
- *                      \b CFALSE   indicates that Interrupt Disable.
+ *  @param[in]  Enable   CTRUE    indicates that Interrupt Enable. 
+ *                       CFALSE   indicates that Interrupt Disable.
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 {
@@ -319,22 +250,15 @@ void    NX_SCALER_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable 
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG = ((U32)Enable << SC_INT_ENB_BITPOS);
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, ((U32)Enable << (SC_INT_ENB_BITPOS+IntNum)));
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, ((U32)Enable << (SC_INT_ENB_BITPOS+IntNum)));
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates whether a specified interrupt is enabled or disabled.
  *  @param[in]  IntNum  Interrupt Number( 0: Scaler End ).
- *  @return     \b CTRUE    indicates that Interrupt is enabled. \n
- *              \b CFALSE   indicates that Interrupt is disabled.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *                                                      NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
+ *  @return      CTRUE    indicates that Interrupt is enabled. 
+ *               CFALSE   indicates that Interrupt is disabled.
  */
 CBOOL   NX_SCALER_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 {
@@ -350,16 +274,9 @@ CBOOL   NX_SCALER_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Set a specified interrupt to be enable or disable.
- *  @param[in]  EnableFlag  Specify interrupt bit for enable of disable. Each bit's meaning is like below   \n
- *                          - EnableFlag[0] : Set Scaler Done interrupt enable or disable. \n
+ *  @param[in]  EnableFlag  Specify interrupt bit for enable of disable. Each bit's meaning is like below   
+ *                          - EnableFlag[0] : Set Scaler Done interrupt enable or disable. 
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 {
@@ -369,23 +286,16 @@ void    NX_SCALER_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG = ((EnableFlag & 0x01) << SC_INT_ENB_BITPOS);
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, ((EnableFlag & 0x03) << SC_INT_ENB_BITPOS));
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, ((EnableFlag & 0x03) << SC_INT_ENB_BITPOS));
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates current setting value of interrupt enable bit.
- *  @return     Current setting value of interrupt. \n
- *              "1" means interrupt is enabled. \n
- *              "0" means interrupt is disabled. \n
- *              - Return Value[0] : Scaler Done interrupt's setting value. \n
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *                                                      NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
+ *  @return     Current setting value of interrupt. 
+ *              "1" means interrupt is enabled. 
+ *              "0" means interrupt is disabled. 
+ *              - Return Value[0] : Scaler Done interrupt's setting value. 
  */
 U32     NX_SCALER_GetInterruptEnable32( U32 ModuleIndex )
 {
@@ -402,15 +312,8 @@ U32     NX_SCALER_GetInterruptEnable32( U32 ModuleIndex )
 /**
  *  @brief      Indicates whether a specified interrupt is pended or not
  *  @param[in]  IntNum  Interrupt Number( 0 : Scaler End ).
- *  @return     \b CTRUE    indicates that Pending is seted. \n
- *              \b CFALSE   indicates that Pending is Not Seted.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll, NX_SCALER_GetInterruptPendingNumber
+ *  @return      CTRUE    indicates that Pending is seted. 
+ *               CFALSE   indicates that Pending is Not Seted.
  */
 CBOOL   NX_SCALER_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -426,17 +329,10 @@ CBOOL   NX_SCALER_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates current setting value of interrupt pending bit.
- *  @return     Current setting value of pending bit. \n
- *              "1" means pend bit is occured. \n
- *              "0" means pend bit is NOT occured. \n
- *              - Return Value[0] : Scaler Done pending state. \n
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *                                                      NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
+ *  @return     Current setting value of pending bit. 
+ *              "1" means pend bit is occured. 
+ *              "0" means pend bit is NOT occured. 
+ *              - Return Value[0] : Scaler Done pending state. 
  */
 U32     NX_SCALER_GetInterruptPending32( U32 ModuleIndex )
 {
@@ -454,13 +350,6 @@ U32     NX_SCALER_GetInterruptPending32( U32 ModuleIndex )
  *  @brief      Clear a pending state of specified interrupt.
  *  @param[in]  IntNum  Interrupt number( 0 : Scaler End ).
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -475,22 +364,15 @@ void    NX_SCALER_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG |= (0x01 << SC_INT_CLR_BITPOS);
     regval = __g_ModuleVariables[ModuleIndex].pRegister->SCINTREG | (0x01 << (SC_INT_CLR_BITPOS+IntNum));
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Clear a pending state of specified interrupt.
- *  @param[in]  PendingFlag     Specify pend bit to clear. Each bit's meaning is like below \n \n
- *                              - PendingFlag[0] : Scaler Done pending bit. \n
+ *  @param[in]  PendingFlag     Specify pend bit to clear. Each bit's meaning is like below  
+ *                              - PendingFlag[0] : Scaler Done pending bit. 
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *                                                      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 {
@@ -502,22 +384,15 @@ void    NX_SCALER_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG |=  (PendingFlag&0x01) << PEND_BITPOS;
     regval = __g_ModuleVariables[ModuleIndex].pRegister->SCINTREG | (PendingFlag&0x03) << PEND_BITPOS;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Set all interrupts to be enables or disables.
- *  @param[in]  Enable  \b CTRUE    indicates that Set to all interrupt enable. \n
- *                      \b CFALSE   indicates that Set to all interrupt disable.
+ *  @param[in]  Enable   CTRUE    indicates that Set to all interrupt enable. 
+ *                       CFALSE   indicates that Set to all interrupt disable.
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 {
@@ -529,24 +404,17 @@ void    NX_SCALER_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     if( CTRUE == Enable)
-        WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, (SC_INT_ENB_MASK << SC_INT_ENB_BITPOS));
+        WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, (SC_INT_ENB_MASK << SC_INT_ENB_BITPOS));
     else
-        WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, 0x00);
+        WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, 0x00);
 
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates whether some of interrupts are enable or not.
- *  @return     \b CTRUE    indicates that At least one( or more ) interrupt is enabled. \n
- *              \b CFALSE   indicates that All interrupt is disabled.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *                                                      NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
+ *  @return      CTRUE    indicates that At least one( or more ) interrupt is enabled. 
+ *               CFALSE   indicates that All interrupt is disabled.
  */
 CBOOL   NX_SCALER_GetInterruptEnableAll( U32 ModuleIndex )
 {
@@ -561,15 +429,8 @@ CBOOL   NX_SCALER_GetInterruptEnableAll( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *  @brief      Indicates whether some of interrupts are pended or not.
- *  @return     \b CTRUE    indicates that At least one( or more ) pending is seted. \n
- *              \b CFALSE   indicates that All pending is NOT seted.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,
- *              NX_SCALER_ClearInterruptPendingAll,     NX_SCALER_GetInterruptPendingNumber
+ *  @return      CTRUE    indicates that At least one( or more ) pending is seted. 
+ *               CFALSE   indicates that All pending is NOT seted.
  */
 CBOOL   NX_SCALER_GetInterruptPendingAll( U32 ModuleIndex )
 {
@@ -583,13 +444,6 @@ CBOOL   NX_SCALER_GetInterruptPendingAll( U32 ModuleIndex )
 /**
  *  @brief      Clear pending state of all interrupts.
  *  @return     None.
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *                                                      NX_SCALER_GetInterruptPendingNumber
  */
 void    NX_SCALER_ClearInterruptPendingAll( U32 ModuleIndex )
 {
@@ -601,21 +455,14 @@ void    NX_SCALER_ClearInterruptPendingAll( U32 ModuleIndex )
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG |= (0x01 << SC_INT_CLR_BITPOS);
     regval = __g_ModuleVariables[ModuleIndex].pRegister->SCINTREG | (0x03 << SC_INT_CLR_BITPOS);
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCINTREG, regval);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get a interrupt number which has the most prority of pended interrupts
- *  @return     Pending Number( If all pending is not set then return -1 ).\n
+ *  @return     Pending Number( If all pending is not set then return -1 ).
  *              0 : Scaler End
- *  @see        NX_SCALER_GetInterruptNumber,           NX_SCALER_SetInterruptEnable,
- *              NX_SCALER_GetInterruptEnable,           NX_SCALER_SetInterruptEnable32,
- *              NX_SCALER_GetInterruptEnable32,         NX_SCALER_GetInterruptPending,
- *              NX_SCALER_GetInterruptPending32,        NX_SCALER_ClearInterruptPending,
- *              NX_SCALER_ClearInterruptPending32,      NX_SCALER_SetInterruptEnableAll,
- *              NX_SCALER_GetInterruptEnableAll,        NX_SCALER_GetInterruptPendingAll,
- *              NX_SCALER_ClearInterruptPendingAll
  */
 S32     NX_SCALER_GetInterruptPendingNumber( U32 ModuleIndex ) // -1 if None
 {
@@ -648,8 +495,6 @@ S32     NX_SCALER_GetInterruptPendingNumber( U32 ModuleIndex ) // -1 if None
  *  @brief      Set a PCLK mode
  *  @param[in]  mode    PCLK mode
  *  @return     None.
- *  @see                                        NX_SCALER_GetClockPClkMode,
- *              NX_SCALER_SetClockBClkMode,     NX_SCALER_GetClockBClkMode
  */
 /*
 void            NX_SCALER_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
@@ -677,7 +522,7 @@ void            NX_SCALER_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
     regvalue &= ~(1UL<<PCLKMODE_POS);
     regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
     //pRegister->CLKENB = regvalue;
-    WriteIODW(&pRegister->CLKENB, regvalue);
+    WriteIO32(&pRegister->CLKENB, regvalue);
 }
 */
 
@@ -685,8 +530,6 @@ void            NX_SCALER_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 /**
  *  @brief      Get current PCLK mode
  *  @return     Current PCLK mode
- *  @see        NX_SCALER_SetClockPClkMode,
- *              NX_SCALER_SetClockBClkMode,     NX_SCALER_GetClockBClkMode
  */
 /*
 NX_PCLKMODE NX_SCALER_GetClockPClkMode( U32 ModuleIndex )
@@ -710,8 +553,6 @@ NX_PCLKMODE NX_SCALER_GetClockPClkMode( U32 ModuleIndex )
  *  @brief      Set System Bus Clock's operation Mode
  *  @param[in]  mode        BCLK Mode
  *  @return     None.
- *  @see        NX_SCALER_SetClockPClkMode,         NX_SCALER_GetClockPClkMode,
- *                                                  NX_SCALER_GetClockBClkMode
  */
 /*
 void NX_SCALER_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
@@ -737,7 +578,7 @@ void NX_SCALER_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
     regvalue &= ~(0x03);
     regvalue |= clkmode & 0x03;
     //pRegister->CLKENB = regvalue;
-    WriteIODW(&pRegister->CLKENB, regvalue);
+    WriteIO32(&pRegister->CLKENB, regvalue);
 }
 */
 
@@ -745,17 +586,24 @@ static U32 *__g_clkBaseAddress = CNULL;
 
 void NX_SCALER_CLKGEN_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress)
 {
+    // Prevent Warrning
+    ModuleIndex = ModuleIndex;
     __g_clkBaseAddress = (U32 *)BaseAddress;
 }
 
 U32 NX_SCALER_CLKGEN_GetPhysicalAddress(U32 ModuleIndex)
 {
+    // Prevent Warrning
+    ModuleIndex = ModuleIndex;    
     return 0xC00B6000;
 }
 
 void NX_SCALER_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
 {
     U32 clkmode=0;
+
+    // Prevent Warrning
+    ModuleIndex = ModuleIndex;
 
     NX_ASSERT( CNULL != __g_clkBaseAddress);
 
@@ -766,7 +614,7 @@ void NX_SCALER_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
         case NX_BCLKMODE_ALWAYS:    clkmode = 3;        break;
         default: NX_ASSERT( CFALSE );
     }
-    WriteIODW(__g_clkBaseAddress, clkmode);
+    WriteIO32(__g_clkBaseAddress, clkmode);
 }
 
 //------------------------------------------------------------------------------
@@ -800,8 +648,6 @@ NX_BCLKMODE NX_SCALER_GetClockBClkMode( U32 ModuleIndex )
 /**
  *  @brief      Get System Clock's Number
  *  @return     BCLK Mode
- *  @see        NX_SCALER_SetClockPClkMode,     NX_SCALER_GetClockPClkMode,
- *              NX_SCALER_SetClockBClkMode
  */
 U32 NX_SCALER_GetClockNumber( U32 ModuleIndex )
 {
@@ -820,8 +666,6 @@ U32 NX_SCALER_GetClockNumber( U32 ModuleIndex )
 /**
  *  @brief      Get System Reset Number
  *  @return     BCLK Mode
- *  @see        NX_SCALER_SetClockPClkMode,     NX_SCALER_GetClockPClkMode,
- *              NX_SCALER_SetClockBClkMode
  */
 U32 NX_SCALER_GetResetNumber( U32 ModuleIndex )
 {
@@ -841,7 +685,6 @@ U32 NX_SCALER_GetResetNumber( U32 ModuleIndex )
 /**
  *  @brief      Set Scaler Run
  *  @return     None.
- *  @see        NX_SCALER_Stop,     NX_SCALER_IsBusy
  */
 void    NX_SCALER_Run( U32 ModuleIndex )
 {
@@ -849,7 +692,7 @@ void    NX_SCALER_Run( U32 ModuleIndex )
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG = 0x01;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG, 0x01);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG, 0x01);
 }
 
 //------------------------------------------------------------------------------
@@ -864,15 +707,14 @@ void    NX_SCALER_Stop( U32 ModuleIndex )
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG = 0x00;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG, 0x00);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCRUNREG, 0x00);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Check scaler's state ( busy or idle )
- *  @return     CTRUE indicates that scaler is running.\n
+ *  @return     CTRUE indicates that scaler is running.
  *              CFALSE indicates that scaler is idle.
- *  @see        NX_SCALER_Run,      NX_SCALER_Stop
  */
 CBOOL   NX_SCALER_IsBusy( U32 ModuleIndex )
 {
@@ -892,7 +734,6 @@ CBOOL   NX_SCALER_IsBusy( U32 ModuleIndex )
  *  @brief      Set Scaler's Filter Operation
  *  @param[in]  enable      CTRUE( Filter Enable ), CFALSE( Filter Disable )
  *  @return     None.
- *  @see        NX_SCALER_GetFilterEnable
  */
 void    NX_SCALER_SetFilterEnable( U32 ModuleIndex, CBOOL enable )
 {
@@ -914,15 +755,14 @@ void    NX_SCALER_SetFilterEnable( U32 ModuleIndex, CBOOL enable )
     }
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG = temp;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Check Scaler's Filter Operation
- *  @return     CTRUE   indicates that Filter is Enabled.\n
+ *  @return     CTRUE   indicates that Filter is Enabled.
  *              CFALSE  indicates that Filter is Disabled.
- *  @see        NX_SCALER_SetFilterEnable
  */
 CBOOL   NX_SCALER_GetFilterEnable( U32 ModuleIndex )
 {
@@ -950,7 +790,6 @@ CBOOL   NX_SCALER_GetFilterEnable( U32 ModuleIndex )
  *  @param[in]  RatioH      Value of Horizontal Ratio( 0x0 ~ 0x3F )
  *  @param[in]  RatioV      Value of Vertical Ratio( 0x0 ~ 0x1F )
  *  @return     None.
- *  @see        NX_SCALER_GetFilterRatio
  */
 void    NX_SCALER_SetFilterRatio( U32 ModuleIndex, U32 RatioH, U32 RatioV )
 {
@@ -963,7 +802,7 @@ void    NX_SCALER_SetFilterRatio( U32 ModuleIndex, U32 RatioH, U32 RatioV )
     NX_ASSERT( (1<<5) > RatioV );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->HVSOFTREG = ( (RatioH << H_RATIO_BITPOS ) | ( RatioV << V_RATIO_BITPOS ) );
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->HVSOFTREG, ( (RatioH << H_RATIO_BITPOS ) | ( RatioV << V_RATIO_BITPOS ) ));
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->HVSOFTREG, ( (RatioH << H_RATIO_BITPOS ) | ( RatioV << V_RATIO_BITPOS ) ));
 }
 
 //------------------------------------------------------------------------------
@@ -973,7 +812,6 @@ void    NX_SCALER_SetFilterRatio( U32 ModuleIndex, U32 RatioH, U32 RatioV )
  *  @param[out] RatioV      Value of Vertical Ratio( 0x0 ~ 0x1F )
  *  @return     None.
  *  @remarks    Parameter(RatioH, RatioV) can set to CNULL, when the information is not need.
- *  @see        NX_SCALER_SetFilterRatio
  */
 void    NX_SCALER_GetFilterRatio( U32 ModuleIndex, U32* RatioH, U32* RatioV )
 {
@@ -1008,7 +846,7 @@ void    NX_SCALER_SetYVFilter( U32 ModuleIndex, U32 FilterSel, U32 FilterIndex, 
     NX_ASSERT( FilterIndex < 8 );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->YVFILTER[FilterSel][FilterIndex] = (S8)FilterVal;
-    WriteIODW( &__g_ModuleVariables[ModuleIndex].pRegister->YVFILTER[FilterSel][FilterIndex], (U32)FilterVal );
+    WriteIO32( &__g_ModuleVariables[ModuleIndex].pRegister->YVFILTER[FilterSel][FilterIndex], (U32)FilterVal );
 }
 
 void    NX_SCALER_SetYHFilter( U32 ModuleIndex, U32 FilterSel, U32 FilterIndex, U32 FilterVal )
@@ -1019,7 +857,7 @@ void    NX_SCALER_SetYHFilter( U32 ModuleIndex, U32 FilterSel, U32 FilterIndex, 
     NX_ASSERT( FilterIndex < 64 );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->YHFILTER[FilterSel][FilterIndex] = (S16)FilterVal;
-    WriteIODW( &__g_ModuleVariables[ModuleIndex].pRegister->YHFILTER[FilterSel][FilterIndex], (U32)FilterVal );
+    WriteIO32( &__g_ModuleVariables[ModuleIndex].pRegister->YHFILTER[FilterSel][FilterIndex], (U32)FilterVal );
 }
 
 //------------------------------------------------------------------------------
@@ -1027,7 +865,6 @@ void    NX_SCALER_SetYHFilter( U32 ModuleIndex, U32 FilterSel, U32 FilterIndex, 
  *  @brief      Set Scaler's Rotate Mode
  *  @param[in]  rotate      Value of Rotate Mode
  *  @return     None.
- *  @see        NX_SCALER_GetRotateMode
  */
 /*
 void    NX_SCALER_SetRotateMode( U32 ModuleIndex, NX_SCALER_ROTATE rotate )
@@ -1045,7 +882,7 @@ void    NX_SCALER_SetRotateMode( U32 ModuleIndex, NX_SCALER_ROTATE rotate )
     temp = ( temp & ~ROT_MASK ) | ( (U32)rotate << ROT_BITPOS );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG = temp ;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
 }
 */
 
@@ -1053,7 +890,6 @@ void    NX_SCALER_SetRotateMode( U32 ModuleIndex, NX_SCALER_ROTATE rotate )
 /**
  *  @brief      Get Scaler's Rotate Mode
  *  @return     Value of Rotate Mode
- *  @see        NX_SCALER_SetRotateMode
  */
 /*
 NX_SCALER_ROTATE    NX_SCALER_GetRotateMode( U32 ModuleIndex )
@@ -1076,7 +912,6 @@ NX_SCALER_ROTATE    NX_SCALER_GetRotateMode( U32 ModuleIndex )
  *  @brief      Set Scaler's Rotate Mode
  *  @param[in]  rotate      Value of Rotate Mode
  *  @return     None.
- *  @see        NX_SCALER_GetRotateMode
  */
 void    NX_SCALER_SetMode( U32 ModuleIndex, NX_SCALER_MODE mode )
 {
@@ -1093,14 +928,13 @@ void    NX_SCALER_SetMode( U32 ModuleIndex, NX_SCALER_MODE mode )
     temp = ( temp & ~MOD_MASK ) | ( (U32)mode << MOD_BITPOS );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG = temp ;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCCFGREG, temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get Scaler's Rotate Mode
  *  @return     Value of Rotate Mode
- *  @see        NX_SCALER_SetRotateMode
  */
 NX_SCALER_MODE    NX_SCALER_GetMode( U32 ModuleIndex )
 {
@@ -1123,12 +957,10 @@ NX_SCALER_MODE    NX_SCALER_GetMode( U32 ModuleIndex )
  *  @brief      Set Source Image Address
  *  @param[in]  Addr        Value of Source Image Address
  *  @return     None.
- *  @remarks    Address's Format is 2D Address. so each bit have meaning.\n\n
- *              Addr[27:24] : Segment Address.\n
- *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. \n
- *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. \n
- *  @see                                NX_SCALER_GetSrcAddr,
- *              NX_SCALER_SetDestAddr,  NX_SCALER_GetDestAddr
+ *  @remarks    Address's Format is 2D Address. so each bit have meaning.
+ *              Addr[27:24] : Segment Address.
+ *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. 
+ *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. 
  */
 void    NX_SCALER_SetSrcAddr( U32 ModuleIndex, U32 Addr )
 {
@@ -1138,18 +970,16 @@ void    NX_SCALER_SetSrcAddr( U32 ModuleIndex, U32 Addr )
     //NX_ASSERT( 0 == (0x50007007 & Addr) );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCSRCADDREG  = Addr;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCADDREG, Addr);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCADDREG, Addr);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get Source Image Address
- *  @return     Value of Source Image 2D Address.\n\n
- *              SrcAddr[27:24] : Segment Address.\n
- *              SrcAddr[23:12] : Base Address Y.\n
- *              SrcAddr[11:0]   : Base Address X.\n
- *  @see        NX_SCALER_SetSrcAddr,
- *              NX_SCALER_SetDestAddr,  NX_SCALER_GetDestAddr
+ *  @return     Value of Source Image 2D Address.
+ *              SrcAddr[27:24] : Segment Address.
+ *              SrcAddr[23:12] : Base Address Y.
+ *              SrcAddr[11:0]   : Base Address X.
  */
 U32     NX_SCALER_GetSrcAddr( U32 ModuleIndex )
 {
@@ -1163,10 +993,10 @@ U32     NX_SCALER_GetSrcAddr( U32 ModuleIndex )
  *  @brief      Set Source Image Stride
  *  @param[in]  Addr        Value of Source Image Address
  *  @return     None.
- *  @remarks    Address's Format is 2D Address. so each bit have meaning.\n\n
- *              Addr[27:24] : Segment Address.\n
- *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. \n
- *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. \n
+ *  @remarks    Address's Format is 2D Address. so each bit have meaning.
+ *              Addr[27:24] : Segment Address.
+ *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. 
+ *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. 
  *  @see                                NX_SCALER_GetSrcAddr,
  *              NX_SCALER_SetDestAddr,  NX_SCALER_GetDestAddr
  */
@@ -1176,18 +1006,16 @@ void    NX_SCALER_SetSrcStride( U32 ModuleIndex, U32 Stride )
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCSRCADDREG  = Addr;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCSTRIDE, Stride);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCSTRIDE, Stride);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get Source Image Stride
- *  @return     Value of Source Image 2D Address.\n\n
- *              SrcAddr[27:24] : Segment Address.\n
- *              SrcAddr[23:12] : Base Address Y.\n
- *              SrcAddr[11:0]   : Base Address X.\n
- *  @see        NX_SCALER_SetSrcAddr,
- *              NX_SCALER_SetDestAddr,  NX_SCALER_GetDestAddr
+ *  @return     Value of Source Image 2D Address.
+ *              SrcAddr[27:24] : Segment Address.
+ *              SrcAddr[23:12] : Base Address Y.
+ *              SrcAddr[11:0]   : Base Address X.
  */
 U32     NX_SCALER_GetSrcStride( U32 ModuleIndex )
 {
@@ -1202,10 +1030,10 @@ U32     NX_SCALER_GetSrcStride( U32 ModuleIndex )
  *  @brief      Set Destination Image Address
  *  @param[in]  Addr        Value of Destination Image Address
  *  @return     None.
- *  @remarks    Address's Format is 2D Address. so each bit have meaning.\n\n
- *              Addr[27:24] : Segment Address.\n
- *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. \n
- *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. \n
+ *  @remarks    Address's Format is 2D Address. so each bit have meaning.
+ *              Addr[27:24] : Segment Address.
+ *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. 
+ *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. 
  *  @see        NX_SCALER_SetSrcAddr,   NX_SCALER_GetSrcAddr,
  *                                      NX_SCALER_GetDestAddr
  */
@@ -1219,27 +1047,25 @@ void    NX_SCALER_SetDestAddr( U32 ModuleIndex, U32 DstIndex, U32 Addr )
 
     switch( DstIndex )
     {
-        case 0: WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG0, Addr);    break;
-        case 1: WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG1, Addr);    break;
+        case 0: WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG0, Addr);    break;
+        case 1: WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG1, Addr);    break;
     }
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG = Addr;
-    //WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG, Addr);
+    //WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG, Addr);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get Destination Image Address
- *  @return     Value of Destination Image 2D Address.\n\n
- *              SrcAddr[27:24]  : Segment Address.\n
- *              SrcAddr[23:12]  : Base Address Y.\n
- *              SrcAddr[11:0]   : Base Address X.\n
- *  @see        NX_SCALER_SetSrcAddr,   NX_SCALER_GetSrcAddr,
- *              NX_SCALER_SetDestAddr
+ *  @return     Value of Destination Image 2D Address.
+ *              SrcAddr[27:24]  : Segment Address.
+ *              SrcAddr[23:12]  : Base Address Y.
+ *              SrcAddr[11:0]   : Base Address X.
  */
 U32     NX_SCALER_GetDestAddr( U32 ModuleIndex, U32 DstIndex )
 {
-    U32 DestAddr;
+    U32 DestAddr = 0;
 
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
     NX_ASSERT( DstIndex < 2 );
@@ -1259,12 +1085,10 @@ U32     NX_SCALER_GetDestAddr( U32 ModuleIndex, U32 DstIndex )
  *  @brief      Set Destination Image Address
  *  @param[in]  Addr        Value of Destination Image Address
  *  @return     None.
- *  @remarks    Address's Format is 2D Address. so each bit have meaning.\n\n
- *              Addr[27:24] : Segment Address.\n
- *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. \n
- *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. \n
- *  @see        NX_SCALER_SetSrcAddr,   NX_SCALER_GetSrcAddr,
- *                                      NX_SCALER_GetDestAddr
+ *  @remarks    Address's Format is 2D Address. so each bit have meaning.
+ *              Addr[27:24] : Segment Address.
+ *              Addr[23:12] : Base Address Y. Should be arranged in 8-byte. 
+ *              Addr[11:0]  : Base Address X. Should be arranged in 8-byte. 
  */
 void    NX_SCALER_SetDestStride( U32 ModuleIndex, U32 DstIndex, U32 Stride )
 {
@@ -1274,27 +1098,26 @@ void    NX_SCALER_SetDestStride( U32 ModuleIndex, U32 DstIndex, U32 Stride )
 
     switch( DstIndex )
     {
-        case 0: WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE0, Stride);  break;
-        case 1: WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE1, Stride);  break;
+        case 0: WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE0, Stride);  break;
+        case 1: WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE1, Stride);  break;
     }
 
     //__g_ModuleVariables[ModuleIndex].pRegister->SCDESTADDREG = Addr;
-    //WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE, Stride);
+    //WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSTRIDE, Stride);
 }
 
 //------------------------------------------------------------------------------
 /**
  *  @brief      Get Destination Image Address
- *  @return     Value of Destination Image 2D Address.\n\n
- *              SrcAddr[27:24]  : Segment Address.\n
- *              SrcAddr[23:12]  : Base Address Y.\n
- *              SrcAddr[11:0]   : Base Address X.\n
- *  @see        NX_SCALER_SetSrcAddr,   NX_SCALER_GetSrcAddr,
- *              NX_SCALER_SetDestAddr
+ *  @return     Value of Destination Image 2D Address.
+ *              SrcAddr[27:24]  : Segment Address.
+ *              SrcAddr[23:12]  : Base Address Y.
+ *              SrcAddr[11:0]   : Base Address X.
  */
 U32     NX_SCALER_GetDestStride( U32 ModuleIndex, U32 DstIndex )
 {
-    U32 DestStride;
+    U32 DestStride = 0;
+	
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
 
     switch( DstIndex )
@@ -1316,7 +1139,6 @@ U32     NX_SCALER_GetDestStride( U32 ModuleIndex, U32 DstIndex )
  *  @param[in]  dwDestHeight    Value of height( 1 ~ 4096 )
  *  @return     None.
  *  @remarks    Width must align to 8.
- *  @see        NX_SCALER_GetSrcImageSize
  */
 void    NX_SCALER_SetImageSize
 (
@@ -1336,25 +1158,25 @@ void    NX_SCALER_SetImageSize
 
     temp = ( ( dwSrcHeight - 1 ) << HEIGHT_BITPOS ) | ( ( dwSrcWidth - 1 ) << WIDTH_BITPOS );
     //__g_ModuleVariables[ModuleIndex].pRegister->SCSRCSIZEREG = temp;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCSIZEREG, temp);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCSRCSIZEREG, temp);
 
     temp = ( ( dwDestHeight - 1 ) << HEIGHT_BITPOS ) | ( ( dwDestWidth - 1 ) << WIDTH_BITPOS );
     //__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSIZEREG = temp;
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSIZEREG, temp);
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->SCDESTSIZEREG, temp);
 
     // Setting DeltaX, DeltaY
     //__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG = ( dwSrcWidth * 0x10000 ) / ( dwDestWidth-1 );
     //__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG = ( dwSrcHeight * 0x10000 ) / ( dwDestHeight-1 );
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG, ( dwSrcWidth  * 0x10000 ) / ( dwDestWidth -1 ));
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG, ( dwSrcHeight * 0x10000 ) / ( dwDestHeight-1 ));
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG, ( dwSrcWidth  * 0x10000 ) / ( dwDestWidth -1 ));
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG, ( dwSrcHeight * 0x10000 ) / ( dwDestHeight-1 ));
     //--------------------------------------------------------------------------
     // 2009.11.10, Goofy : Fix to appear abnormal gray vertical pattern
     //                     in the region is filled with a single gray color.
     //--------------------------------------------------------------------------
     //__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG = ( dwSrcWidth  * 0x10000 ) / ( dwDestWidth  );
     //__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG = ( dwSrcHeight * 0x10000 ) / ( dwDestHeight );
-    //WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG, ( dwSrcWidth  * 0x10000 ) / ( dwDestWidth  ));
-    //WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG, ( dwSrcHeight * 0x10000 ) / ( dwDestHeight ));
+    //WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAXREG, ( dwSrcWidth  * 0x10000 ) / ( dwDestWidth  ));
+    //WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->DELTAYREG, ( dwSrcHeight * 0x10000 ) / ( dwDestHeight ));
 
     /* NX_CONSOLE_Printf( "[NXLOG] SCALER:: SRC WIDTH  : 0x%d\n", dwSrcWidth-1 ); */
     /* NX_CONSOLE_Printf( "[NXLOG] SCALER:: SRC HEIGHT : 0x%d\n", dwSrcHeight-1 ); */
@@ -1409,7 +1231,7 @@ void    NX_SCALER_SetCmdBufAddr( U32 ModuleIndex, U32 Addr )
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFADDR, Addr );
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFADDR, Addr );
 }
 
 U32     NX_SCALER_GetCmdBufAddr( U32 ModuleIndex )
@@ -1425,7 +1247,7 @@ void    NX_SCALER_RunCmdBuf( U32 ModuleIndex )
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFCON, 0x01 );
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFCON, 0x01 );
 }
 
 void    NX_SCALER_StopCmdBuf( U32 ModuleIndex )
@@ -1433,6 +1255,6 @@ void    NX_SCALER_StopCmdBuf( U32 ModuleIndex )
     NX_ASSERT( NUMBER_OF_SCALER_MODULE > ModuleIndex );
     NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-    WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFCON, 0x02 );
+    WriteIO32(&__g_ModuleVariables[ModuleIndex].pRegister->CMDBUFCON, 0x02 );
 }
 

@@ -112,7 +112,7 @@ U32		NX_DPC_GetSizeOfRegisterSet( void )
  *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
  *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
-void	NX_DPC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_DPC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
@@ -130,11 +130,11 @@ void	NX_DPC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
  *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
-U32		NX_DPC_GetBaseAddress( U32 ModuleIndex )
+void*	NX_DPC_GetBaseAddress( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
@@ -273,7 +273,7 @@ void	NX_DPC_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 	regvalue |= (U32)Enable << INTENB_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -338,7 +338,7 @@ void	NX_DPC_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 	ReadValue = pRegister->DPCCTRL0 & ~(INTPEND_MASK | INTENB_MASK);
 
 //	pRegister->DPCCTRL0 = (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS );
-	WriteIODW(&pRegister->DPCCTRL0, (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS ));
+	WriteIO32(&pRegister->DPCCTRL0, (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS ));
 }
 
 //------------------------------------------------------------------------------
@@ -454,7 +454,7 @@ void	NX_DPC_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 	regvalue |= 1UL << INTPEND_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -488,7 +488,7 @@ void	NX_DPC_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 	ReadValue = pRegister->DPCCTRL0 & ~INTPEND_MASK;
 
 //	pRegister->DPCCTRL0 = (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS));
-	WriteIODW(&pRegister->DPCCTRL0, (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS)));
+	WriteIO32(&pRegister->DPCCTRL0, (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS)));
 }
 
 //------------------------------------------------------------------------------
@@ -528,7 +528,7 @@ void	NX_DPC_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	regvalue |= (U32)Enable << INTENB_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -610,7 +610,7 @@ void	NX_DPC_ClearInterruptPendingAll( U32 ModuleIndex )
 	regvalue |= 1UL << INTPEND_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -694,7 +694,7 @@ void			NX_DPC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 	regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
 
 //	pRegister->DPCCLKENB = regvalue;
-	WriteIODW(&pRegister->DPCCLKENB, regvalue);
+	WriteIO32(&pRegister->DPCCLKENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -770,7 +770,7 @@ void	NX_DPC_SetClockSource( U32 ModuleIndex, U32 Index, U32 ClkSrc )
 	ReadValue |= ClkSrc << CLKSRCSEL_POS;
 
 //	pRegister->DPCCLKGEN[Index][0] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -840,7 +840,7 @@ void			NX_DPC_SetClockDivisor( U32 ModuleIndex, U32 Index, U32 Divisor )
 	ReadValue	|= (Divisor-1) << CLKDIV_POS;
 
 //	pRegister->DPCCLKGEN[Index][0] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -909,7 +909,7 @@ void			NX_DPC_SetClockOutInv( U32 ModuleIndex, U32 Index, CBOOL OutClkInv )
 	ReadValue	|=	OutClkInv << OUTCLKINV_POS;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -981,7 +981,7 @@ void			NX_DPC_SetClockOutSelect( U32 ModuleIndex, U32 Index, CBOOL bBypass )
 		ReadValue	|=	OUTCLKSEL_MASK;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1058,7 +1058,7 @@ void			NX_DPC_SetClockPolarity( U32 ModuleIndex, CBOOL bPolarity )
 		ReadValue	|=	CLKPOL_MASK;
 
 //	pRegister->DPCCTRL1	=	ReadValue;
-	WriteIODW(&pRegister->DPCCTRL1, ReadValue);
+	WriteIO32(&pRegister->DPCCTRL1, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1138,7 +1138,7 @@ void			NX_DPC_SetClockOutEnb( U32 ModuleIndex, U32 Index, CBOOL OutClkEnb )
 		ReadValue	|=	OUTCLKENB_MASK;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1216,7 +1216,7 @@ void			NX_DPC_SetClockOutDelay( U32 ModuleIndex, U32 Index, U32 delay )
 	ReadValue |= (U32)delay << OUTCLKDELAY_POS;
 
 //	pRegister->DPCCLKGEN[Index][1] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][1], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][1], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1285,7 +1285,7 @@ void			NX_DPC_SetClockDivisorEnable( U32 ModuleIndex, CBOOL Enable )
 	ReadValue	|= (U32)Enable << CLKGENENB_POS;
 
 //	pRegister->DPCCLKENB	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKENB, ReadValue);
+	WriteIO32(&pRegister->DPCCLKENB, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1348,7 +1348,7 @@ void	NX_DPC_SetDPCEnable( U32 ModuleIndex, CBOOL bEnb )
 	ReadValue	|=	(U32)bEnb << DPCENB_POS;
 
 //	pRegister->DPCCTRL0	=	ReadValue;
-	WriteIODW(&pRegister->DPCCTRL0, ReadValue);
+	WriteIO32(&pRegister->DPCCTRL0, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1427,13 +1427,13 @@ void	NX_DPC_SetDelay( U32 ModuleIndex, U32 DelayRGB_PVD, U32 DelayHS_CP1, U32 De
 	temp  = (U32)(temp | (DelayRGB_PVD<<DELAYRGB_POS));
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 
 //	pRegister->DPCDELAY0 = (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS));
-	WriteIODW(&pRegister->DPCDELAY0, (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS)));
+	WriteIO32(&pRegister->DPCDELAY0, (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS)));
 
 //	pRegister->DPCDELAY1 = (U32)(DelayDE_CP2<<DELAYDE_POS);
-	WriteIODW(&pRegister->DPCDELAY1, (U32)(DelayDE_CP2<<DELAYDE_POS));
+	WriteIO32(&pRegister->DPCDELAY1, (U32)(DelayDE_CP2<<DELAYDE_POS));
 }
 
 //------------------------------------------------------------------------------
@@ -1515,7 +1515,7 @@ void	NX_DPC_SetDither( U32 ModuleIndex, NX_DPC_DITHER DitherR, NX_DPC_DITHER Dit
 	temp = (U32)(temp | ((DitherB<<BDITHER_POS) | (DitherG<<GDITHER_POS) | (DitherR<<RDITHER_POS)));
 
 //	pRegister->DPCCTRL1 = temp;
-	WriteIODW(&pRegister->DPCCTRL1, temp);
+	WriteIO32(&pRegister->DPCCTRL1, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1635,7 +1635,7 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 	else				temp &= (U32)~(1U<<SEAVENB_POS);
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 
 	temp  = pRegister->DPCCTRL1;
 	temp &= (U32)DITHER_MASK;		// mask other bits.
@@ -1645,14 +1645,14 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 		register U32 temp1;
 		temp1= pRegister->DPCCTRL2;
 		temp1= temp1 | (1<<4);
-		WriteIODW(&pRegister->DPCCTRL2, temp1);
+		WriteIO32(&pRegister->DPCCTRL2, temp1);
 	}
 	else
 	{
 		register U32 temp1;
 		temp1= pRegister->DPCCTRL2;
 		temp1= temp1 & ~(1<<4);
-		WriteIODW(&pRegister->DPCCTRL2, temp1);
+		WriteIO32(&pRegister->DPCCTRL2, temp1);
 	}
 
 	temp  = (U32)(temp | ((format&0xf) << FORMAT_POS));
@@ -1661,14 +1661,14 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 	if( bSwapRB )	temp |= (U32)(1U<<SWAPRB_POS);
 
 //	pRegister->DPCCTRL1 = temp;
-	WriteIODW(&pRegister->DPCCTRL1, temp);
+	WriteIO32(&pRegister->DPCCTRL1, temp);
 
 	temp  = pRegister->DPCCTRL2;
 	temp &= (U32)~(PADCLKSEL_MASK | LCDTYPE_MASK );		// TFT or Video Encoder
 	temp  = (U32)(temp | (clock<<PADCLKSEL_POS));
 
 //	pRegister->DPCCTRL2 = temp;
-	WriteIODW(&pRegister->DPCCTRL2, temp);
+	WriteIO32(&pRegister->DPCCTRL2, temp);
 
 	// Determines whether invert or not the polarity of the pad clock.
 	NX_DPC_SetClockOutInv( ModuleIndex, 0, bInvertClock );
@@ -1803,16 +1803,16 @@ void	NX_DPC_SetHSync( U32 ModuleIndex, U32 AVWidth, U32 HSW, U32 HFP, U32 HBP, C
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->DPCHTOTAL	= (U32)(HSW + HBP + AVWidth + HFP - 1);
-	WriteIODW(&pRegister->DPCHTOTAL, (U32)(HSW + HBP + AVWidth + HFP - 1));
+	WriteIO32(&pRegister->DPCHTOTAL, (U32)(HSW + HBP + AVWidth + HFP - 1));
 
 //	pRegister->DPCHSWIDTH	= (U32)(HSW - 1);
-	WriteIODW(&pRegister->DPCHSWIDTH, (U32)(HSW - 1));
+	WriteIO32(&pRegister->DPCHSWIDTH, (U32)(HSW - 1));
 
 //	pRegister->DPCHASTART	= (U32)(HSW + HBP - 1);
-	WriteIODW(&pRegister->DPCHASTART, (U32)(HSW + HBP - 1));
+	WriteIO32(&pRegister->DPCHASTART, (U32)(HSW + HBP - 1));
 
 //	pRegister->DPCHAEND	= (U32)(HSW + HBP + AVWidth - 1);
-	WriteIODW(&pRegister->DPCHAEND, (U32)(HSW + HBP + AVWidth - 1));
+	WriteIO32(&pRegister->DPCHAEND, (U32)(HSW + HBP + AVWidth - 1));
 
 	temp  = pRegister->DPCCTRL0;
 	temp &= ~INTPEND;	// unmask intpend bit.
@@ -1821,7 +1821,7 @@ void	NX_DPC_SetHSync( U32 ModuleIndex, U32 AVWidth, U32 HSW, U32 HFP, U32 HBP, C
 	else				temp &= (U32)~POLHSYNC;
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1925,28 +1925,28 @@ void	NX_DPC_SetVSync( U32 ModuleIndex, U32 AVHeight, U32 VSW, U32 VFP, U32 VBP, 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->DPCVTOTAL	= (U32)(VSW + VBP + AVHeight + VFP - 1);
-	WriteIODW(&pRegister->DPCVTOTAL, (U32)(VSW + VBP + AVHeight + VFP - 1));
+	WriteIO32(&pRegister->DPCVTOTAL, (U32)(VSW + VBP + AVHeight + VFP - 1));
 
 //	pRegister->DPCVSWIDTH	= (U32)(VSW - 1);
-	WriteIODW(&pRegister->DPCVSWIDTH, (U32)(VSW - 1));
+	WriteIO32(&pRegister->DPCVSWIDTH, (U32)(VSW - 1));
 
 //	pRegister->DPCVASTART	= (U32)(VSW + VBP - 1);
-	WriteIODW(&pRegister->DPCVASTART, (U32)(VSW + VBP - 1));
+	WriteIO32(&pRegister->DPCVASTART, (U32)(VSW + VBP - 1));
 
 //	pRegister->DPCVAEND		= (U32)(VSW + VBP + AVHeight - 1);
-	WriteIODW(&pRegister->DPCVAEND, (U32)(VSW + VBP + AVHeight - 1));
+	WriteIO32(&pRegister->DPCVAEND, (U32)(VSW + VBP + AVHeight - 1));
 
 //	pRegister->DPCEVTOTAL	= (U32)(EVSW + EVBP + EAVHeight + EVFP - 1);
-	WriteIODW(&pRegister->DPCEVTOTAL, (U32)(EVSW + EVBP + EAVHeight + EVFP - 1));
+	WriteIO32(&pRegister->DPCEVTOTAL, (U32)(EVSW + EVBP + EAVHeight + EVFP - 1));
 
 //	pRegister->DPCEVSWIDTH	= (U32)(EVSW - 1);
-	WriteIODW(&pRegister->DPCEVSWIDTH, (U32)(EVSW - 1));
+	WriteIO32(&pRegister->DPCEVSWIDTH, (U32)(EVSW - 1));
 
 //	pRegister->DPCEVASTART	= (U32)(EVSW + EVBP - 1);
-	WriteIODW(&pRegister->DPCEVASTART, (U32)(EVSW + EVBP - 1));
+	WriteIO32(&pRegister->DPCEVASTART, (U32)(EVSW + EVBP - 1));
 
 //	pRegister->DPCEVAEND	= (U32)(EVSW + EVBP + EAVHeight - 1);
-	WriteIODW(&pRegister->DPCEVAEND, (U32)(EVSW + EVBP + EAVHeight - 1));
+	WriteIO32(&pRegister->DPCEVAEND, (U32)(EVSW + EVBP + EAVHeight - 1));
 
 	temp  = pRegister->DPCCTRL0;
 	temp &= ~INTPEND;	// unmask intpend bit.
@@ -1955,7 +1955,7 @@ void	NX_DPC_SetVSync( U32 ModuleIndex, U32 AVHeight, U32 VSW, U32 VFP, U32 VBP, 
 	else				temp &= (U32)~POLVSYNC;
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -2089,16 +2089,16 @@ void	NX_DPC_SetVSyncOffset( U32 ModuleIndex, U32 VSSOffset, U32 VSEOffset, U32 E
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->DPCVSEOFFSET	= (U32)VSEOffset;
-	WriteIODW(&pRegister->DPCVSEOFFSET, (U32)VSEOffset);
+	WriteIO32(&pRegister->DPCVSEOFFSET, (U32)VSEOffset);
 
 //	pRegister->DPCVSSOFFSET	= (U32)VSSOffset;
-	WriteIODW(&pRegister->DPCVSSOFFSET, (U32)VSSOffset);
+	WriteIO32(&pRegister->DPCVSSOFFSET, (U32)VSSOffset);
 
 //	pRegister->DPCEVSEOFFSET	= (U32)EVSEOffset;
-	WriteIODW(&pRegister->DPCEVSEOFFSET, (U32)EVSEOffset);
+	WriteIO32(&pRegister->DPCEVSEOFFSET, (U32)EVSEOffset);
 
 //	pRegister->DPCEVSSOFFSET	= (U32)EVSSOffset;
-	WriteIODW(&pRegister->DPCEVSSOFFSET, (U32)EVSSOffset);
+	WriteIO32(&pRegister->DPCEVSSOFFSET, (U32)EVSSOffset);
 }
 
 //------------------------------------------------------------------------------
@@ -2184,13 +2184,13 @@ void	NX_DPC_SetHorizontalUpScaler( U32 ModuleIndex, CBOOL bEnb, U32 sourceWidth,
 	regvalue |= (((U32)bEnb<<UPSCALERENB_POS) | (UpScale & 0xFF)<<UPSCALEL_POS );
 
 //	pRegister->DPCUPSCALECON0 = regvalue;
-	WriteIODW(&pRegister->DPCUPSCALECON0, regvalue);
+	WriteIO32(&pRegister->DPCUPSCALECON0, regvalue);
 
 //	pRegister->DPCUPSCALECON1 = ( UpScale >> 0x08 ) & UPSCALEH_MASK;
-	WriteIODW(&pRegister->DPCUPSCALECON1, ( UpScale >> 0x08 ) & UPSCALEH_MASK);
+	WriteIO32(&pRegister->DPCUPSCALECON1, ( UpScale >> 0x08 ) & UPSCALEH_MASK);
 
 //	pRegister->DPCUPSCALECON2 = sourceWidth - 1;
-	WriteIODW(&pRegister->DPCUPSCALECON2, sourceWidth - 1);
+	WriteIO32(&pRegister->DPCUPSCALECON2, sourceWidth - 1);
 }
 
 //------------------------------------------------------------------------------
@@ -2303,34 +2303,34 @@ void NX_DPC_SetSync
 	// Video    +--------------------+                +-----------------
 	//                        |<---->|
 	//                        |<---------AEND-------->|
-	WriteIODW(&pRegister->DPCHTOTAL, (U32)( HFP + HSW + HBP + AVWidth - 1 ));
-	WriteIODW(&pRegister->DPCHSWIDTH , (U32)( HSW - 1 ));
-	WriteIODW(&pRegister->DPCHASTART , (U32)( HSW + HBP - 1 ));
-	WriteIODW(&pRegister->DPCHAEND   , (U32)( HSW + HBP + AVWidth - 1 ));
-	WriteIODW(&pRegister->DPCVTOTAL, (U32)( VFP + VSW + VBP + AVHeight - 1 ));
-	WriteIODW(&pRegister->DPCVSWIDTH , (U32)( VSW - 1 ));
-	WriteIODW(&pRegister->DPCVASTART , (U32)( VSW + VBP - 1 ));
-	WriteIODW(&pRegister->DPCVAEND   , (U32)( VSW + VBP + AVHeight - 1 ));
+	WriteIO32(&pRegister->DPCHTOTAL, (U32)( HFP + HSW + HBP + AVWidth - 1 ));
+	WriteIO32(&pRegister->DPCHSWIDTH , (U32)( HSW - 1 ));
+	WriteIO32(&pRegister->DPCHASTART , (U32)( HSW + HBP - 1 ));
+	WriteIO32(&pRegister->DPCHAEND   , (U32)( HSW + HBP + AVWidth - 1 ));
+	WriteIO32(&pRegister->DPCVTOTAL, (U32)( VFP + VSW + VBP + AVHeight - 1 ));
+	WriteIO32(&pRegister->DPCVSWIDTH , (U32)( VSW - 1 ));
+	WriteIO32(&pRegister->DPCVASTART , (U32)( VSW + VBP - 1 ));
+	WriteIO32(&pRegister->DPCVAEND   , (U32)( VSW + VBP + AVHeight - 1 ));
 
-    WriteIODW(&pRegister->DPCVSEOFFSET     ,(U32) VSETPIXEL);
-    WriteIODW(&pRegister->DPCVSSOFFSET    ,(U32)( HFP + HSW + HBP + AVWidth-VSCLRPIXEL- 1 ));
-    WriteIODW(&pRegister->DPCEVSEOFFSET ,(U32) EVENVSETPIXEL);
-    WriteIODW(&pRegister->DPCEVSSOFFSET, (U32)( HFP + HSW + HBP + AVWidth-EVENVSCLRPIXEL- 1 ));
+    WriteIO32(&pRegister->DPCVSEOFFSET     ,(U32) VSETPIXEL);
+    WriteIO32(&pRegister->DPCVSSOFFSET    ,(U32)( HFP + HSW + HBP + AVWidth-VSCLRPIXEL- 1 ));
+    WriteIO32(&pRegister->DPCEVSEOFFSET ,(U32) EVENVSETPIXEL);
+    WriteIO32(&pRegister->DPCEVSSOFFSET, (U32)( HFP + HSW + HBP + AVWidth-EVENVSCLRPIXEL- 1 ));
 
     if (1==SyncGenMode)
     {
-    	WriteIODW(&pRegister->DPCEVTOTAL,(U32)( EvenVFP + EvenVSW + EvenVBP + AVHeight - 1 ));
-	    WriteIODW(&pRegister->DPCEVSWIDTH ,(U32)( EvenVSW - 1 ));
-    	WriteIODW(&pRegister->DPCEVASTART ,(U32)( EvenVSW + EvenVBP - 1 ));
-	    WriteIODW(&pRegister->DPCEVAEND   ,(U32)( EvenVSW + EvenVBP + AVHeight - 1 ));
+    	WriteIO32(&pRegister->DPCEVTOTAL,(U32)( EvenVFP + EvenVSW + EvenVBP + AVHeight - 1 ));
+	    WriteIO32(&pRegister->DPCEVSWIDTH ,(U32)( EvenVSW - 1 ));
+    	WriteIO32(&pRegister->DPCEVASTART ,(U32)( EvenVSW + EvenVBP - 1 ));
+	    WriteIO32(&pRegister->DPCEVAEND   ,(U32)( EvenVSW + EvenVBP + AVHeight - 1 ));
     }
-	regvalue = ReadIODW(&pRegister->DPCCTRL0) & 0xFFF0UL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0xFFF0UL;
 	regvalue |= (((U32)FieldPolarity<<2) | ((U32)VSyncPolarity<<1) | ((U32)HSyncPolarity<<0));
-	WriteIODW(&pRegister->DPCCTRL0, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
 
-    regvalue1 =(U32)( ReadIODW(&pRegister -> DPCCTRL0) & 0xffff);
+    regvalue1 =(U32)( ReadIO32(&pRegister -> DPCCTRL0) & 0xffff);
     regvalue1 = (U32)((SyncGenMode<<9) | regvalue1);
-    WriteIODW(&pRegister -> DPCCTRL0, (U32)regvalue1);
+    WriteIO32(&pRegister -> DPCCTRL0, (U32)regvalue1);
 }
 
 
@@ -2387,15 +2387,15 @@ void NX_DPC_SetOutputFormat
 
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL1) & 0x30FFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL1) & 0x30FFUL;
 
 
 	regvalue |= (FORMAT_TABLE[OutputFormat]<<8);
-	WriteIODW(&pRegister->DPCCTRL1, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL1, (U32)regvalue);
 
-	regvalue0 = (U32)(ReadIODW(&pRegister -> DPCCTRL1) & 0xff3f);
+	regvalue0 = (U32)(ReadIO32(&pRegister -> DPCCTRL1) & 0xff3f);
 	regvalue0 = (U32)((OutputVideoConfig<<6) | regvalue0);
-	WriteIODW(&pRegister -> DPCCTRL1, (U32)regvalue0);
+	WriteIO32(&pRegister -> DPCCTRL1, (U32)regvalue0);
 }
 
 //------------------------------------------------------------------------------
@@ -2416,9 +2416,9 @@ void NX_DPC_SetQuantizationMode
 
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL1) & 0x8FFFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL1) & 0x8FFFUL;
 	regvalue |= ((U32)RGB2YC<<13) | ((U32)YC2RGB<<12);
-	WriteIODW(&pRegister->DPCCTRL1, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL1, (U32)regvalue);
 }
 
 
@@ -2439,11 +2439,11 @@ void NX_DPC_SetEnable
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 	NX_ASSERT( ~UseAnalogOutput | UseNTSCSync );
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
 	regvalue |= ((U32)Enable<<15) |
 				((U32)UseNTSCSync<<14) | ((U32)SEAVEnable<<8) |((U32)UseAnalogOutput<<13) | ((U32)RGBMode<<12);
 
-	WriteIODW(&pRegister->DPCCTRL0, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
 }
 
 
@@ -2462,7 +2462,7 @@ void NX_DPC_SetOutVideoClkSelect
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 
-    WriteIODW(&pRegister -> DPCCTRL2, (U32)((ReadIODW(&pRegister->DPCCTRL2)) | (OutPadVClkSel&0x3)));
+    WriteIO32(&pRegister -> DPCCTRL2, (U32)((ReadIO32(&pRegister->DPCCTRL2)) | (OutPadVClkSel&0x3)));
 }
 
 void NX_DPC_SetRegFlush( U32 ModuleIndex )
@@ -2474,8 +2474,8 @@ void NX_DPC_SetRegFlush( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW(&pRegister -> DPCDATAFLUSH);
-	WriteIODW(&pRegister -> DPCDATAFLUSH, (U32) ( Reg | (1UL<<4)));
+	Reg = ReadIO32(&pRegister -> DPCDATAFLUSH);
+	WriteIO32(&pRegister -> DPCDATAFLUSH, (U32) ( Reg | (1UL<<4)));
 }
 
 
@@ -2490,11 +2490,11 @@ void NX_DPC_SetSRAMOn ( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xf3ff);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<10)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xf3ff);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<10)));
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xf7ff);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<11)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xf7ff);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<11)));
 }
 
 void NX_DPC_SetSyncLCDType
@@ -2514,8 +2514,8 @@ void NX_DPC_SetSyncLCDType
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xc0f);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (CPCycle<<12) | (BitWidh<<9) | (DualViewEnb<<8) | (STNLCD<<7)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xc0f);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (CPCycle<<12) | (BitWidh<<9) | (DualViewEnb<<8) | (STNLCD<<7)));
 }
 
 
@@ -2539,9 +2539,9 @@ void NX_DPC_SetUpScaleControl
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister -> DPCUPSCALECON0, (U32)((HScale << 8) | ((U32)FilterEnb<<1) | (UpScaleEnb)));
-    WriteIODW(&pRegister -> DPCUPSCALECON1, (U32)(HScale>>8));
-    WriteIODW(&pRegister -> DPCUPSCALECON2, SourceWidth);
+	WriteIO32(&pRegister -> DPCUPSCALECON0, (U32)((HScale << 8) | ((U32)FilterEnb<<1) | (UpScaleEnb)));
+    WriteIO32(&pRegister -> DPCUPSCALECON1, (U32)(HScale>>8));
+    WriteIO32(&pRegister -> DPCUPSCALECON2, SourceWidth);
 }
 
 
@@ -2559,8 +2559,8 @@ void NX_DPC_SetMPUTime(U32 ModuleIndex, U8 Setup, U8 Hold, U8 Acc)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUTIME0, (U32)((Setup<<8)|(Hold&0xff)) );
-	WriteIODW( &pRegister->DPCMPUTIME1, (U32)(Acc) );
+	WriteIO32( &pRegister->DPCMPUTIME0, (U32)((Setup<<8)|(Hold&0xff)) );
+	WriteIO32( &pRegister->DPCMPUTIME1, (U32)(Acc) );
 }
 void NX_DPC_SetIndex(U32 ModuleIndex, U32 Index)
 {
@@ -2571,13 +2571,13 @@ void NX_DPC_SetIndex(U32 ModuleIndex, U32 Index)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUWRDATAL, (U32)(Index&0xffff) );
-	WriteIODW( &pRegister->DPCMPUINDEX, (U32)((Index>>16)&0xff) );
+	WriteIO32( &pRegister->DPCMPUWRDATAL, (U32)(Index&0xffff) );
+	WriteIO32( &pRegister->DPCMPUINDEX, (U32)((Index>>16)&0xff) );
 
 	if (0x22 == Index)
 	{
-		regvalue = ReadIODW(&pRegister->DPCCTRL2);
-		WriteIODW(&pRegister->DPCCTRL2, (regvalue|0x10)  );
+		regvalue = ReadIO32(&pRegister->DPCCTRL2);
+		WriteIO32(&pRegister->DPCCTRL2, (regvalue|0x10)  );
 	}
 }
 void NX_DPC_SetData(U32 ModuleIndex, U32 Data)
@@ -2587,8 +2587,8 @@ void NX_DPC_SetData(U32 ModuleIndex, U32 Data)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUWRDATAL, (U32)(Data&0xffff) );
-	WriteIODW( &pRegister->DPCMPUDATAH, (U32)((Data>>16)&0xff) );
+	WriteIO32( &pRegister->DPCMPUWRDATAL, (U32)(Data&0xffff) );
+	WriteIO32( &pRegister->DPCMPUDATAH, (U32)((Data>>16)&0xff) );
 }
 
 void NX_DPC_SetCmdBufferFlush(U32 ModuleIndex )
@@ -2599,8 +2599,8 @@ void NX_DPC_SetCmdBufferFlush(U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW(&pRegister -> DPCDATAFLUSH)	;
-	WriteIODW( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<1)) );
+	Reg = ReadIO32(&pRegister -> DPCDATAFLUSH)	;
+	WriteIO32( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<1)) );
 }
 void NX_DPC_SetCmdBufferClear( U32 ModuleIndex )
 {
@@ -2610,8 +2610,8 @@ void NX_DPC_SetCmdBufferClear( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister -> DPCDATAFLUSH );
-	WriteIODW( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<0)) );
+	Reg = ReadIO32( &pRegister -> DPCDATAFLUSH );
+	WriteIO32( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<0)) );
 }
 
 void NX_DPC_SetCmdBufferWrite(U32 ModuleIndex, U32 CmdData )
@@ -2621,8 +2621,8 @@ void NX_DPC_SetCmdBufferWrite(U32 ModuleIndex, U32 CmdData )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister -> DPCCMDBUFFERDATAL, (U32)(CmdData &0xffff) );
-	WriteIODW( &pRegister -> DPCCMDBUFFERDATAH, (U32)(CmdData>>16) );
+	WriteIO32( &pRegister -> DPCCMDBUFFERDATAL, (U32)(CmdData &0xffff) );
+	WriteIO32( &pRegister -> DPCCMDBUFFERDATAH, (U32)(CmdData>>16) );
 }
 
 void NX_DPC_SetMPUCS1( U32 ModuleIndex )
@@ -2633,8 +2633,8 @@ void NX_DPC_SetMPUCS1( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister -> DPCPOLCTRL)	;
-	WriteIODW( &pRegister -> DPCPOLCTRL, (U32)(Reg|0x1) );
+	Reg = ReadIO32( &pRegister -> DPCPOLCTRL)	;
+	WriteIO32( &pRegister -> DPCPOLCTRL, (U32)(Reg|0x1) );
 }
 
 U32 NX_DPC_GetData( U32 ModuleIndex )
@@ -2645,8 +2645,8 @@ U32 NX_DPC_GetData( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister->DPCMPUDATAH );
-	Reg = (Reg<<16)| ReadIODW( &pRegister->DPCMPURDATAL );
+	Reg = ReadIO32( &pRegister->DPCMPUDATAH );
+	Reg = (Reg<<16)| ReadIO32( &pRegister->DPCMPURDATAL );
 
 	return Reg;
 }
@@ -2658,11 +2658,11 @@ U32 NX_DPC_GetStatus( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister->DPCMPUSTATUS );
+	Reg = ReadIO32( &pRegister->DPCMPUSTATUS );
 
 //	NX_CONSOLE_Printf("[DEBUG] Reg = %x", Reg);
 
-	Reg = (Reg<<16)| ReadIODW( &pRegister->DPCMPURDATAL );
+	Reg = (Reg<<16)| ReadIO32( &pRegister->DPCMPURDATAL );
 
 	return Reg;
 }
@@ -2674,8 +2674,8 @@ void NX_DPC_RGBMASK( U32 ModuleIndex, U32 RGBMask )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister->DPCRGBMASK[0], (RGBMask>>0)&0xffff);
-	WriteIODW(&pRegister->DPCRGBMASK[1], (RGBMask>>16)&0x00ff);
+	WriteIO32(&pRegister->DPCRGBMASK[0], (RGBMask>>0)&0xffff);
+	WriteIO32(&pRegister->DPCRGBMASK[1], (RGBMask>>16)&0x00ff);
 
 }
 
@@ -2687,7 +2687,7 @@ void NX_DPC_SetPadLocation( U32 ModuleIndex, U32 Index, U32 regvalue )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister->DPCPADPOSITION[Index], regvalue);
+	WriteIO32(&pRegister->DPCPADPOSITION[Index], regvalue);
 }
 
 U32 NX_DPC_GetFieldFlag( U32 ModuleIndex )
@@ -2699,33 +2699,8 @@ U32 NX_DPC_GetFieldFlag( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCRGBSHIFT);
+	regvalue = ReadIO32(&pRegister->DPCRGBSHIFT);
 
 	return ((regvalue >> 5) && 0x01 );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

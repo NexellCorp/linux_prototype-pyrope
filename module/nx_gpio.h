@@ -45,17 +45,17 @@ extern "C"
 
 		volatile U32 __Reserved[4];		///< 0x2B	:
 		volatile U32 GPIOxDETENB;		///< 0x3C	: IntPend Detect Enable Register
-		// @added charles 20121127 RTL에는 있는데 proto에는 없어서 추가
-		volatile U32 GPIOx_SLEW;					///< 0x40
-		volatile U32 GPIOx_SLEW_DISABLE_DEFAULT;    ///< 0x44
-		volatile U32 GPIOx_DRV1;                    ///< 0x48
-		volatile U32 GPIOx_DRV1_DISABLE_DEFAULT;    ///< 0x4C
-		volatile U32 GPIOx_DRV0;                    ///< 0x50
-		volatile U32 GPIOx_DRV0_DISABLE_DEFAULT;    ///< 0x54
-		volatile U32 GPIOx_PULLSEL;                 ///< 0x58
-		volatile U32 GPIOx_PULLSEL_DISABLE_DEFAULT; ///< 0x5C
-		volatile U32 GPIOx_PULLENB;                 ///< 0x60
-		volatile U32 GPIOx_PULLENB_DISABLE_DEFAULT; ///< 0x64
+
+		volatile U32 GPIOx_SLEW;					///< 0x40	: Slew Register
+		volatile U32 GPIOx_SLEW_DISABLE_DEFAULT;    ///< 0x44	: Slew set On/Off Register
+		volatile U32 GPIOx_DRV1;                    ///< 0x48	: drive strength LSB Register
+		volatile U32 GPIOx_DRV1_DISABLE_DEFAULT;    ///< 0x4C	: drive strength LSB set On/Off Register
+		volatile U32 GPIOx_DRV0;                    ///< 0x50	: drive strength MSB Register
+		volatile U32 GPIOx_DRV0_DISABLE_DEFAULT;    ///< 0x54	: drive strength MSB set On/Off Register
+		volatile U32 GPIOx_PULLSEL;                 ///< 0x58	: Pull UP/DOWN Selection Register
+		volatile U32 GPIOx_PULLSEL_DISABLE_DEFAULT; ///< 0x5C	: Pull UP/DOWN Selection On/Off Register
+		volatile U32 GPIOx_PULLENB;                 ///< 0x60	: Pull Enable/Disable Register
+		volatile U32 GPIOx_PULLENB_DISABLE_DEFAULT; ///< 0x64	: Pull Enable/Disable selection On/Off Register
 		volatile U32 GPIOx_InputMuxSelect0;			///< 0x68
 		volatile U32 GPIOx_InputMuxSelect1;			///< 0x6C
 		U8 __Reserved1[0x1000-0x70];
@@ -122,11 +122,20 @@ extern "C"
 	/// @brief	Pull I/O mode
 	typedef enum
 	{
-		NX_GPIO_PADPULL_DN			= 0UL,
-		NX_GPIO_PADPULL_UP			= 1UL,
-		NX_GPIO_PADPULL_OFF			= 2UL
-	}NX_GPIO_PADPULL;
+		NX_GPIO_DRVSTRENGTH_0		= 0UL,
+		NX_GPIO_DRVSTRENGTH_1		= 1UL,
+		NX_GPIO_DRVSTRENGTH_2		= 2UL,
+		NX_GPIO_DRVSTRENGTH_3		= 3UL
 
+	} NX_GPIO_DRVSTRENGTH;
+
+	typedef enum
+	{
+		NX_GPIO_PULL_DOWN			= 0UL,
+		NX_GPIO_PULL_UP			    = 1UL,
+		NX_GPIO_PULL_OFF			= 2UL
+	} NX_GPIO_PULL;
+    
 //------------------------------------------------------------------------------
 /// @name	Module Interface
 //@{
@@ -139,8 +148,8 @@ U32		NX_GPIO_GetNumberOfModule( void );
 //@{
 U32		NX_GPIO_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_GPIO_GetSizeOfRegisterSet( void );
-void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_GPIO_GetBaseAddress( U32 ModuleIndex );
+void	NX_GPIO_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*	NX_GPIO_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_GPIO_OpenModule( U32 ModuleIndex );
 CBOOL	NX_GPIO_CloseModule( U32 ModuleIndex );
 CBOOL	NX_GPIO_CheckBusy( U32 ModuleIndex );
@@ -187,7 +196,7 @@ CBOOL			NX_GPIO_GetOutputValue	( U32 ModuleIndex, U32 BitNumber );
 void			NX_GPIO_SetOutputValue32	( U32 ModuleIndex, U32 Value );
 U32				NX_GPIO_GetOutputValue32	( U32 ModuleIndex );
 CBOOL			NX_GPIO_GetInputValue		( U32 ModuleIndex, U32 BitNumber );
-void			NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PADPULL mode);
+void			NX_GPIO_SetPullMode ( U32 ModuleIndex, U32 BitNumber, NX_GPIO_PULL mode);
 void			NX_GPIO_SetPullSelect ( U32 ModuleIndex, U32 BitNumber, CBOOL enable);
 CBOOL			NX_GPIO_GetPullSelect ( U32 ModuleIndex, U32 BitNumber );
 void			NX_GPIO_SetPullSelect32 ( U32 ModuleIndex, U32 Value );
@@ -217,6 +226,18 @@ void	NX_GPIO_SetDRV0	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetDRV0	( U32 ModuleIndex );
 void	NX_GPIO_SetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetDRV0_DISABLE_DEFAULT	( U32 ModuleIndex );
+
+void	NX_GPIO_SetSlew	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+CBOOL	NX_GPIO_GetSlew	( U32 ModuleIndex, U32 BitNumber );
+void	NX_GPIO_SetSlewDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+
+void	NX_GPIO_SetSlew32	( U32 ModuleIndex, U32 Value );
+U32		NX_GPIO_GetSlew32	( U32 ModuleIndex );
+void	NX_GPIO_SetDriveStrength(U32 ModuleIndex, U32 BitNumber, NX_GPIO_DRVSTRENGTH drvstrength);
+NX_GPIO_DRVSTRENGTH		NX_GPIO_GetDriveStrength(U32 ModuleIndex, U32 BitNumber);
+void	NX_GPIO_SetDriveStrengthDisableDefault	( U32 ModuleIndex, U32 BitNumber, CBOOL Enable );
+
+
 void	NX_GPIO_SetPULLSEL	( U32 ModuleIndex, U32 Value );
 U32		NX_GPIO_GetPULLSEL	( U32 ModuleIndex );
 void	NX_GPIO_SetPULLSEL_DISABLE_DEFAULT	( U32 ModuleIndex, U32 Value );

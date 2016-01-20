@@ -97,7 +97,7 @@ U32		NX_PMU_GetSizeOfRegisterSet( void )
  *				NX_PMU_OpenModule,				NX_PMU_CloseModule,
  *				NX_PMU_CheckBusy,				NX_PMU_CanPowerDown
  */
-void	NX_PMU_SetBaseAddress( U32 BaseAddress )
+void	NX_PMU_SetBaseAddress( void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 
@@ -113,9 +113,9 @@ void	NX_PMU_SetBaseAddress( U32 BaseAddress )
  *				NX_PMU_OpenModule,				NX_PMU_CloseModule,
  *				NX_PMU_CheckBusy,				NX_PMU_CanPowerDown
  */
-U32		NX_PMU_GetBaseAddress( void )
+void*	NX_PMU_GetBaseAddress( void )
 {
-	return (U32)__g_pRegister;
+	return (void*)__g_pRegister;
 }
 
 //------------------------------------------------------------------------------
