@@ -2635,7 +2635,22 @@ CBOOL	NX_MLC_GetVideoLayerGammaEnable( U32 ModuleIndex )
 	return(CBOOL)((__g_ModuleVariables[ModuleIndex].pRegister->MLCGAMMACONT & YUVGAMMAEMB_MASK) >> YUVGAMMAEMB_BITPOS);
 }
 
+// @added charles 20140530
+void	NX_MLC_SetGammaTable_Poweroff( U32 ModuleIndex, CBOOL Enb )
+{
+	register struct NX_MLC_RegisterSet *pRegister;
+	U32 regvalue;
 
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	if(Enb == CTRUE) {
+		regvalue = pRegister->MLCGAMMACONT;
+		regvalue = regvalue & 0xF3;
+		WriteIO32(&pRegister->MLCGAMMACONT, regvalue);
+	}
+}
 
 
 //----------------------------------------------------------------
@@ -3075,6 +3090,45 @@ NX_MLC_SetVideoLayerCoordinate
 
 
 
+//---------------------
+// @added by choiyk 2013-09-27 오후 1:08:32
+// 함수 NX_MLC_SetVideoLayerCoordinate 의 계산식이 이상하므로
+// 하위 호환성을 위해사 아래 Scale 함수에서는 바로 Scale 값을 넣어준다.
+// 사용자는 제대로된 계산식으로 Scale을 직접 넣어준다.
+//
+// @note choiyk 2013-09-27 오후 1:07:01
+// Scale 계산식이 이상하다..
+// 왜 160 width를 1을 빼서 계산하지..? 이러면 당연히 오차가 발생한다.
+// 원래 160 width이고, 이를 80으로 축소한다고 하면
+//
+// 입력은
+//  * VideoLayerWith = 160
+//  * Left  = 40
+//  * Right = 119
+// 로 들어왔을 것이니.. 이를 계산할때는
+// VideoLayerWith * 2048 / (Right - Left + 1)
+// 위와 같이 해주어야 하는것 아닌가?
+//----------------------
+void
+NX_MLC_SetVideoLayerFilterScale
+(
+    U32 ModuleIndex,
+    U32 HScale,   ///< [in] Video Layer HScale
+    U32 VScale    ///< [in] Video Layer VScale
+)
+{
+	register struct NX_MLC_RegisterSet* pRegister;
+
+	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	U32 MLCHSCALE = ReadIO32(&pRegister ->  MLCVIDEOLAYER.MLCHSCALE) & (~0x00FFFFFF);
+	U32 MLCVSCALE = ReadIO32(&pRegister ->  MLCVIDEOLAYER.MLCVSCALE) & (~0x00FFFFFF);
+	WriteIO32(&pRegister ->  MLCVIDEOLAYER.MLCHSCALE,(U32)(MLCHSCALE | (HScale&0x00FFFFFF)));
+	WriteIO32(&pRegister ->  MLCVIDEOLAYER.MLCVSCALE,(U32)(MLCVSCALE | (VScale&0x00FFFFFF)));
+}
 
 
 
@@ -3150,5 +3204,97 @@ void NX_MLC_SetLayerAlpha256(U32 ModuleIndex, U32 Layer, U32 Alpha)
 	}
 
 }
+
+
+//------------------------------------------------------------------------------
+/**
+ */
+CBOOL	NX_MLC_IsUnderFlow( U32 ModuleIndex )
+{
+	const U32 UNDERFLOW_PEND_POS	= 31;
+	const U32 UNDERFLOW_PEND_MASK	= 1UL<<UNDERFLOW_PEND_POS;
+
+	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	return (CBOOL)((__g_ModuleVariables[ModuleIndex].pRegister->MLCCONTROLT & UNDERFLOW_PEND_MASK) >> UNDERFLOW_PEND_POS );
+
+}
+
+
+//------------------------------------------------------------------------------
+// Gamma Table Configuration function & structure 
+//
+void NX_MLC_SetGammaTable( U32 ModuleIndex, CBOOL Enb, struct NX_MLC_GammaTable_Parameter * p_nx_mlc_gammatable )
+{
+	U32 i, regval;
+	register struct NX_MLC_RegisterSet* pRegister;
+	
+	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+
+	NX_ASSERT( p_nx_mlc_gammatable->DITHERENB   <= 1 );
+	NX_ASSERT( p_nx_mlc_gammatable->ALPHASELECT <= 1 );
+	NX_ASSERT( p_nx_mlc_gammatable->YUVGAMMAENB <= 1 );
+	NX_ASSERT( p_nx_mlc_gammatable->RGBGAMMAENB <= 1 );
+	NX_ASSERT( p_nx_mlc_gammatable->ALLGAMMAENB <= 1 );
+
+	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
+
+	if( Enb == CTRUE ) {
+		regval = ReadIO32( &pRegister->MLCGAMMACONT ) ;
+
+		// GAMMA SRAM POWER ON
+		regval =  (1<<11) // B_PWD
+				| (1<<9)  // G_PWD
+				| (1<<3); // R_PWD
+		WriteIO32( &pRegister->MLCGAMMACONT, regval ) ;
+
+		// GAMMA SRAM SLEEP OFF
+		regval =  regval
+		  		| (1<<10) // B_SLD
+				| (1<<8)  // G_SLD
+				| (1<<2); // R_SLD
+		WriteIO32( &pRegister->MLCGAMMACONT, regval ) ;
+
+		// set R/G/B Table
+		for(i=0; i<256; i++) {
+			NX_MLC_SetRGBLayerRGammaTable( ModuleIndex, i, p_nx_mlc_gammatable->R_TABLE[i] );
+			NX_MLC_SetRGBLayerGGammaTable( ModuleIndex, i, p_nx_mlc_gammatable->G_TABLE[i] );
+			NX_MLC_SetRGBLayerBGammaTable( ModuleIndex, i, p_nx_mlc_gammatable->B_TABLE[i] );
+		}
+
+		// GAMMA ENABLE
+		regval =  regval
+		  		| ( p_nx_mlc_gammatable->ALPHASELECT<<5 ) 
+				| (
+					  p_nx_mlc_gammatable->YUVGAMMAENB<<4
+					| p_nx_mlc_gammatable->ALLGAMMAENB<<4
+				  )  
+				| (
+					  p_nx_mlc_gammatable->RGBGAMMAENB<<1
+					| p_nx_mlc_gammatable->ALLGAMMAENB<<1
+				  ) 
+				| ( p_nx_mlc_gammatable->DITHERENB<<1 ) ; 
+
+		WriteIO32( &pRegister->MLCGAMMACONT, regval ) ;
+	}
+	else {
+		// GAMMA SRAM SLEEP OFF
+		regval =  regval
+		  		& ~(1<<10) // B_SLD : set LOW
+				& ~(1<<8)  // G_SLD
+				& ~(1<<2); // R_SLD
+		WriteIO32( &pRegister->MLCGAMMACONT, regval ) ;
+
+		// GAMMA SRAM POWER OFF
+		regval =  regval
+		  		& ~(1<<11) // B_PWD
+				& ~(1<<9)  // G_PWD
+				& ~(1<<3); // R_PWD
+		WriteIO32( &pRegister->MLCGAMMACONT, regval ) ;
+	}
+}
+
 
 

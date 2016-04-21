@@ -297,6 +297,9 @@ CBOOL	NX_MLC_GetVideoLayerLineBufferSleepMode( U32 ModuleIndex );
 
 void	NX_MLC_SetVideoLayerGammaEnable( U32 ModuleIndex, CBOOL bEnable );
 CBOOL	NX_MLC_GetVideoLayerGammaEnable( U32 ModuleIndex );
+
+// @added charles 20140530
+void	NX_MLC_SetGammaTable_Poweroff( U32 ModuleIndex, CBOOL Enb );
 //@}
 
 //@}
@@ -486,6 +489,14 @@ NX_MLC_SetVideoLayerCoordinate
     S16 Bottom              ///< [in] Layer bottom coordinate
 );
 
+void
+NX_MLC_SetVideoLayerFilterScale
+(
+    U32 ModuleIndex,
+    U32 HScale,   ///< [in] Video Layer HScale
+    U32 VScale    ///< [in] Video Layer VScale
+);
+
 void NX_MLCSetGammaSRAMMode
 (
 	U32 ModuleIndex,
@@ -502,22 +513,30 @@ void NX_MLC_SetGammaControlParameter
 );
 
 
+//------------------------------------------------------------------------------
+// Gamma Table Configuration function & structure 
+//
+struct NX_MLC_GammaTable_Parameter {
+	U32 R_TABLE[256];	
+	U32 G_TABLE[256];	
+	U32 B_TABLE[256];
+
+	U32 DITHERENB  ;
+
+	U32 ALPHASELECT;
+
+	U32 YUVGAMMAENB;
+	U32 RGBGAMMAENB;
+	U32 ALLGAMMAENB;
+};
+void NX_MLC_SetGammaTable( U32 ModuleIndex, CBOOL Enb, struct NX_MLC_GammaTable_Parameter * p_nx_mlc_gammatable );
+
 //----------------------------
 // 8bit Alpha 설정 함수.
 //----------------------------
 void NX_MLC_SetLayerAlpha256(U32 ModuleIndex, U32 Layer, U32 Alpha);
 
-
-
-
-
-
-
-
-
-
-
-
+CBOOL	NX_MLC_IsUnderFlow( U32 ModuleIndex );
 
 #ifdef	__cplusplus
 }
