@@ -402,6 +402,16 @@ void NX_DPC_SetEnable
 	CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
 );
 
+void NX_DPC_SetEnable_WITH_INTERLACE
+(
+ U32 ModuleIndex,
+ CBOOL Enable,            ///< [in] display controller enable
+ CBOOL RGBMode,          ///< [in] output format reb & ycbcr enable
+ CBOOL UseNTSCSync,        ///< [in] use NTSC encoder sync
+ CBOOL UseAnalogOutput,    ///< [in] use analog output(use DAC)
+ CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
+);
+
 void NX_DPC_SetOutVideoClkSelect
 (
     U32 ModuleIndex,

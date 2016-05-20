@@ -2264,8 +2264,34 @@ void NX_DPC_SetEnable
 	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
 }
 
+void NX_DPC_SetEnable_WITH_INTERLACE
+(
+ U32 ModuleIndex,
+ CBOOL Enable,            ///< [in] display controller enable
+ CBOOL RGBMode,          ///< [in] output format reb & ycbcr enable
+ CBOOL UseNTSCSync,        ///< [in] use NTSC encoder sync
+ CBOOL UseAnalogOutput,    ///< [in] use analog output(use DAC)
+ CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
+ )
+{
+	U32 regvalue;
+	register struct NX_DPC_RegisterSet* pRegister;
+	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	pRegister    =    __g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( ~UseAnalogOutput | UseNTSCSync );
 
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue |= ((U32)Enable<<15) |
+		((U32)UseNTSCSync<<14) | ((U32)SEAVEnable<<8) |((U32)UseAnalogOutput<<13) | ((U32)RGBMode<<12);
 
+	// @added by choiyk 2014/05/08 pm0710
+	// INTERLACE MODE
+	regvalue |= (1<<9);
+
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
+} 
 
 void NX_DPC_SetOutVideoClkSelect
 (
