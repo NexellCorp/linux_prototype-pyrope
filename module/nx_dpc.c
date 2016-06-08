@@ -31,8 +31,8 @@ static	struct
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicates that	Initialize is successed.\n
- *			\b CFALSE	Initialize is failed.\n
+ *	@return  CTRUE	indicates that	Initialize is successed.
+ *			 CFALSE	Initialize is failed.
  *	@see								NX_DPC_GetNumberOfModule
  */
 CBOOL	NX_DPC_Initialize( void )
@@ -71,10 +71,6 @@ U32		NX_DPC_GetNumberOfModule( void )
  *	@brief		Get module's physical address.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@return		Module's physical address
- *	@see		NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
 U32		NX_DPC_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -91,10 +87,6 @@ U32		NX_DPC_GetPhysicalAddress( U32 ModuleIndex )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_DPC_GetPhysicalAddress,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
 U32		NX_DPC_GetSizeOfRegisterSet( void )
 {
@@ -107,12 +99,8 @@ U32		NX_DPC_GetSizeOfRegisterSet( void )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
-void	NX_DPC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_DPC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
@@ -125,28 +113,20 @@ void	NX_DPC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *	@brief		Get a base address of register set
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@return		Module's base address.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
  */
-U32		NX_DPC_GetBaseAddress( U32 ModuleIndex )
+void*	NX_DPC_GetBaseAddress( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	Initialize is successed. \n
- *				\b CFALSE	Initialize is failed.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
+ *	@return		 CTRUE	indicates that	Initialize is successed. 
+ *				 CFALSE	Initialize is failed.
  */
 CBOOL	NX_DPC_OpenModule( U32 ModuleIndex )
 {
@@ -158,12 +138,8 @@ CBOOL	NX_DPC_OpenModule( U32 ModuleIndex )
 /**
  *	@brief		Deinitialize selected module to the proper stage.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	Deinitialize is successed. \n
- *				\b CFALSE	Deinitialize is failed.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,
- *				NX_DPC_CheckBusy,			NX_DPC_CanPowerDown
+ *	@return		 CTRUE	indicates that	Deinitialize is successed. 
+ *				 CFALSE	Deinitialize is failed.
  */
 CBOOL	NX_DPC_CloseModule( U32 ModuleIndex )
 {
@@ -175,12 +151,8 @@ CBOOL	NX_DPC_CloseModule( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	Module is Busy. \n
- *				\b CFALSE	Module is NOT Busy.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CanPowerDown
+ *	@return		 CTRUE	indicates that	Module is Busy. 
+ *				 CFALSE	Module is NOT Busy.
  */
 CBOOL	NX_DPC_CheckBusy( U32 ModuleIndex )
 {
@@ -192,12 +164,8 @@ CBOOL	NX_DPC_CheckBusy( U32 ModuleIndex )
 /**
  *	@brief		Indicaes whether the selected modules is ready to enter power-down stage
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	Ready to enter power-down stage. \n
- *				\b CFALSE	This module can't enter to power-down stage.
- *	@see		NX_DPC_GetPhysicalAddress,	NX_DPC_GetSizeOfRegisterSet,
- *				NX_DPC_SetBaseAddress,		NX_DPC_GetBaseAddress,
- *				NX_DPC_OpenModule,			NX_DPC_CloseModule,
- *				NX_DPC_CheckBusy
+ *	@return		 CTRUE	indicates that	Ready to enter power-down stage. 
+ *				 CFALSE	This module can't enter to power-down stage.
  */
 CBOOL	NX_DPC_CanPowerDown( U32 ModuleIndex )
 {
@@ -213,12 +181,6 @@ CBOOL	NX_DPC_CanPowerDown( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@return		Interrupt number
  *	@see											NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
  */
 S32		NX_DPC_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -238,17 +200,10 @@ S32		NX_DPC_GetInterruptNumber( U32 ModuleIndex )
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	IntNum	Interrupt Number ( 0 : VSYNC ).
- *	@param[in]	Enable	\b CTRUE	indicates that	Interrupt Enable. \n
- *						\b CFALSE	Interrupt Disable.
+ *	@param[in]	Enable	 CTRUE	indicates that	Interrupt Enable. 
+ *						 CFALSE	Interrupt Disable.
  *	@return		None.
- *	@remarks	DPC Module have one interrupt. So always \e IntNum set to 0.
- *	@see		NX_DPC_GetInterruptNumber,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@remarks	DPC Module have one interrupt. So always  IntNum set to 0.
  */
 void	NX_DPC_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 {
@@ -272,8 +227,7 @@ void	NX_DPC_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
 	regvalue &= ~(INTENB_MASK | INTPEND_MASK);
 	regvalue |= (U32)Enable << INTENB_POS;
 
-//	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -281,16 +235,9 @@ void	NX_DPC_SetInterruptEnable( U32 ModuleIndex, S32 IntNum, CBOOL Enable )
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	IntNum	Interrupt Number	( 0 : VSYNC ).
- *	@return		\b CTRUE	indicates that	Interrupt is enabled. \n
- *				\b CFALSE	Interrupt is disabled.
- *	@remarks	DPC Module have one interrupt. So always \e IntNum set to 0.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *													NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that	Interrupt is enabled. 
+ *				 CFALSE	Interrupt is disabled.
+ *	@remarks	DPC Module have one interrupt. So always  IntNum set to 0.
  */
 CBOOL	NX_DPC_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 {
@@ -308,16 +255,9 @@ CBOOL	NX_DPC_GetInterruptEnable( U32 ModuleIndex, S32 IntNum )
 /**
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	\n
- *							- EnableFlag[0] : Set Vertical Sync interrupt enable or disable. \n
+ *	@param[in]	EnableFlag	Specify interrupt bit for enable of disable. Each bit's meaning is like below	
+ *							- EnableFlag[0] : Set Vertical Sync interrupt enable or disable. 
  *	@return		None.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
  */
 void	NX_DPC_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 {
@@ -338,24 +278,17 @@ void	NX_DPC_SetInterruptEnable32( U32 ModuleIndex, U32 EnableFlag )
 	ReadValue = pRegister->DPCCTRL0 & ~(INTPEND_MASK | INTENB_MASK);
 
 //	pRegister->DPCCTRL0 = (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS );
-	WriteIODW(&pRegister->DPCCTRL0, (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS ));
+	WriteIO32(&pRegister->DPCCTRL0, (U32)( ReadValue | (EnableFlag&0x01)<<INTENB_POS ));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates current setting value of interrupt enable bit.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		Current setting value of interrupt. \n
- *				"1" means interrupt is enabled. \n
- *				"0" means interrupt is disabled. \n
- *				- Return Value[0] : Vertical Sync	interrupt's setting value. \n
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *													NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		Current setting value of interrupt. 
+ *				"1" means interrupt is enabled. 
+ *				"0" means interrupt is disabled. 
+ *				- Return Value[0] : Vertical Sync	interrupt's setting value. 
  */
 U32		NX_DPC_GetInterruptEnable32( U32 ModuleIndex )
 {
@@ -373,16 +306,9 @@ U32		NX_DPC_GetInterruptEnable32( U32 ModuleIndex )
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	IntNum	Interrupt Number ( 0 : VSYNC ).
- *	@return		\b CTRUE	indicates that	Pending is seted. \n
- *				\b CFALSE	Pending is Not Seted.
- *	@remarks	DPC Module have one interrupt. So always \e IntNum set to 0.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that	Pending is seted. 
+ *				 CFALSE	Pending is Not Seted.
+ *	@remarks	DPC Module have one interrupt. So always  IntNum set to 0.
  */
 CBOOL	NX_DPC_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -399,17 +325,10 @@ CBOOL	NX_DPC_GetInterruptPending( U32 ModuleIndex, S32 IntNum )
 /**
  *	@brief		Indicates current setting value of interrupt pending bit.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		Current setting value of pending bit. \n
- *				"1" means pend bit is occured. \n
- *				"0" means pend bit is NOT occured. \n
- *				- Return Value[0] : Vertical Sync pending state. \n
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *													NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		Current setting value of pending bit. 
+ *				"1" means pend bit is occured. 
+ *				"0" means pend bit is NOT occured. 
+ *				- Return Value[0] : Vertical Sync pending state. 
  */
 U32		NX_DPC_GetInterruptPending32( U32 ModuleIndex )
 {
@@ -428,14 +347,7 @@ U32		NX_DPC_GetInterruptPending32( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	IntNum	Interrupt number.
  *	@return		None.
- *	@remarks	DPC Module have one interrupt. So always \e IntNum set to 0.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@remarks	DPC Module have one interrupt. So always  IntNum set to 0.
  */
 void	NX_DPC_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 {
@@ -453,24 +365,16 @@ void	NX_DPC_ClearInterruptPending( U32 ModuleIndex, S32 IntNum )
 	regvalue  = pRegister->DPCCTRL0;
 	regvalue |= 1UL << INTPEND_POS;
 
-//	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	\n \n
- *								- PendingFlag[0] : Vertical Sync pending bit. \n
+ *	@param[in]	PendingFlag		Specify pend bit to clear. Each bit's meaning is like below	 
+ *								- PendingFlag[0] : Vertical Sync pending bit. 
  *	@return		None.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *													NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
  */
 void	NX_DPC_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 {
@@ -488,23 +392,16 @@ void	NX_DPC_ClearInterruptPending32( U32 ModuleIndex, U32 PendingFlag )
 	ReadValue = pRegister->DPCCTRL0 & ~INTPEND_MASK;
 
 //	pRegister->DPCCTRL0 = (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS));
-	WriteIODW(&pRegister->DPCCTRL0, (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS)));
+	WriteIO32(&pRegister->DPCCTRL0, (U32)(ReadValue |((PendingFlag & 0x01) << INTPEND_POS)));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set all interrupts to be enables or disables.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	Enable	\b CTRUE	indicates that	Set to all interrupt enable. \n
- *						\b CFALSE	Set to all interrupt disable.
+ *	@param[in]	Enable	 CTRUE	indicates that	Set to all interrupt enable. 
+ *						 CFALSE	Set to all interrupt disable.
  *	@return		None.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
  */
 void	NX_DPC_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 {
@@ -528,22 +425,15 @@ void	NX_DPC_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	regvalue |= (U32)Enable << INTENB_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether some of interrupts are enable or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	At least one( or more ) interrupt is enabled. \n
- *				\b CFALSE	All interrupt is disabled.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,	NX_DPC_SetInterruptEnableAll,
- *													NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that	At least one( or more ) interrupt is enabled. 
+ *				 CFALSE	All interrupt is disabled.
  */
 CBOOL	NX_DPC_GetInterruptEnableAll( U32 ModuleIndex )
 {
@@ -560,15 +450,8 @@ CBOOL	NX_DPC_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that	At least one( or more ) pending is seted. \n
- *				\b CFALSE	All pending is NOT seted.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,
- *				NX_DPC_ClearInterruptPendingAll,	NX_DPC_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that	At least one( or more ) pending is seted. 
+ *				 CFALSE	All pending is NOT seted.
  */
 CBOOL	NX_DPC_GetInterruptPendingAll( U32 ModuleIndex )
 {
@@ -586,13 +469,6 @@ CBOOL	NX_DPC_GetInterruptPendingAll( U32 ModuleIndex )
  *	@brief		Clear pending state of all interrupts.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@return		None.
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *													NX_DPC_GetInterruptPendingNumber
  */
 void	NX_DPC_ClearInterruptPendingAll( U32 ModuleIndex )
 {
@@ -610,22 +486,15 @@ void	NX_DPC_ClearInterruptPendingAll( U32 ModuleIndex )
 	regvalue |= 1UL << INTPEND_POS;
 
 //	pRegister->DPCCTRL0 = regvalue;
-	WriteIODW(&pRegister->DPCCTRL0, regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		Pending Number( If all pending is not set then return -1 ). \n
+ *	@return		Pending Number( If all pending is not set then return -1 ). 
  *				0 ( VSYNC )
- *	@see		NX_DPC_GetInterruptNumber,			NX_DPC_SetInterruptEnable,
- *				NX_DPC_GetInterruptEnable,			NX_DPC_SetInterruptEnable32,
- *				NX_DPC_GetInterruptEnable32,		NX_DPC_GetInterruptPending,
- *				NX_DPC_GetInterruptPending32,		NX_DPC_ClearInterruptPending,
- *				NX_DPC_ClearInterruptPending32,		NX_DPC_SetInterruptEnableAll,
- *				NX_DPC_GetInterruptEnableAll,		NX_DPC_GetInterruptPendingAll,
- *				NX_DPC_ClearInterruptPendingAll
  */
 S32		NX_DPC_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 {
@@ -658,14 +527,6 @@ S32		NX_DPC_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	mode	PCLK mode
  *	@return		None.
- *	@see										NX_DPC_GetClockPClkMode,
- *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
- *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
  */
 void			NX_DPC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 {
@@ -694,7 +555,7 @@ void			NX_DPC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 	regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
 
 //	pRegister->DPCCLKENB = regvalue;
-	WriteIODW(&pRegister->DPCCLKENB, regvalue);
+	WriteIO32(&pRegister->DPCCLKENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -702,14 +563,6 @@ void			NX_DPC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
  *	@brief		Get current PCLK mode
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@return		Current PCLK mode
- *	@see		NX_DPC_SetClockPClkMode,
- *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
- *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
  */
 NX_PCLKMODE	NX_DPC_GetClockPClkMode( U32 ModuleIndex )
 {
@@ -731,20 +584,12 @@ NX_PCLKMODE	NX_DPC_GetClockPClkMode( U32 ModuleIndex )
  *	@brief		Set clock source of clock generator
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@param[in]	ClkSrc	Select clock source of clock generator.\n
- *						0:PLL0, 1:PLL1, 2:SVLCK, 3:P(S)VCLK, 4:~P(S)VCLK, 5:AVCLK \n
+ *	@param[in]	ClkSrc	Select clock source of clock generator.
+ *						0:PLL0, 1:PLL1, 2:SVLCK, 3:P(S)VCLK, 4:~P(S)VCLK, 5:AVCLK 
  *						6:~SVLCK, 7:ClKGEN0's Output( Only use Clock generator1 )
  *	@return		None.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.\n
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  *				Only Clock generator 1 can set to ClkGEN0's output.
- *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
- *												NX_DPC_GetClockSource,
- *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
  */
 void	NX_DPC_SetClockSource( U32 ModuleIndex, U32 Index, U32 ClkSrc )
 {
@@ -770,7 +615,7 @@ void	NX_DPC_SetClockSource( U32 ModuleIndex, U32 Index, U32 ClkSrc )
 	ReadValue |= ClkSrc << CLKSRCSEL_POS;
 
 //	pRegister->DPCCLKGEN[Index][0] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -778,18 +623,10 @@ void	NX_DPC_SetClockSource( U32 ModuleIndex, U32 Index, U32 ClkSrc )
  *	@brief		Get clock source of specified clock generator.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@return		Clock source of clock generator \n
- *				0:PLL0, 1:PLL1, 2:SVLCK, 3:P(S)VCLK, 4:~P(S)VCLK, 5:AVCLK \n
+ *	@return		Clock source of clock generator 
+ *				0:PLL0, 1:PLL1, 2:SVLCK, 3:P(S)VCLK, 4:~P(S)VCLK, 5:AVCLK 
  *				6:~SVLCK, 7:ClKGEN0's Output( Only use Clock generator1 )
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
- *				NX_DPC_SetClockSource,
- *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  */
 U32				NX_DPC_GetClockSource( U32 ModuleIndex, U32 Index )
 {
@@ -810,15 +647,7 @@ U32				NX_DPC_GetClockSource( U32 ModuleIndex, U32 Index )
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 );
  *	@param[in]	Divisor		Clock divisor ( 1 ~ 256 ).
  *	@return		None.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
- *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
- *												NX_DPC_GetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  */
 void			NX_DPC_SetClockDivisor( U32 ModuleIndex, U32 Index, U32 Divisor )
 {
@@ -840,7 +669,7 @@ void			NX_DPC_SetClockDivisor( U32 ModuleIndex, U32 Index, U32 Divisor )
 	ReadValue	|= (Divisor-1) << CLKDIV_POS;
 
 //	pRegister->DPCCLKGEN[Index][0] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -849,15 +678,7 @@ void			NX_DPC_SetClockDivisor( U32 ModuleIndex, U32 Index, U32 Divisor )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 );
  *	@return		Clock divisor ( 1 ~ 256 ).
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.
- *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
- *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
- *				NX_DPC_SetClockDivisor,
- *				NX_DPC_SetClockOutInv,			NX_DPC_GetClockOutInv,
- *				NX_DPC_SetClockOutSelect,		NX_DPC_GetClockOutSelect,
- *				NX_DPC_SetClockOutEnb,			NX_DPC_GetClockOutEnb,
- *				NX_DPC_SetClockOutDelay,		NX_DPC_GetClockOutDelay,
- *				NX_DPC_SetClockDivisorEnable,	NX_DPC_GetClockDivisorEnable
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  */
 U32				NX_DPC_GetClockDivisor( U32 ModuleIndex, U32 Index )
 {
@@ -876,10 +697,10 @@ U32				NX_DPC_GetClockDivisor( U32 ModuleIndex, U32 Index )
  *	@brief		Set inverting of output clock
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@param[in]	OutClkInv	\b CTRUE indicates that Output clock Invert (Rising Edge). \n
- *							\b CFALSE indicates that Output clock Normal (Fallng Edge).
+ *	@param[in]	OutClkInv	 CTRUE indicates that Output clock Invert (Rising Edge). 
+ *							 CFALSE indicates that Output clock Normal (Fallng Edge).
  *	@return		None.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -909,7 +730,7 @@ void			NX_DPC_SetClockOutInv( U32 ModuleIndex, U32 Index, CBOOL OutClkInv )
 	ReadValue	|=	OutClkInv << OUTCLKINV_POS;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -917,9 +738,9 @@ void			NX_DPC_SetClockOutInv( U32 ModuleIndex, U32 Index, CBOOL OutClkInv )
  *	@brief		Get invert status of output clock.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 0 : clock generator 0, 1: clock generator1 )
- *	@return		\b CTRUE	indicates that Output clock is Inverted. \n
- *				\b CFALSE	indicates that Output clock is Normal.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.
+ *	@return		 CTRUE	indicates that Output clock is Inverted. 
+ *				 CFALSE	indicates that Output clock is Normal.
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -946,8 +767,8 @@ CBOOL			NX_DPC_GetClockOutInv( U32 ModuleIndex, U32 Index )
  *	@brief		Set output clock's delay( source clock/2 ns )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@param[in]	bBypass		\b CTRUE indicates that source clock directly out.
- *							\b CFALSE indicates that source clock divide by 2 ( source clock /2 ns ).
+ *	@param[in]	bBypass		 CTRUE indicates that source clock directly out.
+ *							 CFALSE indicates that source clock divide by 2 ( source clock /2 ns ).
  *	@return		None.
  *	@remarks	Only even divide can use this function.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
@@ -976,12 +797,13 @@ void			NX_DPC_SetClockOutSelect( U32 ModuleIndex, U32 Index, CBOOL bBypass )
 	ReadValue	= pRegister->DPCCLKGEN[Index][0];
 
 	ReadValue	&=	~OUTCLKSEL_MASK;
-
+	
 	if( CFALSE == bBypass )
 		ReadValue	|=	OUTCLKSEL_MASK;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	
 }
 
 //------------------------------------------------------------------------------
@@ -989,8 +811,8 @@ void			NX_DPC_SetClockOutSelect( U32 ModuleIndex, U32 Index, CBOOL bBypass )
  *	@brief		Get setting value of output clock's delay( source clock/2 ns )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@return		\b CTRUE	indicates that source clock directly out.
- *				\b CFALSE	indicates that source clock divide by 2 ( source clock /2 ns ).
+ *	@return		 CTRUE	indicates that source clock directly out.
+ *				 CFALSE	indicates that source clock divide by 2 ( source clock /2 ns ).
  *	@remarks	Only even divide can use this function.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
@@ -1024,8 +846,8 @@ CBOOL			NX_DPC_GetClockOutSelect( U32 ModuleIndex, U32 Index )
 /**
  *	@brief		Set output clock polarity
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	bBypass		\b CTRUE indicates that data is latch out when source clock rising edge.
- *							\b CFALSE indicates that data is latch out when source clock falling edge.
+ *	@param[in]	bBypass		 CTRUE indicates that data is latch out when source clock rising edge.
+ *							 CFALSE indicates that data is latch out when source clock falling edge.
  *	@return		None.
  *	@remarks
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
@@ -1058,15 +880,15 @@ void			NX_DPC_SetClockPolarity( U32 ModuleIndex, CBOOL bPolarity )
 		ReadValue	|=	CLKPOL_MASK;
 
 //	pRegister->DPCCTRL1	=	ReadValue;
-	WriteIODW(&pRegister->DPCCTRL1, ReadValue);
+	WriteIO32(&pRegister->DPCCTRL1, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of output clock polarity
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that data is latch out when source clock rising edge.
- *				\b CFALSE	indicates that data is latch out when source clock falling edge.
+ *	@return		 CTRUE	indicates that data is latch out when source clock rising edge.
+ *				 CFALSE	indicates that data is latch out when source clock falling edge.
  *	@remarks	Only even divide can use this function.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
@@ -1100,10 +922,10 @@ CBOOL			NX_DPC_GetClockPolarity( U32 ModuleIndex )
  *	@brief		Select SVCLK Pad's direction.
  *	@param[in]	ModuleIndex	An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@param[in]	OutClkEnb	\b CTRUE indicate that SVCLK Pad is output. \n
- *							\b CFALSE indicate that SVCLK Pad is input. \n
+ *	@param[in]	OutClkEnb	 CTRUE indicate that SVCLK Pad is output. 
+ *							 CFALSE indicate that SVCLK Pad is input. 
  *	@return		None.
- *	@remarks	Only secondary DPC can select the pad direction. \n
+ *	@remarks	Only secondary DPC can select the pad direction. 
  *				Primary DPC's pad direction is changed by GPIO setting( ALT Function ).
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
@@ -1138,7 +960,7 @@ void			NX_DPC_SetClockOutEnb( U32 ModuleIndex, U32 Index, CBOOL OutClkEnb )
 		ReadValue	|=	OUTCLKENB_MASK;
 
 //	pRegister->DPCCLKGEN[Index][0]	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][0], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][0], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1146,8 +968,8 @@ void			NX_DPC_SetClockOutEnb( U32 ModuleIndex, U32 Index, CBOOL OutClkEnb )
  *	@brief		Get Setting value of SVCLK Pad's direction.
  *	@param[in]	ModuleIndex	An index of module ( 0 : First DPC ).
  *	@param[in]	Index		Select clock generator( 1: clock generator1 );
- *	@return		\b CTRUE	indicate that SVCLK Pad is output. \n
- *				\b CFALSE	indicate that SVCLK Pad is input.
+ *	@return		 CTRUE	indicate that SVCLK Pad is output. 
+ *				 CFALSE	indicate that SVCLK Pad is input.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -1182,11 +1004,11 @@ CBOOL			NX_DPC_GetClockOutEnb( U32 ModuleIndex, U32 Index )
  *	@brief		Set clock output delay of specifed clock generator
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@param[in]	delay	Select clock output delay of clock generator.\n
- *						0:0ns, 1:0.5ns, 2:1.0ns, 3:1.5ns, 4:2.0ns, 5:2.5ns, \n
+ *	@param[in]	delay	Select clock output delay of clock generator.
+ *						0:0ns, 1:0.5ns, 2:1.0ns, 3:1.5ns, 4:2.0ns, 5:2.5ns, 
  *						6:3.0ns 7:3.5ns
  *	@return		None.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.\n
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -1216,7 +1038,7 @@ void			NX_DPC_SetClockOutDelay( U32 ModuleIndex, U32 Index, U32 delay )
 	ReadValue |= (U32)delay << OUTCLKDELAY_POS;
 
 //	pRegister->DPCCLKGEN[Index][1] = ReadValue;
-	WriteIODW(&pRegister->DPCCLKGEN[Index][1], ReadValue);
+	WriteIO32(&pRegister->DPCCLKGEN[Index][1], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -1224,11 +1046,11 @@ void			NX_DPC_SetClockOutDelay( U32 ModuleIndex, U32 Index, U32 delay )
  *	@brief		Get clock output delay of specifed clock generator
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in]	Index	Select clock generator( 0 : clock generator 0, 1: clock generator1 );
- *	@return		Get clock output delay of specifed clock generator.\n
- *				0:0ns, 1:0.5ns, 2:1.0ns, 3:1.5ns, 4:2.0ns, 5:2.5ns, \n
+ *	@return		Get clock output delay of specifed clock generator.
+ *				0:0ns, 1:0.5ns, 2:1.0ns, 3:1.5ns, 4:2.0ns, 5:2.5ns, 
  *				6:3.0ns 7:3.5ns
  *	@return		None.
- *	@remarks	DPC controller have two clock generator. so \e Index must set to 0 or 1.\n
+ *	@remarks	DPC controller have two clock generator. so  Index must set to 0 or 1.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -1254,8 +1076,8 @@ U32				NX_DPC_GetClockOutDelay( U32 ModuleIndex, U32 Index )
 /**
  *	@brief		Set clock generator's operation
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	Enable	\b CTRUE	indicates that Enable of clock generator. \n
- *						\b CFALSE	indicates that Disable of clock generator.
+ *	@param[in]	Enable	 CTRUE	indicates that Enable of clock generator. 
+ *						 CFALSE	indicates that Disable of clock generator.
  *	@return		None.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
@@ -1285,15 +1107,15 @@ void			NX_DPC_SetClockDivisorEnable( U32 ModuleIndex, CBOOL Enable )
 	ReadValue	|= (U32)Enable << CLKGENENB_POS;
 
 //	pRegister->DPCCLKENB	=	ReadValue;
-	WriteIODW(&pRegister->DPCCLKENB, ReadValue);
+	WriteIO32(&pRegister->DPCCLKENB, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get status of clock generator's operation
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		\b CTRUE	indicates that Clock generator is enabled. \n
- *				\b CFALSE	indicates that Clock generator is disabled.
+ *	@return		 CTRUE	indicates that Clock generator is enabled. 
+ *				 CFALSE	indicates that Clock generator is disabled.
  *	@see		NX_DPC_SetClockPClkMode,		NX_DPC_GetClockPClkMode,
  *				NX_DPC_SetClockSource,			NX_DPC_GetClockSource,
  *				NX_DPC_SetClockDivisor,			NX_DPC_GetClockDivisor,
@@ -1348,14 +1170,14 @@ void	NX_DPC_SetDPCEnable( U32 ModuleIndex, CBOOL bEnb )
 	ReadValue	|=	(U32)bEnb << DPCENB_POS;
 
 //	pRegister->DPCCTRL0	=	ReadValue;
-	WriteIODW(&pRegister->DPCCTRL0, ReadValue);
+	WriteIO32(&pRegister->DPCCTRL0, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Informs whether DPC is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@return		CTRUE indicates DPC is enabled.\n
+ *	@return		CTRUE indicates DPC is enabled.
  *				CFALSE indicates DPC is disabled.
  *	@see		NX_DPC_SetDPCEnable
  */
@@ -1379,11 +1201,11 @@ CBOOL	NX_DPC_GetDPCEnable( U32 ModuleIndex )
  *	@param[in]	DelayVS_FRAM	Specifies the delay value for VSYNC/FRAM signal, 0 ~ 63.
  *	@param[in]	DelayDE_CP2		Specifies the delay value for DE/CP2 signal, 0 ~ 63.
  *	@return		None.
- *	@remarks	Set delay value for TFT LCD's data and sync signal.\n
- *				\b TFT \b LCD \n
+ *	@remarks	Set delay value for TFT LCD's data and sync signal.
+ *				 TFT  LCD 
  *				The delay valus for data is generally '0' for normal operation.
  *				but the delay values for sync signals depend on the output format.
- *				The unit is VCLK2.\n
+ *				The unit is VCLK2.
  *				The setting values for normal operation is as follows,
  *	@code
  *		+-----------------------+-----------+-------------------------------+
@@ -1427,13 +1249,13 @@ void	NX_DPC_SetDelay( U32 ModuleIndex, U32 DelayRGB_PVD, U32 DelayHS_CP1, U32 De
 	temp  = (U32)(temp | (DelayRGB_PVD<<DELAYRGB_POS));
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 
 //	pRegister->DPCDELAY0 = (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS));
-	WriteIODW(&pRegister->DPCDELAY0, (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS)));
+	WriteIO32(&pRegister->DPCDELAY0, (U32)((DelayVS_FRAM<<DELAYVS_POS) | (DelayHS_CP1<<DELAYHS_POS)));
 
 //	pRegister->DPCDELAY1 = (U32)(DelayDE_CP2<<DELAYDE_POS);
-	WriteIODW(&pRegister->DPCDELAY1, (U32)(DelayDE_CP2<<DELAYDE_POS));
+	WriteIO32(&pRegister->DPCDELAY1, (U32)(DelayDE_CP2<<DELAYDE_POS));
 }
 
 //------------------------------------------------------------------------------
@@ -1445,8 +1267,8 @@ void	NX_DPC_SetDelay( U32 ModuleIndex, U32 DelayRGB_PVD, U32 DelayHS_CP1, U32 De
  *	@param[out] pDelayVS_FRAM		Get current delay value for VSYNC/FRAM signal.
  *	@param[out] pDelayDE_CP2		Get current delay value for DE/CP2 signal.
  *	@return		None.
- *	@remarks	Arguments which does not required can be CNULL.\n
- *				\b TFT \b LCD
+ *	@remarks	Arguments which does not required can be CNULL.
+ *				 TFT  LCD
  *					- Signal is RGB, HSYNC, VSYNC, DE.
  *					- The unit is VCLK2.
  *
@@ -1515,7 +1337,7 @@ void	NX_DPC_SetDither( U32 ModuleIndex, NX_DPC_DITHER DitherR, NX_DPC_DITHER Dit
 	temp = (U32)(temp | ((DitherB<<BDITHER_POS) | (DitherG<<GDITHER_POS) | (DitherR<<RDITHER_POS)));
 
 //	pRegister->DPCCTRL1 = temp;
-	WriteIODW(&pRegister->DPCCTRL1, temp);
+	WriteIO32(&pRegister->DPCCTRL1, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1556,29 +1378,29 @@ void	NX_DPC_GetDither( U32 ModuleIndex, NX_DPC_DITHER *pDitherR, NX_DPC_DITHER *
  *	@param[in] ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[in] format			Specifies data format.
 
- *	@param[in] bInterlace		Specifies scan mode.\n
+ *	@param[in] bInterlace		Specifies scan mode.
  *									CTRUE = Interface, CFALSE = Progressive.
- *	@param[in] bInvertField		Specifies internal field polarity.\n
+ *	@param[in] bInvertField		Specifies internal field polarity.
  *									CTRUE = Invert Field(Low is even field), CFALSE = Normal Field(Low is odd field).
 
- *	@param[in] bRGBMode			Specifies pixel format.\n
+ *	@param[in] bRGBMode			Specifies pixel format.
  *									CTRUE = RGB Mode, CFASE = YCbCr Mode.
- *	@param[in] bSwapRB			Swap Red and Blue component for RGB output.\n
+ *	@param[in] bSwapRB			Swap Red and Blue component for RGB output.
  *									CTRUE = Swap Red and Blue, CFALSE = No swap.
 
  *	@param[in] ycorder			Specifies output order for YCbCr Output.
- *	@param[in] bClipYC			Specifies output range of RGB2YC.\n
- *									CTRUE = Y(16 ~ 235), Cb/Cr(16 ~ 240), CFALSE = Y/Cb/Cr(0 ~ 255).\n
+ *	@param[in] bClipYC			Specifies output range of RGB2YC.
+ *									CTRUE = Y(16 ~ 235), Cb/Cr(16 ~ 240), CFALSE = Y/Cb/Cr(0 ~ 255).
  *									You have to set to CTRUE for ITU-R BT.656 and internal video encoder.
- *	@param[in] bEmbeddedSync	Specifies embedded sync mode(SAV/EAV).\n
- *								CTRUE = Enable, CFALSE = Disable.\n
+ *	@param[in] bEmbeddedSync	Specifies embedded sync mode(SAV/EAV).
+ *								CTRUE = Enable, CFALSE = Disable.
  *									You have to set to CTRUE for ITU-R BT.656.
 
  *	@param[in] clock			Specifies the PAD output clock.
- *	@param[in] bInvertClock		Sepcifies the pixel clock polarity.\n
+ *	@param[in] bInvertClock		Sepcifies the pixel clock polarity.
  *									CTRUE = rising edge, CFALSE = falling edge.
  *
- *	@param[in] bDualView		Specifies the daul view LCD type.\n
+ *	@param[in] bDualView		Specifies the daul view LCD type.
  *								CTRUE = dual view LCD, CFALSE = none.
  *	@return		None.
  *	@see		NX_DPC_GetMode
@@ -1635,7 +1457,7 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 	else				temp &= (U32)~(1U<<SEAVENB_POS);
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 
 	temp  = pRegister->DPCCTRL1;
 	temp &= (U32)DITHER_MASK;		// mask other bits.
@@ -1645,14 +1467,14 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 		register U32 temp1;
 		temp1= pRegister->DPCCTRL2;
 		temp1= temp1 | (1<<4);
-		WriteIODW(&pRegister->DPCCTRL2, temp1);
+		WriteIO32(&pRegister->DPCCTRL2, temp1);
 	}
 	else
 	{
 		register U32 temp1;
 		temp1= pRegister->DPCCTRL2;
 		temp1= temp1 & ~(1<<4);
-		WriteIODW(&pRegister->DPCCTRL2, temp1);
+		WriteIO32(&pRegister->DPCCTRL2, temp1);
 	}
 
 	temp  = (U32)(temp | ((format&0xf) << FORMAT_POS));
@@ -1661,14 +1483,14 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 	if( bSwapRB )	temp |= (U32)(1U<<SWAPRB_POS);
 
 //	pRegister->DPCCTRL1 = temp;
-	WriteIODW(&pRegister->DPCCTRL1, temp);
+	WriteIO32(&pRegister->DPCCTRL1, temp);
 
 	temp  = pRegister->DPCCTRL2;
 	temp &= (U32)~(PADCLKSEL_MASK | LCDTYPE_MASK );		// TFT or Video Encoder
 	temp  = (U32)(temp | (clock<<PADCLKSEL_POS));
 
 //	pRegister->DPCCTRL2 = temp;
-	WriteIODW(&pRegister->DPCCTRL2, temp);
+	WriteIO32(&pRegister->DPCCTRL2, temp);
 
 	// Determines whether invert or not the polarity of the pad clock.
 	NX_DPC_SetClockOutInv( ModuleIndex, 0, bInvertClock );
@@ -1681,27 +1503,27 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
  *	@param[out] pFormat			Get current data format.
 
- *	@param[out] pbInterlace		Get current scan mode.\n
+ *	@param[out] pbInterlace		Get current scan mode.
  *								CTRUE = Interface, CFALSE = Progressive.
- *	@param[out] pbInvertField	Specifies internal field polarity.\n
+ *	@param[out] pbInvertField	Specifies internal field polarity.
  *								CTRUE = Invert Field(Low is even field), CFALSE = Normal Field(Low is odd field).
 
- *	@param[out] pbRGBMode		Get current pixel format.\n
+ *	@param[out] pbRGBMode		Get current pixel format.
  *								CTRUE = RGB Mode, CFASE = YCbCr Mode.
- *	@param[out] pbSwapRB		Get current setting about Swap Red and Blue component for RGB output.\n
+ *	@param[out] pbSwapRB		Get current setting about Swap Red and Blue component for RGB output.
  *								CTRUE = Swap Red and Blue, CFALSE = No swap.
 
  *	@param[out] pYCorder		Get current output order for YCbCr Output.
- *	@param[out] pbClipYC		Get current output range of RGB2YC.\n
+ *	@param[out] pbClipYC		Get current output range of RGB2YC.
  *								CTRUE = Y(16 ~ 235), Cb/Cr(16 ~ 240), CFALSE = Y/Cb/Cr(0 ~ 255).
- *	@param[out] pbEmbeddedSync	Get current embedded sync mode(SAV/EAV).\n
+ *	@param[out] pbEmbeddedSync	Get current embedded sync mode(SAV/EAV).
  *								CTRUE = Enable, CFALSE = Disable.
 
  *	@param[out] pClock			Get current PAD output clock.
- *	@param[out] pbInvertClock	Get current pixel clock polarity.\n
+ *	@param[out] pbInvertClock	Get current pixel clock polarity.
  *								CTRUE = rising edge, CFALSE = falling edge.
 
- *	@param[out] pbDualView		Specifies the daul view LCD type.\n
+ *	@param[out] pbDualView		Specifies the daul view LCD type.
  *								CTRUE = dual view LCD, CFALSE = none.
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
@@ -1769,7 +1591,7 @@ void	NX_DPC_GetMode( U32 ModuleIndex, NX_DPC_FORMAT *pFormat,
  *	@param[in]	bInvHSYNC Specifies HSYNC polarity. CTRUE = High active, CFALSE = Low active.
  *	@return		None.
  *	@remark		A sum of arguments except bInvHSYNC has to be less than or equal to 65536.
- *				The unit is VCLK( one clock for a pixel).\n
+ *				The unit is VCLK( one clock for a pixel).
  *				See follwing figure for more details.
  *	@code
  *
@@ -1802,17 +1624,13 @@ void	NX_DPC_SetHSync( U32 ModuleIndex, U32 AVWidth, U32 HSW, U32 HFP, U32 HBP, C
 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-//	pRegister->DPCHTOTAL	= (U32)(HSW + HBP + AVWidth + HFP - 1);
-	WriteIODW(&pRegister->DPCHTOTAL, (U32)(HSW + HBP + AVWidth + HFP - 1));
+	WriteIO32(&pRegister->DPCHTOTAL, (U32)(HSW + HBP + AVWidth + HFP - 1));
 
-//	pRegister->DPCHSWIDTH	= (U32)(HSW - 1);
-	WriteIODW(&pRegister->DPCHSWIDTH, (U32)(HSW - 1));
+	WriteIO32(&pRegister->DPCHSWIDTH, (U32)(HSW - 1));
 
-//	pRegister->DPCHASTART	= (U32)(HSW + HBP - 1);
-	WriteIODW(&pRegister->DPCHASTART, (U32)(HSW + HBP - 1));
+	WriteIO32(&pRegister->DPCHASTART, (U32)(HSW + HBP - 1));
 
-//	pRegister->DPCHAEND	= (U32)(HSW + HBP + AVWidth - 1);
-	WriteIODW(&pRegister->DPCHAEND, (U32)(HSW + HBP + AVWidth - 1));
+	WriteIO32(&pRegister->DPCHAEND, (U32)(HSW + HBP + AVWidth - 1));
 
 	temp  = pRegister->DPCCTRL0;
 	temp &= ~INTPEND;	// unmask intpend bit.
@@ -1821,7 +1639,7 @@ void	NX_DPC_SetHSync( U32 ModuleIndex, U32 AVWidth, U32 HSW, U32 HFP, U32 HBP, C
 	else				temp &= (U32)~POLHSYNC;
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1834,7 +1652,7 @@ void	NX_DPC_SetHSync( U32 ModuleIndex, U32 AVWidth, U32 HSW, U32 HFP, U32 HBP, C
  *	@param[out] pHBP		Get current horizontal sync back porch in clocks.
  *	@param[out] pbInvHSYNC	Get current HSYNC polarity. CTRUE = High active, CFALSE = Low active.
  *	@return		None.
- *	@remark		Arguments which does not required can be CNULL.\n
+ *	@remark		Arguments which does not required can be CNULL.
  *				The unit is VCLK( one clock for a pixel).
  *	@see		NX_DPC_SetHSync
  */
@@ -1887,7 +1705,7 @@ void	NX_DPC_GetHSync( U32 ModuleIndex, U32 *pAVWidth, U32 *pHSW, U32 *pHFP, U32 
  *	@param[in]	EVBP			Specifies the vertical sync back porch in lines for even field.
  *	@return		None.
  *	@remark		A sum of arguments(AVHeight + VSW + VFP + VBP or AVHeight + EVSW + EVFP + EVBP)
- *				has to be less than or equal to 65536.\n
+ *				has to be less than or equal to 65536.
  *				See follwing figure for more details.
  *	@code
  *
@@ -1925,28 +1743,28 @@ void	NX_DPC_SetVSync( U32 ModuleIndex, U32 AVHeight, U32 VSW, U32 VFP, U32 VBP, 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->DPCVTOTAL	= (U32)(VSW + VBP + AVHeight + VFP - 1);
-	WriteIODW(&pRegister->DPCVTOTAL, (U32)(VSW + VBP + AVHeight + VFP - 1));
+	WriteIO32(&pRegister->DPCVTOTAL, (U32)(VSW + VBP + AVHeight + VFP - 1));
 
 //	pRegister->DPCVSWIDTH	= (U32)(VSW - 1);
-	WriteIODW(&pRegister->DPCVSWIDTH, (U32)(VSW - 1));
+	WriteIO32(&pRegister->DPCVSWIDTH, (U32)(VSW - 1));
 
 //	pRegister->DPCVASTART	= (U32)(VSW + VBP - 1);
-	WriteIODW(&pRegister->DPCVASTART, (U32)(VSW + VBP - 1));
+	WriteIO32(&pRegister->DPCVASTART, (U32)(VSW + VBP - 1));
 
 //	pRegister->DPCVAEND		= (U32)(VSW + VBP + AVHeight - 1);
-	WriteIODW(&pRegister->DPCVAEND, (U32)(VSW + VBP + AVHeight - 1));
+	WriteIO32(&pRegister->DPCVAEND, (U32)(VSW + VBP + AVHeight - 1));
 
 //	pRegister->DPCEVTOTAL	= (U32)(EVSW + EVBP + EAVHeight + EVFP - 1);
-	WriteIODW(&pRegister->DPCEVTOTAL, (U32)(EVSW + EVBP + EAVHeight + EVFP - 1));
+	WriteIO32(&pRegister->DPCEVTOTAL, (U32)(EVSW + EVBP + EAVHeight + EVFP - 1));
 
 //	pRegister->DPCEVSWIDTH	= (U32)(EVSW - 1);
-	WriteIODW(&pRegister->DPCEVSWIDTH, (U32)(EVSW - 1));
+	WriteIO32(&pRegister->DPCEVSWIDTH, (U32)(EVSW - 1));
 
 //	pRegister->DPCEVASTART	= (U32)(EVSW + EVBP - 1);
-	WriteIODW(&pRegister->DPCEVASTART, (U32)(EVSW + EVBP - 1));
+	WriteIO32(&pRegister->DPCEVASTART, (U32)(EVSW + EVBP - 1));
 
 //	pRegister->DPCEVAEND	= (U32)(EVSW + EVBP + EAVHeight - 1);
-	WriteIODW(&pRegister->DPCEVAEND, (U32)(EVSW + EVBP + EAVHeight - 1));
+	WriteIO32(&pRegister->DPCEVAEND, (U32)(EVSW + EVBP + EAVHeight - 1));
 
 	temp  = pRegister->DPCCTRL0;
 	temp &= ~INTPEND;	// unmask intpend bit.
@@ -1955,7 +1773,7 @@ void	NX_DPC_SetVSync( U32 ModuleIndex, U32 AVHeight, U32 VSW, U32 VFP, U32 VBP, 
 	else				temp &= (U32)~POLVSYNC;
 
 //	pRegister->DPCCTRL0 = temp;
-	WriteIODW(&pRegister->DPCCTRL0, temp);
+	WriteIO32(&pRegister->DPCCTRL0, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -2050,7 +1868,7 @@ void	NX_DPC_GetVSync( U32 ModuleIndex, U32 *pAVHeight, U32 *pVSW, U32 *pVFP, U32
  *								This value has to be less than HTOTAL and is used for even field.
  *	@return		None.
  *	@remark		All arguments has to be less than HTOTAL or 65536.
- *				The unit is VCLK( one clock for a pixel).\n
+ *				The unit is VCLK( one clock for a pixel).
  *				See follwing figure for more details.
  *	@code
  *				<---HTOTAL--->
@@ -2089,16 +1907,16 @@ void	NX_DPC_SetVSyncOffset( U32 ModuleIndex, U32 VSSOffset, U32 VSEOffset, U32 E
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->DPCVSEOFFSET	= (U32)VSEOffset;
-	WriteIODW(&pRegister->DPCVSEOFFSET, (U32)VSEOffset);
+	WriteIO32(&pRegister->DPCVSEOFFSET, (U32)VSEOffset);
 
 //	pRegister->DPCVSSOFFSET	= (U32)VSSOffset;
-	WriteIODW(&pRegister->DPCVSSOFFSET, (U32)VSSOffset);
+	WriteIO32(&pRegister->DPCVSSOFFSET, (U32)VSSOffset);
 
 //	pRegister->DPCEVSEOFFSET	= (U32)EVSEOffset;
-	WriteIODW(&pRegister->DPCEVSEOFFSET, (U32)EVSEOffset);
+	WriteIO32(&pRegister->DPCEVSEOFFSET, (U32)EVSEOffset);
 
 //	pRegister->DPCEVSSOFFSET	= (U32)EVSSOffset;
-	WriteIODW(&pRegister->DPCEVSSOFFSET, (U32)EVSSOffset);
+	WriteIO32(&pRegister->DPCEVSSOFFSET, (U32)EVSSOffset);
 }
 
 //------------------------------------------------------------------------------
@@ -2147,12 +1965,12 @@ void	NX_DPC_GetVSyncOffset( U32 ModuleIndex, U32 *pVSSOffset, U32 *pVSEOffset, U
 /**
  *	@brief		Set horizontal scale up ratio.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[in]	bEnb	\b CTRUE	indicates that scaler enable.\n
- *						\b CFALSE	indicates that scaler disable.\n
+ *	@param[in]	bEnb	 CTRUE	indicates that scaler enable.
+ *						 CFALSE	indicates that scaler disable.
  *	@param[in]	sourceWidth Source image width that valuse have to same of MLC source width.
  *	@param[in]	destWidth	Destination image width.
  *	@return		None.
- *	@remarks		Only seconary DPC can scale up of horizontal width.\n
+ *	@remarks		Only seconary DPC can scale up of horizontal width.
  *				Scale ration calculation is below
  *					- UpScale = (source width - 1 ) * (1<<11) / (destination width - 1)
  *	@see		NX_DPC_GetHorizontalUpScaler
@@ -2184,25 +2002,25 @@ void	NX_DPC_SetHorizontalUpScaler( U32 ModuleIndex, CBOOL bEnb, U32 sourceWidth,
 	regvalue |= (((U32)bEnb<<UPSCALERENB_POS) | (UpScale & 0xFF)<<UPSCALEL_POS );
 
 //	pRegister->DPCUPSCALECON0 = regvalue;
-	WriteIODW(&pRegister->DPCUPSCALECON0, regvalue);
+	WriteIO32(&pRegister->DPCUPSCALECON0, regvalue);
 
 //	pRegister->DPCUPSCALECON1 = ( UpScale >> 0x08 ) & UPSCALEH_MASK;
-	WriteIODW(&pRegister->DPCUPSCALECON1, ( UpScale >> 0x08 ) & UPSCALEH_MASK);
+	WriteIO32(&pRegister->DPCUPSCALECON1, ( UpScale >> 0x08 ) & UPSCALEH_MASK);
 
 //	pRegister->DPCUPSCALECON2 = sourceWidth - 1;
-	WriteIODW(&pRegister->DPCUPSCALECON2, sourceWidth - 1);
+	WriteIO32(&pRegister->DPCUPSCALECON2, sourceWidth - 1);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get horizontal scale up ratio.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First DPC ).
- *	@param[out]	pbEnb	\b CTRUE	indicates that scaler is enabled.\n
- *						\b CFALSE	indicates that scaler is disabled.\n
+ *	@param[out]	pbEnb	 CTRUE	indicates that scaler is enabled.
+ *						 CFALSE	indicates that scaler is disabled.
  *	@param[out]	psourceWidth Source image width.
  *	@param[out]	pdestWidth	Destination image width.
  *	@return		None.
- *	@remarks		Only seconary DPC can scale up of horizontal width.\n
+ *	@remarks		Only seconary DPC can scale up of horizontal width.
  *				Scale ration calculation is below
  *					- UpScale = (source width - 1 ) * (1<<11) / (destination width - 1)
  *	@see		NX_DPC_SetHorizontalUpScaler
@@ -2303,34 +2121,34 @@ void NX_DPC_SetSync
 	// Video    +--------------------+                +-----------------
 	//                        |<---->|
 	//                        |<---------AEND-------->|
-	WriteIODW(&pRegister->DPCHTOTAL, (U32)( HFP + HSW + HBP + AVWidth - 1 ));
-	WriteIODW(&pRegister->DPCHSWIDTH , (U32)( HSW - 1 ));
-	WriteIODW(&pRegister->DPCHASTART , (U32)( HSW + HBP - 1 ));
-	WriteIODW(&pRegister->DPCHAEND   , (U32)( HSW + HBP + AVWidth - 1 ));
-	WriteIODW(&pRegister->DPCVTOTAL, (U32)( VFP + VSW + VBP + AVHeight - 1 ));
-	WriteIODW(&pRegister->DPCVSWIDTH , (U32)( VSW - 1 ));
-	WriteIODW(&pRegister->DPCVASTART , (U32)( VSW + VBP - 1 ));
-	WriteIODW(&pRegister->DPCVAEND   , (U32)( VSW + VBP + AVHeight - 1 ));
+	WriteIO32(&pRegister->DPCHTOTAL, (U32)( HFP + HSW + HBP + AVWidth - 1 ));
+	WriteIO32(&pRegister->DPCHSWIDTH , (U32)( HSW - 1 ));
+	WriteIO32(&pRegister->DPCHASTART , (U32)( HSW + HBP - 1 ));
+	WriteIO32(&pRegister->DPCHAEND   , (U32)( HSW + HBP + AVWidth - 1 ));
+	WriteIO32(&pRegister->DPCVTOTAL, (U32)( VFP + VSW + VBP + AVHeight - 1 ));
+	WriteIO32(&pRegister->DPCVSWIDTH , (U32)( VSW - 1 ));
+	WriteIO32(&pRegister->DPCVASTART , (U32)( VSW + VBP - 1 ));
+	WriteIO32(&pRegister->DPCVAEND   , (U32)( VSW + VBP + AVHeight - 1 ));
 
-    WriteIODW(&pRegister->DPCVSEOFFSET     ,(U32) VSETPIXEL);
-    WriteIODW(&pRegister->DPCVSSOFFSET    ,(U32)( HFP + HSW + HBP + AVWidth-VSCLRPIXEL- 1 ));
-    WriteIODW(&pRegister->DPCEVSEOFFSET ,(U32) EVENVSETPIXEL);
-    WriteIODW(&pRegister->DPCEVSSOFFSET, (U32)( HFP + HSW + HBP + AVWidth-EVENVSCLRPIXEL- 1 ));
+    WriteIO32(&pRegister->DPCVSEOFFSET     ,(U32) VSETPIXEL);
+    WriteIO32(&pRegister->DPCVSSOFFSET    ,(U32)( HFP + HSW + HBP + AVWidth-VSCLRPIXEL- 1 ));
+    WriteIO32(&pRegister->DPCEVSEOFFSET ,(U32) EVENVSETPIXEL);
+    WriteIO32(&pRegister->DPCEVSSOFFSET, (U32)( HFP + HSW + HBP + AVWidth-EVENVSCLRPIXEL- 1 ));
 
     if (1==SyncGenMode)
     {
-    	WriteIODW(&pRegister->DPCEVTOTAL,(U32)( EvenVFP + EvenVSW + EvenVBP + AVHeight - 1 ));
-	    WriteIODW(&pRegister->DPCEVSWIDTH ,(U32)( EvenVSW - 1 ));
-    	WriteIODW(&pRegister->DPCEVASTART ,(U32)( EvenVSW + EvenVBP - 1 ));
-	    WriteIODW(&pRegister->DPCEVAEND   ,(U32)( EvenVSW + EvenVBP + AVHeight - 1 ));
+    	WriteIO32(&pRegister->DPCEVTOTAL,(U32)( EvenVFP + EvenVSW + EvenVBP + AVHeight - 1 ));
+	    WriteIO32(&pRegister->DPCEVSWIDTH ,(U32)( EvenVSW - 1 ));
+    	WriteIO32(&pRegister->DPCEVASTART ,(U32)( EvenVSW + EvenVBP - 1 ));
+	    WriteIO32(&pRegister->DPCEVAEND   ,(U32)( EvenVSW + EvenVBP + AVHeight - 1 ));
     }
-	regvalue = ReadIODW(&pRegister->DPCCTRL0) & 0xFFF0UL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0xFFF0UL;
 	regvalue |= (((U32)FieldPolarity<<2) | ((U32)VSyncPolarity<<1) | ((U32)HSyncPolarity<<0));
-	WriteIODW(&pRegister->DPCCTRL0, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
 
-    regvalue1 =(U32)( ReadIODW(&pRegister -> DPCCTRL0) & 0xffff);
+    regvalue1 =(U32)( ReadIO32(&pRegister -> DPCCTRL0) & 0xffff);
     regvalue1 = (U32)((SyncGenMode<<9) | regvalue1);
-    WriteIODW(&pRegister -> DPCCTRL0, (U32)regvalue1);
+    WriteIO32(&pRegister ->DPCCTRL0, (U32)regvalue1);
 }
 
 
@@ -2387,15 +2205,15 @@ void NX_DPC_SetOutputFormat
 
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL1) & 0x30FFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL1) & 0x30FFUL;
 
 
 	regvalue |= (FORMAT_TABLE[OutputFormat]<<8);
-	WriteIODW(&pRegister->DPCCTRL1, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL1, (U32)regvalue);
 
-	regvalue0 = (U32)(ReadIODW(&pRegister -> DPCCTRL1) & 0xff3f);
+	regvalue0 = (U32)(ReadIO32(&pRegister -> DPCCTRL1) & 0xff3f);
 	regvalue0 = (U32)((OutputVideoConfig<<6) | regvalue0);
-	WriteIODW(&pRegister -> DPCCTRL1, (U32)regvalue0);
+	WriteIO32(&pRegister -> DPCCTRL1, (U32)regvalue0);
 }
 
 //------------------------------------------------------------------------------
@@ -2416,9 +2234,9 @@ void NX_DPC_SetQuantizationMode
 
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL1) & 0x8FFFUL;
-	regvalue |= ((U32)RGB2YC<<13) | ((U32)YC2RGB<<12);
-	WriteIODW(&pRegister->DPCCTRL1, (U32)regvalue);
+	regvalue = ReadIO32(&pRegister->DPCCTRL1) & 0x8FFFUL;
+	regvalue |= ((U32)RGB2YC<<13) | ((U32)YC2RGB<<12);		// 12Bit Modifty.
+	WriteIO32(&pRegister->DPCCTRL1, (U32)regvalue);
 }
 
 
@@ -2439,15 +2257,41 @@ void NX_DPC_SetEnable
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 	NX_ASSERT( ~UseAnalogOutput | UseNTSCSync );
 
-	regvalue = ReadIODW(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
 	regvalue |= ((U32)Enable<<15) |
 				((U32)UseNTSCSync<<14) | ((U32)SEAVEnable<<8) |((U32)UseAnalogOutput<<13) | ((U32)RGBMode<<12);
 
-	WriteIODW(&pRegister->DPCCTRL0, (U32)regvalue);
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
 }
 
+void NX_DPC_SetEnable_WITH_INTERLACE
+(
+ U32 ModuleIndex,
+ CBOOL Enable,            ///< [in] display controller enable
+ CBOOL RGBMode,          ///< [in] output format reb & ycbcr enable
+ CBOOL UseNTSCSync,        ///< [in] use NTSC encoder sync
+ CBOOL UseAnalogOutput,    ///< [in] use analog output(use DAC)
+ CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
+ )
+{
+	U32 regvalue;
+	register struct NX_DPC_RegisterSet* pRegister;
+	NX_ASSERT( NUMBER_OF_DPC_MODULE > ModuleIndex );
+	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	pRegister    =    __g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( ~UseAnalogOutput | UseNTSCSync );
 
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue = ReadIO32(&pRegister->DPCCTRL0) & 0x0EFFUL;
+	regvalue |= ((U32)Enable<<15) |
+		((U32)UseNTSCSync<<14) | ((U32)SEAVEnable<<8) |((U32)UseAnalogOutput<<13) | ((U32)RGBMode<<12);
 
+	// @added by choiyk 2014/05/08 pm0710
+	// INTERLACE MODE
+	regvalue |= (1<<9);
+
+	WriteIO32(&pRegister->DPCCTRL0, (U32)regvalue);
+} 
 
 void NX_DPC_SetOutVideoClkSelect
 (
@@ -2462,7 +2306,7 @@ void NX_DPC_SetOutVideoClkSelect
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 
-    WriteIODW(&pRegister -> DPCCTRL2, (U32)((ReadIODW(&pRegister->DPCCTRL2)) | (OutPadVClkSel&0x3)));
+    WriteIO32(&pRegister -> DPCCTRL2, (U32)((ReadIO32(&pRegister->DPCCTRL2)) | (OutPadVClkSel&0x3)));
 }
 
 void NX_DPC_SetRegFlush( U32 ModuleIndex )
@@ -2474,8 +2318,8 @@ void NX_DPC_SetRegFlush( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW(&pRegister -> DPCDATAFLUSH);
-	WriteIODW(&pRegister -> DPCDATAFLUSH, (U32) ( Reg | (1UL<<4)));
+	Reg = ReadIO32(&pRegister -> DPCDATAFLUSH);
+	WriteIO32(&pRegister -> DPCDATAFLUSH, (U32) ( Reg | (1UL<<4)));
 }
 
 
@@ -2490,11 +2334,11 @@ void NX_DPC_SetSRAMOn ( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xf3ff);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<10)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xf3ff);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<10)));
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xf7ff);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<11)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xf7ff);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (1UL<<11)));
 }
 
 void NX_DPC_SetSyncLCDType
@@ -2514,8 +2358,8 @@ void NX_DPC_SetSyncLCDType
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 
-	reg = (U32)(ReadIODW(&pRegister -> DPCCTRL2) & 0xc0f);
-	WriteIODW(&pRegister -> DPCCTRL2, (U32)(reg | (CPCycle<<12) | (BitWidh<<9) | (DualViewEnb<<8) | (STNLCD<<7)));
+	reg = (U32)(ReadIO32(&pRegister -> DPCCTRL2) & 0xc0f);
+	WriteIO32(&pRegister -> DPCCTRL2, (U32)(reg | (CPCycle<<12) | (BitWidh<<9) | (DualViewEnb<<8) | (STNLCD<<7)));
 }
 
 
@@ -2539,9 +2383,9 @@ void NX_DPC_SetUpScaleControl
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister -> DPCUPSCALECON0, (U32)((HScale << 8) | ((U32)FilterEnb<<1) | (UpScaleEnb)));
-    WriteIODW(&pRegister -> DPCUPSCALECON1, (U32)(HScale>>8));
-    WriteIODW(&pRegister -> DPCUPSCALECON2, SourceWidth);
+	WriteIO32(&pRegister -> DPCUPSCALECON0, (U32)((HScale << 8) | ((U32)FilterEnb<<1) | (UpScaleEnb)));
+    WriteIO32(&pRegister -> DPCUPSCALECON1, (U32)(HScale>>8));
+    WriteIO32(&pRegister -> DPCUPSCALECON2, SourceWidth);
 }
 
 
@@ -2559,8 +2403,8 @@ void NX_DPC_SetMPUTime(U32 ModuleIndex, U8 Setup, U8 Hold, U8 Acc)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUTIME0, (U32)((Setup<<8)|(Hold&0xff)) );
-	WriteIODW( &pRegister->DPCMPUTIME1, (U32)(Acc) );
+	WriteIO32( &pRegister->DPCMPUTIME0, (U32)((Setup<<8)|(Hold&0xff)) );
+	WriteIO32( &pRegister->DPCMPUTIME1, (U32)(Acc) );
 }
 void NX_DPC_SetIndex(U32 ModuleIndex, U32 Index)
 {
@@ -2571,13 +2415,13 @@ void NX_DPC_SetIndex(U32 ModuleIndex, U32 Index)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUWRDATAL, (U32)(Index&0xffff) );
-	WriteIODW( &pRegister->DPCMPUINDEX, (U32)((Index>>16)&0xff) );
+	WriteIO32( &pRegister->DPCMPUWRDATAL, (U32)(Index&0xffff) );
+	WriteIO32( &pRegister->DPCMPUINDEX, (U32)((Index>>16)&0xff) );
 
 	if (0x22 == Index)
 	{
-		regvalue = ReadIODW(&pRegister->DPCCTRL2);
-		WriteIODW(&pRegister->DPCCTRL2, (regvalue|0x10)  );
+		regvalue = ReadIO32(&pRegister->DPCCTRL2);
+		WriteIO32(&pRegister->DPCCTRL2, (regvalue|0x10)  );
 	}
 }
 void NX_DPC_SetData(U32 ModuleIndex, U32 Data)
@@ -2587,8 +2431,8 @@ void NX_DPC_SetData(U32 ModuleIndex, U32 Data)
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister->DPCMPUWRDATAL, (U32)(Data&0xffff) );
-	WriteIODW( &pRegister->DPCMPUDATAH, (U32)((Data>>16)&0xff) );
+	WriteIO32( &pRegister->DPCMPUWRDATAL, (U32)(Data&0xffff) );
+	WriteIO32( &pRegister->DPCMPUDATAH, (U32)((Data>>16)&0xff) );
 }
 
 void NX_DPC_SetCmdBufferFlush(U32 ModuleIndex )
@@ -2599,8 +2443,8 @@ void NX_DPC_SetCmdBufferFlush(U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW(&pRegister -> DPCDATAFLUSH)	;
-	WriteIODW( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<1)) );
+	Reg = ReadIO32(&pRegister -> DPCDATAFLUSH)	;
+	WriteIO32( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<1)) );
 }
 void NX_DPC_SetCmdBufferClear( U32 ModuleIndex )
 {
@@ -2610,8 +2454,8 @@ void NX_DPC_SetCmdBufferClear( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister -> DPCDATAFLUSH );
-	WriteIODW( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<0)) );
+	Reg = ReadIO32( &pRegister -> DPCDATAFLUSH );
+	WriteIO32( &pRegister -> DPCDATAFLUSH, (U32)(Reg | (1<<0)) );
 }
 
 void NX_DPC_SetCmdBufferWrite(U32 ModuleIndex, U32 CmdData )
@@ -2621,8 +2465,8 @@ void NX_DPC_SetCmdBufferWrite(U32 ModuleIndex, U32 CmdData )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW( &pRegister -> DPCCMDBUFFERDATAL, (U32)(CmdData &0xffff) );
-	WriteIODW( &pRegister -> DPCCMDBUFFERDATAH, (U32)(CmdData>>16) );
+	WriteIO32( &pRegister -> DPCCMDBUFFERDATAL, (U32)(CmdData &0xffff) );
+	WriteIO32( &pRegister -> DPCCMDBUFFERDATAH, (U32)(CmdData>>16) );
 }
 
 void NX_DPC_SetMPUCS1( U32 ModuleIndex )
@@ -2633,8 +2477,8 @@ void NX_DPC_SetMPUCS1( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister -> DPCPOLCTRL)	;
-	WriteIODW( &pRegister -> DPCPOLCTRL, (U32)(Reg|0x1) );
+	Reg = ReadIO32( &pRegister -> DPCPOLCTRL)	;
+	WriteIO32( &pRegister -> DPCPOLCTRL, (U32)(Reg|0x1) );
 }
 
 U32 NX_DPC_GetData( U32 ModuleIndex )
@@ -2645,8 +2489,8 @@ U32 NX_DPC_GetData( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister->DPCMPUDATAH );
-	Reg = (Reg<<16)| ReadIODW( &pRegister->DPCMPURDATAL );
+	Reg = ReadIO32( &pRegister->DPCMPUDATAH );
+	Reg = (Reg<<16)| ReadIO32( &pRegister->DPCMPURDATAL );
 
 	return Reg;
 }
@@ -2658,11 +2502,11 @@ U32 NX_DPC_GetStatus( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	Reg = ReadIODW( &pRegister->DPCMPUSTATUS );
+	Reg = ReadIO32( &pRegister->DPCMPUSTATUS );
 
 //	NX_CONSOLE_Printf("[DEBUG] Reg = %x", Reg);
 
-	Reg = (Reg<<16)| ReadIODW( &pRegister->DPCMPURDATAL );
+	Reg = (Reg<<16)| ReadIO32( &pRegister->DPCMPURDATAL );
 
 	return Reg;
 }
@@ -2674,8 +2518,8 @@ void NX_DPC_RGBMASK( U32 ModuleIndex, U32 RGBMask )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister->DPCRGBMASK[0], (RGBMask>>0)&0xffff);
-	WriteIODW(&pRegister->DPCRGBMASK[1], (RGBMask>>16)&0x00ff);
+	WriteIO32(&pRegister->DPCRGBMASK[0], (RGBMask>>0)&0xffff);
+	WriteIO32(&pRegister->DPCRGBMASK[1], (RGBMask>>16)&0x00ff);
 
 }
 
@@ -2687,7 +2531,7 @@ void NX_DPC_SetPadLocation( U32 ModuleIndex, U32 Index, U32 regvalue )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister->DPCPADPOSITION[Index], regvalue);
+	WriteIO32(&pRegister->DPCPADPOSITION[Index], regvalue);
 }
 
 U32 NX_DPC_GetFieldFlag( U32 ModuleIndex )
@@ -2699,33 +2543,8 @@ U32 NX_DPC_GetFieldFlag( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	regvalue = ReadIODW(&pRegister->DPCRGBSHIFT);
+	regvalue = ReadIO32(&pRegister->DPCRGBSHIFT);
 
 	return ((regvalue >> 5) && 0x01 );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

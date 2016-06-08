@@ -56,8 +56,8 @@ extern "C"
 	CBOOL		NX_RSTCON_Initialize( void );
 	U32 		NX_RSTCON_GetPhysicalAddress( void );
 	U32			NX_RSTCON_GetSizeOfRegisterSet( void );
-	void		NX_RSTCON_SetBaseAddress( U32 BaseAddress );
-	U32			NX_RSTCON_GetBaseAddress( void );
+	void		NX_RSTCON_SetBaseAddress( void* BaseAddress );
+	void*		NX_RSTCON_GetBaseAddress( void );
 
 	void		NX_RSTCON_SetnRST(U32 RSTIndex, RSTCON_nRST STATUS);
 	void		NX_RSTCON_SetRST(U32 RSTIndex, RSTCON_RST STATUS);

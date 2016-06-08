@@ -9,7 +9,7 @@
 //	FOR A PARTICULAR PURPOSE.
 //
 //	Module		: WDT
-//	File		: nx_wdt.c
+//	File			: nx_wdt.c
 //	Description	:
 //	Author		: Jonghyuk Park(charles@nexell.co.kr)
 //	History		: 20120911 first implementation
@@ -28,9 +28,8 @@ static	struct
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicates that Initialize is successed.\r\n
- *			\b CFALSE indicates that Initialize is failed.\r\n
- *	@see	NX_WDT_GetNumberOfModule
+ *	@return  CTRUE	indicates that Initialize is successed.
+ *			 CFALSE indicates that Initialize is failed.
  */
 CBOOL	NX_WDT_Initialize( void )
 {
@@ -68,10 +67,6 @@ U32		NX_WDT_GetNumberOfModule( void )
  *	@brief		Get module's physical address.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@return		Module's physical address
- *	@see		NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
  */
 U32		NX_WDT_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -86,10 +81,6 @@ U32		NX_WDT_GetPhysicalAddress( U32 ModuleIndex )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_WDT_GetPhysicalAddress,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
  */
 U32		NX_WDT_GetSizeOfRegisterSet( void )
 {
@@ -102,12 +93,8 @@ U32		NX_WDT_GetSizeOfRegisterSet( void )
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
  */
-void	NX_WDT_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_WDT_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
@@ -120,28 +107,20 @@ void	NX_WDT_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *	@brief		Get a base address of register set
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@return		Module's base address.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
  */
-U32		NX_WDT_GetBaseAddress( U32 ModuleIndex )
+void*	NX_WDT_GetBaseAddress( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (U32*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
- *	@return		\b CTRUE	indicates that Initialize is successed. \r\n
- *				\b CFALSE	indicates that Initialize is failed.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
+ *	@return		CTRUE	indicates that Initialize is successed. 
+ *				CFALSE	indicates that Initialize is failed.
  */
 CBOOL	NX_WDT_OpenModule( U32 ModuleIndex )
 {
@@ -153,9 +132,9 @@ CBOOL	NX_WDT_OpenModule( U32 ModuleIndex )
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 	// check reset value
-	NX_ASSERT( ReadIODW(&pRegister->WTCON) == 0x8021 );
-	NX_ASSERT( ReadIODW(&pRegister->WTDAT) == 0x8000 );
-	NX_ASSERT( ReadIODW(&pRegister->WTCNT) == 0x8000 );
+	NX_ASSERT( ReadIO32(&pRegister->WTCON) == 0x8021 );
+	NX_ASSERT( ReadIO32(&pRegister->WTDAT) == 0x8000 );
+	NX_ASSERT( ReadIO32(&pRegister->WTCNT) == 0x8000 );
 
 	return CTRUE;
 }
@@ -164,12 +143,8 @@ CBOOL	NX_WDT_OpenModule( U32 ModuleIndex )
 /**
  *	@brief		Deinitialize selected module to the proper stage.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
- *	@return		\b CTRUE	indicates that Deinitialize is successed. \r\n
- *				\b CFALSE	indicates that Deinitialize is failed.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,
- *				NX_WDT_CheckBusy,			NX_WDT_CanPowerDown
+ *	@return		CTRUE	indicates that Deinitialize is successed.
+ *				CFALSE	indicates that Deinitialize is failed.
  */
 CBOOL	NX_WDT_CloseModule( U32 ModuleIndex )
 {
@@ -181,9 +156,9 @@ CBOOL	NX_WDT_CloseModule( U32 ModuleIndex )
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
 	// set up reset value
-	WriteIODW(&pRegister->WTCON, 0x8021);
-	WriteIODW(&pRegister->WTDAT, 0x8000);
-	WriteIODW(&pRegister->WTCNT, 0x8000);
+	WriteIO32(&pRegister->WTCON, 0x8021);
+	WriteIO32(&pRegister->WTDAT, 0x8000);
+	WriteIO32(&pRegister->WTCNT, 0x8000);
 
 	return CTRUE;
 }
@@ -192,12 +167,8 @@ CBOOL	NX_WDT_CloseModule( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
- *	@return		\b CTRUE	indicates that Module is Busy. \r\n
- *				\b CFALSE	indicates that Module is NOT Busy.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CanPowerDown
+ *	@return		CTRUE	indicates that Module is Busy. 
+ *				CFALSE	indicates that Module is NOT Busy.
  */
 CBOOL	NX_WDT_CheckBusy( U32 ModuleIndex )
 {
@@ -210,12 +181,8 @@ CBOOL	NX_WDT_CheckBusy( U32 ModuleIndex )
 /**
  *	@brief		Indicaes whether the selected modules is ready to enter power-down stage
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
- *	@return		\b CTRUE	indicates that Ready to enter power-down stage. \r\n
- *				\b CFALSE	indicates that This module can't enter to power-down stage.
- *	@see		NX_WDT_GetPhysicalAddress,	NX_WDT_GetSizeOfRegisterSet,
- *				NX_WDT_SetBaseAddress,		NX_WDT_GetBaseAddress,
- *				NX_WDT_OpenModule,			NX_WDT_CloseModule,
- *				NX_WDT_CheckBusy
+ *	@return		CTRUE	indicates that Ready to enter power-down stage. 
+ *				CFALSE	indicates that This module can't enter to power-down stage.
  */
 CBOOL	NX_WDT_CanPowerDown( U32 ModuleIndex )
 {
@@ -230,13 +197,13 @@ CBOOL	NX_WDT_CanPowerDown( U32 ModuleIndex )
  *	@return		Module's Reset number
  */
 U32 NX_WDT_GetResetNumber (U32 ModuleIndex, U32 ChannelIndex)
-{	
+{
 	const U32 ResetPinNumber[2][NUMBER_OF_WDT_MODULE] =
 	{
 		{ RESETINDEX_LIST( WDT, PRESETn )},
 		{ RESETINDEX_LIST( WDT, nPOR )},
 	};
-	
+
 	return (U32)ResetPinNumber[ChannelIndex][ModuleIndex];
 }
 
@@ -258,18 +225,13 @@ U32 NX_WDT_GetNumberOfReset()
  *	@brief		Get a interrupt number for interrupt controller.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@return		Interrupt number
- *	@see		NX_WDT_GetInterruptNumber,
- *				NX_WDT_GetInterruptEnable,			NX_WDT_GetInterruptPending,
- *				NX_WDT_ClearInterruptPending,		NX_WDT_SetInterruptEnableAll,
- *				NX_WDT_GetInterruptEnableAll,		NX_WDT_GetInterruptPendingAll,
- *				NX_WDT_ClearInterruptPendingAll,	NX_WDT_GetInterruptPendingNumber
  */
 U32		NX_WDT_GetInterruptNumber( U32 ModuleIndex )
 {
 	const U32	WDTInterruptNumber[NUMBER_OF_WDT_MODULE] =
-				{
-					INTNUM_LIST(WDT)
-				};
+	{
+		INTNUM_LIST(WDT)
+	};
 
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
 
@@ -281,14 +243,9 @@ U32		NX_WDT_GetInterruptNumber( U32 ModuleIndex )
  *	@brief		Set a specified interrupt to be enable or disable.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@param[in]	IntNum	Interrupt Number.
- *	@param[in]	Enable	\b CTRUE	indicates that Interrupt Enable. \r\n
- *						\b CFALSE	indicates that Interrupt Disable.
+ *	@param[in]	Enable	CTRUE	indicates that Interrupt Enable. 
+ *						CFALSE	indicates that Interrupt Disable.
  *	@return		None.
- *	@see		NX_WDT_GetInterruptNumber,
- *				NX_WDT_GetInterruptEnable,			NX_WDT_GetInterruptPending,
- *				NX_WDT_ClearInterruptPending,		NX_WDT_SetInterruptEnableAll,
- *				NX_WDT_GetInterruptEnableAll,		NX_WDT_GetInterruptPendingAll,
- *				NX_WDT_ClearInterruptPendingAll,	NX_WDT_GetInterruptPendingNumber
  */
 void	NX_WDT_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 {
@@ -299,18 +256,17 @@ void	NX_WDT_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 	register U32	ReadValue;
 
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	//NX_ASSERT( 7 > IntNum );
-	NX_ASSERT( (0==Enable) || (1==Enable) );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
-
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
 
-	ReadValue	=	ReadIODW(&pRegister->WTCON) & ~PEND_MASK;
+	NX_ASSERT( ( CFALSE == Enable) || ( CTRUE == Enable) );
+  
+	ReadValue	=	ReadIO32(&pRegister->WTCON) & ~PEND_MASK;
 
-	ReadValue	&=	(U32)(~(1UL << (IntNum+PEND_POS)));
-	ReadValue	|=	(U32)Enable << (IntNum+PEND_POS) ;
+	ReadValue	&=	(U32)(~(1UL << (PEND_POS)));
+	ReadValue	|=	(U32)Enable << (PEND_POS) ;
 
-	WriteIODW(&pRegister->WTCON, ReadValue);
+	WriteIO32(&pRegister->WTCON, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -318,36 +274,26 @@ void	NX_WDT_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 ~ x ).
  *	@param[in]	IntNum	Interrupt Number.
- *	@return		\b CTRUE	indicates that Interrupt is enabled. \r\n
- *				\b CFALSE	indicates that Interrupt is disabled.
- *	@see		NX_WDT_GetInterruptNumber,
- *				NX_WDT_GetInterruptEnable,			NX_WDT_GetInterruptPending,
- *				NX_WDT_ClearInterruptPending,		NX_WDT_SetInterruptEnableAll,
- *				NX_WDT_GetInterruptEnableAll,		NX_WDT_GetInterruptPendingAll,
- *				NX_WDT_ClearInterruptPendingAll,	NX_WDT_GetInterruptPendingNumber
+ *	@return		CTRUE	indicates that Interrupt is enabled. 
+ *				CFALSE	indicates that Interrupt is disabled.
  */
 CBOOL	NX_WDT_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 {
 	const U32	PEND_POS	=	2;
 
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	//NX_ASSERT( 7 > IntNum );
+	NX_ASSERT( 7 > IntNum );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
-	return	(CBOOL)( (ReadIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) >> (IntNum+PEND_POS)) & 0x01 );
+	return	(CBOOL)( (ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) >> (IntNum+PEND_POS)) & 0x01 );
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Clear a pending state of specified interrupt.
- *	@param[in]	ModuleIndex		An index of module ( 0 ~ 5 ).
+ *	@param[in]	ModuleIndex		An index of module.
  *	@param[in]	IntNum	Interrupt number.
  *	@return		None.
- *	@see		NX_WDT_GetInterruptNumber,
- *				NX_WDT_GetInterruptEnable,			NX_WDT_GetInterruptPending,
- *				NX_WDT_ClearInterruptPending,		NX_WDT_SetInterruptEnableAll,
- *				NX_WDT_GetInterruptEnableAll,		NX_WDT_GetInterruptPendingAll,
- *				NX_WDT_ClearInterruptPendingAll,	NX_WDT_GetInterruptPendingNumber
  */
 void	NX_WDT_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 {
@@ -357,103 +303,283 @@ void	NX_WDT_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 	register struct NX_WDT_RegisterSet*	pRegister;
 
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	//NX_ASSERT( 7 > IntNum );
+	NX_ASSERT( 7 > IntNum );
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
 
-	WriteIODW(&pRegister->WTCLRINT, ((1 << IntNum) & PEND_MASK) << PEND_POS );
+	WriteIO32(&pRegister->WTCLRINT, ((1 << IntNum) & PEND_MASK) << PEND_POS );
 }
 
-//--------------------------------------------------------------------------
-// Configuration operations
-//--------------------------------------------------------------------------
-void	NX_WDT_SetWTCON( U32 ModuleIndex, U32 value )
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Prescaler value.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	Prescaler		Clock Prescaler ( Range : 0 ~ 0xFF)
+ *	@return		None.
+ */
+void	NX_WDT_SetPrescaler( U32 ModuleIndex, U8 Prescaler )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 PRE_POS	=	8;
+	const U32 PRE_MASK	=	0xFF << PRE_POS;
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON, value);
-}
-U32		NX_WDT_GetWTCON( U32 ModuleIndex )
-{
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
 
-	return (U32)(ReadIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON));
-}
-
-void NX_WDT_SetResetEnable( U32 ModuleIndex, CBOOL enable )
-{
 	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 	
-	__g_ModuleVariables[ModuleIndex].pRegister->WTCON 
-		= NX_BIT_SetBit32 (	__g_ModuleVariables[ModuleIndex].pRegister->WTCON, (U32)enable, 2  );
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( 0xFF <= Prescaler );
+
+	regvalue 	 = ReadIO32(&pRegister->WTCON);
+	regvalue	&= ~PRE_MASK;
+	regvalue	|= Prescaler << PRE_POS;
+
+	WriteIO32(&pRegister->WTCON, regvalue);
 }
 
-void	NX_WDT_SetWTDAT( U32 ModuleIndex, U32 value )
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Prescaler value.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@return		Presclaer		Clock Prescaler ( Range : 0 ~ 0xFF)
+
+ */
+U8		NX_WDT_GetPrescaler( U32 ModuleIndex )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 PRE_POS	=	8;
+	const U32 PRE_MASK	=	0xFF << PRE_POS;
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTDAT, value);
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+
+	return (U8)((ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) & PRE_MASK) >> PRE_POS);
 }
-U32		NX_WDT_GetWTDAT( U32 ModuleIndex )
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Divide Select.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	ClkSel			Clock Divider Select.
+ 								(0: DIV16, 1:DIV32, 2:DIV64, 3:DIV128 )
+ *	@return		None.
+ */
+void	NX_WDT_SetClockDivide( U32 ModuleIndex, NX_WDT_CLOCK_DIV ClkSel )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 CLKSEL_POS	=	3;
+	const U32 CLKSEL_MASK	=	3UL << CLKSEL_POS;
 
-	return (U32)(ReadIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTDAT));
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
+
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+	
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( 0x3 >= ClkSel );
+
+	regvalue 	 = ReadIO32(&pRegister->WTCON);
+	regvalue	&= ~CLKSEL_MASK;
+	regvalue	|= ClkSel << CLKSEL_POS;
+
+	WriteIO32(&pRegister->WTCON, regvalue);
 }
 
-void	NX_WDT_SetWTCNT( U32 ModuleIndex, U32 value )
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Divide Select.
+ *	@param[in]	ModuleIndex		An index of module .
+ *	@param[in]	ClkSel			Clock Divider Select.
+ 								(0: DIV16, 1:DIV32, 2:DIV64, 3:DIV128 )
+ *	@return		None.
+ */
+NX_WDT_CLOCK_DIV	NX_WDT_GetClockDivide( U32 ModuleIndex )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 CLKSEL_POS	=	3;
+	const U32 CLKSEL_MASK	=	3UL << CLKSEL_POS;
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCNT, value);
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+
+	return (NX_WDT_CLOCK_DIV)(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) & CLKSEL_MASK) >> CLKSEL_POS;
 }
-U32		NX_WDT_GetWTCNT( U32 ModuleIndex )
+
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Timer Enable.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	Enable			CTRUE 	Indicate that WatchDog Timer Enable.
+ 								CFALSE	Indicate that WatchDOg Timer Disable.
+ *	@return		None.
+ */
+void	NX_WDT_SetEnable( U32 ModuleIndex, CBOOL Enable )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 ENB_POS	=	5;
+	const U32 ENB_MASK	=	1UL << ENB_POS;
 
-	return (U32)(ReadIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCNT));
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
+
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+	
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( (CTRUE == Enable) || (CFALSE == Enable) );
+
+	regvalue 	 = ReadIO32(&pRegister->WTCON);
+	regvalue	&= ~ENB_MASK;
+	regvalue	|= Enable << ENB_POS;
+
+	WriteIO32(&pRegister->WTCON, regvalue);
 }
 
-void	NX_WDT_SetWTCLRINT( U32 ModuleIndex, U32 value )
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Timer Enable.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@return		CTRUE 	Indicate that WatchDog Timer Enable.
+ 				CFALSE	Indicate that WatchDOg Timer Disable.
+ */
+CBOOL		NX_WDT_GetEnable( U32 ModuleIndex )
 {
-	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
-	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
+	const U32 ENB_POS	=	5;
+	const U32 ENB_MASK	=	1UL << ENB_POS;
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].pRegister->WTCLRINT, value);
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+
+	return (CBOOL)(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) & ENB_MASK) >> ENB_POS;
 }
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Timer Reset Enable.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	Enable			CTRUE 	Indicate that WatchDog Timer Reset Enable.
+ 								CFALSE	Indicate that WatchDOg Timer Reset Disable.
+ *	@return		None.
+ */
+void	NX_WDT_SetResetEnable( U32 ModuleIndex, CBOOL Enable )
+{
+	const U32 ENB_POS	=	0;
+	const U32 ENB_MASK	=	1UL << ENB_POS;
 
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+	
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( (CTRUE == Enable) || (CFALSE == Enable) );
 
+	regvalue 	 = ReadIO32(&pRegister->WTCON);
+	regvalue	&= ~ENB_MASK;
+	regvalue	|= Enable << ENB_POS;
 
+	WriteIO32(&pRegister->WTCON, regvalue);
+}
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Timer Reset Enable.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@return		CTRUE 	Indicate that WatchDog Timer Reset Enable.
+ 				CFALSE	Indicate that WatchDOg Timer Reset Disable.
+ */
+CBOOL		NX_WDT_GetResetEnable( U32 ModuleIndex )
+{
+	const U32 ENB_POS	=	0;
+	const U32 ENB_MASK	=	1UL << ENB_POS;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
 
+	return (CBOOL)(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCON) & ENB_MASK) >> ENB_POS;
+}
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Timer Reload Count.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	ReloadData		Reload Data ( Range : 0 ~ 65535 )
+ *	@return		None.
+ */
+void	NX_WDT_SetReloadCount( U32 ModuleIndex, U16 ReloadData )
+{
+	const U32 RE_DATA_POS	=	0;
+	const U32 RE_DATA_MASK	=	0xFFFF << RE_DATA_POS;
 
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+	
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( 0xFFFF >= ReloadData );
 
+	regvalue 	 = ReadIO32(&pRegister->WTDAT);
+	regvalue	&= ~RE_DATA_MASK;
+	regvalue	|= ReloadData << RE_DATA_POS;
 
+	WriteIO32(&pRegister->WTDAT, (U16)regvalue);
+}
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Timer Reload Count.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@return		ReloadData		Reload Data ( Range : 0 ~ 65535 )
+ */
+U16		NX_WDT_GetReloadCount( U32 ModuleIndex )
+{
+	const U32 RE_DATA_POS	=	0;
+	const U32 RE_DATA_MASK	=	0xFFFF << RE_DATA_POS;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
 
+	return (U16)(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTDAT) & RE_DATA_MASK) >> RE_DATA_POS;
+}
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Set Watchdog Timer Currnet Count.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@param[in]	CurData			Currnet Data ( Range : 0 ~ 65535 )
+ *	@return		None.
+ */
+void	NX_WDT_SetCurrentCount( U32 ModuleIndex, U16 CurData )
+{
+	const U32 CUR_DATA_POS	=	0;
+	const U32 CUR_DATA_MASK	=	0xFFFF << CUR_DATA_POS;
 
+	register struct NX_WDT_RegisterSet*	pRegister;
+	register U32 regvalue;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
+	
+	pRegister	=	__g_ModuleVariables[ModuleIndex].pRegister;
+	NX_ASSERT( CNULL != pRegister );
+	NX_ASSERT( 0xFFFF >= CurData );
 
+	regvalue 	 = ReadIO32(&pRegister->WTCNT);
+	regvalue	&= ~CUR_DATA_MASK;
+	regvalue	|= CurData << CUR_DATA_POS;
 
+	WriteIO32(&pRegister->WTCNT, (U16)regvalue);
+}
 
+//------------------------------------------------------------------------------
+/**
+ *	@brief		Get Watchdog Timer Current Count.
+ *	@param[in]	ModuleIndex		An index of module.
+ *	@return		Currnet Data ( Range : 0 ~ 65535 )
+ */
+U16		NX_WDT_GetCurrentCount( U32 ModuleIndex )
+{
+	const U32 CUR_DATA_POS	=	0;
+	const U32 CUR_DATA_MASK	=	0xFFFF << CUR_DATA_POS;
 
+	NX_ASSERT( NUMBER_OF_WDT_MODULE > ModuleIndex );
 
-
-
-
+	return (U16)(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->WTCNT) & CUR_DATA_MASK) >> CUR_DATA_POS;
+}
 

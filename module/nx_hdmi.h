@@ -453,7 +453,6 @@ extern "C"
 #define  HDMI_CEC_FILTER_CTRL         (OTHER_ADDR_OFFSET + 0x00000180)    //CEC Filter control register                                                     0x81
 #define  HDMI_CEC_FILTER_TH           (OTHER_ADDR_OFFSET + 0x00000184)    //CEC Filter Threshold register                                                   0x03
 
-
 // HDMI는 각 비트별로.. 8비트까지 사용한다.
 // PHY는 (1MB+2KB ~ 1MB+4KB)
 #define HDMI_PHY_OFFSET 0x400 // [19:10] == 0x01
@@ -557,8 +556,8 @@ CBOOL NX_HDMI_Initialize( void );
 U32   NX_HDMI_GetNumberOfModule( void );
 
 U32   NX_HDMI_GetSizeOfRegisterSet( void );
-void  NX_HDMI_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32   NX_HDMI_GetBaseAddress( U32 ModuleIndex );
+void  NX_HDMI_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*  NX_HDMI_GetBaseAddress( U32 ModuleIndex );
 U32   NX_HDMI_GetPhysicalAddress ( U32 ModuleIndex );
 CBOOL NX_HDMI_OpenModule( U32 ModuleIndex );
 CBOOL NX_HDMI_CloseModule( U32 ModuleIndex );

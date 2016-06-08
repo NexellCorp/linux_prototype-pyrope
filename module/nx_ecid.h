@@ -16,7 +16,7 @@
 #ifndef __NX_ECID_H__
 #define __NX_ECID_H__
 
-#include "nx_prototype.h"
+#include "../base/nx_prototype.h"
 
 #ifdef  __cplusplus
 extern "C"
@@ -83,8 +83,8 @@ U32     NX_ECID_GetNumberOfModule( void );
 //@{
 U32     NX_ECID_GetPhysicalAddress( void );
 U32     NX_ECID_GetSizeOfRegisterSet( void );
-void    NX_ECID_SetBaseAddress( U32 BaseAddress );
-U32     NX_ECID_GetBaseAddress( void );
+void    NX_ECID_SetBaseAddress( void* BaseAddress );
+void*    NX_ECID_GetBaseAddress( void );
 CBOOL   NX_ECID_OpenModule( void );
 CBOOL   NX_ECID_CloseModule( void );
 CBOOL   NX_ECID_CheckBusy( void );

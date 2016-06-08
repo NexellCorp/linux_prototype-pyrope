@@ -101,7 +101,7 @@ return sizeof( *__g_pRegister );
  *				NX_MALI400_OpenModule,				NX_MALI400_CloseModule,
  *				NX_MALI400_CheckBusy,				
  */
-void	NX_MALI400_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_MALI400_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_MALI400_MODULE > ModuleIndex );
@@ -117,10 +117,10 @@ void	NX_MALI400_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *				NX_MALI400_OpenModule,				NX_MALI400_CloseModule,
  *				NX_MALI400_CheckBusy,				
  */
-U32		NX_MALI400_GetBaseAddress( U32 ModuleIndex )
+void*	NX_MALI400_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_MALI400_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];	
+	return (void*)__g_pRegister[ModuleIndex];	
 }
 
 //------------------------------------------------------------------------------

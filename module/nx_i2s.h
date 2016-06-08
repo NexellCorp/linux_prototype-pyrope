@@ -41,15 +41,16 @@ extern "C"
     typedef enum
     {
         NX_I2S_BLC_16BIT    = 0,    // 16 bit per channel
-        NX_I2S_BCL_8BIT     = 1,    // 8  bit per channel
+        NX_I2S_BLC_8BIT     = 1,    // 8  bit per channel
         NX_I2S_BLC_24BIT    = 2     // 24 bit per channel
     }   NX_I2S_BLC;
 
     typedef enum
     {
-        NX_I2S_IMS_DIVIDE   = 0,    // internal master mode
-        NX_I2S_IMS_BYPASS   = 1,    // external master mode
-        Nx_I2S_IMS_SLAVE    = 2     // slave mode
+        NX_I2S_IMS_DIVIDE   	  = 0,   // internal master mode
+        NX_I2S_IMS_BYPASS   	  = 1,   // external master mode
+        NX_I2S_IMS_PCLK_SLAVE     = 2,   // slave mode (PCLK)
+        NX_I2S_IMS_CODECLKI_SLAVE = 3,	 // slave mode (CODCLKI)
     }   NX_I2S_IMS;
 
     typedef enum
@@ -119,8 +120,8 @@ U32		NX_I2S_GetNumberOfModule( void );
 //@{
 U32		NX_I2S_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_I2S_GetSizeOfRegisterSet( void );
-void	NX_I2S_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_I2S_GetBaseAddress( U32 ModuleIndex );
+void	NX_I2S_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*	NX_I2S_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_I2S_OpenModule( U32 ModuleIndex );
 CBOOL	NX_I2S_CloseModule( U32 ModuleIndex );
 CBOOL	NX_I2S_CheckBusy( U32 ModuleIndex );
@@ -159,19 +160,33 @@ void    NX_I2S_TxDmaEnable( U32 ModuleIndex, CBOOL Enable );
 void    NX_I2S_RxDmaEnable( U32 ModuleIndex, CBOOL Enable );
 void    NX_I2S_I2SEnable( U32 ModuleIndex, CBOOL Enable );
 void    NX_I2S_SetBitLengthControl( U32 ModuleIndex, NX_I2S_BLC BitLength );
+U32   	NX_I2S_GetBitLengthControl( U32 ModuleIndex );
+
 void    NX_I2S_CodecClockDisable( U32 ModuleIndex, CBOOL Enable );
+ U32    NX_I2S_GetCodecClockDisable( U32 ModuleIndex );
 void    NX_I2S_SetMasterSlaveMode( U32 ModuleIndex, NX_I2S_IMS Mode );
+ U32   	NX_I2S_GetMasterSlaveMode( U32 ModuleIndex );
+
 void    NX_I2S_SetTxRxMode( U32 ModuleIndex, NX_I2S_TXR Mode );
-void    NX_I2S_SetLRClockPoarity( U32 ModuleIndex, NX_I2S_LRP Polarity );
+void    NX_I2S_SetLRClockPolarity( U32 ModuleIndex, NX_I2S_LRP Polarity );
+ U32   	NX_I2S_GetLRClockPolarity( U32 ModuleIndex );
+
 void    NX_I2S_SetSerialDataFormat( U32 ModuleIndex, NX_I2S_SDF DataFormat );
+U32   	NX_I2S_GetSerialDataFormat( U32 ModuleIndex );
+
 void    NX_I2S_SetRootClockFrequency( U32 ModuleIndex, NX_I2S_ROOTCLOCK RootClock );
+U32  	NX_I2S_GetRootClockFrequency( U32 ModuleIndex );
 void    NX_I2S_SetBitClockFrequency( U32 ModuleIndex, NX_I2S_BITCLOCK BitClock );
+U32		NX_I2S_GetBitClockFrequency( U32 ModuleIndex );
+
 void    NX_I2S_TxFifoFlushEnable( U32 ModuleIndex, CBOOL Enable );
 U32     NX_I2S_GetTxFifoDataCount( U32 ModuleIndex );
 void    NX_I2S_RxFifoFlushEnable( U32 ModuleIndex, CBOOL Enable );
 U32     NX_I2S_GetRxFifoDataCount( U32 ModuleIndex );
 void    NX_I2S_PrescalerEnable( U32 ModuleIndex, CBOOL Enable );
+U32		NX_I2S_GetPrescalerEnable( U32 ModuleIndex );
 void    NX_I2S_SetPrescalerValue( U32 ModuleIndex, U32 PsVal );
+ U32    NX_I2S_GetPrescalerValue( U32 ModuleIndex );
 void    NX_I2S_SetTxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLENGTH BitLength, U32 TxData );
 U32     NX_I2S_GetRxData( U32 ModuleIndex, NX_I2S_CH ChannelIndex, NX_I2S_BITLENGTH BitLength );
 //@}

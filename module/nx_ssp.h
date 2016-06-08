@@ -57,8 +57,8 @@ U32		NX_SSP_GetNumberOfModule		( void );
 //@{
 U32		NX_SSP_GetPhysicalAddress		( U32 ModuleIndex );
 U32		NX_SSP_GetSizeOfRegisterSet		( void );
-void	NX_SSP_SetBaseAddress			( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_SSP_GetBaseAddress			( U32 ModuleIndex );
+void	NX_SSP_SetBaseAddress			( U32 ModuleIndex, void* BaseAddress );
+void*	NX_SSP_GetBaseAddress			( U32 ModuleIndex );
 CBOOL	NX_SSP_OpenModule				( U32 ModuleIndex );
 CBOOL	NX_SSP_CloseModule				( U32 ModuleIndex );
 CBOOL	NX_SSP_CheckBusy				( U32 ModuleIndex );
@@ -129,6 +129,13 @@ U32			NX_SSP_GetClockPrescaler( U32 ModuleIndex );
 //--------------------------------------------------------------------------
 //@{
 // Transmit/ Receive ตัดู Enable.
+
+typedef enum
+{
+	NX_SSP_MODE_MASTER	= 0,        // Master Mode
+	NX_SSP_MODE_SLAVE   = 1         // Slave  Mode
+} NX_SSP_MODE;
+
 void	NX_SSP_SetDMATransferMode( U32 ModuleIndex, CBOOL bEnable );
 CBOOL	NX_SSP_GetDMATransferMode( U32 ModuleIndex );
 
@@ -138,8 +145,8 @@ void	NX_SSP_SetDMAReceiveMode( U32 ModuleIndex, CBOOL bEnable );
 CBOOL	NX_SSP_GetDMAReceiveMode( U32 ModuleIndex );
 void	NX_SSP_SetBitWidth( U32 ModuleIndex, U32 bitWidth );
 U32		NX_SSP_GetBitWidth( U32 ModuleIndex );
-void	NX_SSP_SetSlaveMode( U32 ModuleIndex, CBOOL bSlave );
-CBOOL	NX_SSP_GetSlaveMode( U32 ModuleIndex );
+void	NX_SSP_SetSlaveMode( U32 ModuleIndex, NX_SSP_MODE bSlave );
+NX_SSP_MODE	NX_SSP_GetSlaveMode( U32 ModuleIndex );
 
 void	NX_SSP_SetSlaveOutputEnable( U32 ModuleIndex, CBOOL Enable );
 CBOOL	NX_SSP_GetSlaveOutputEnable( U32 ModuleIndex );
@@ -149,14 +156,16 @@ CBOOL	NX_SSP_GetClockPolarityInvert( U32 ModuleIndex );
 
 typedef enum
 {
-	NX_SSP_FORMAT_A	= 0,	///< Format A, SPH = 0
-	NX_SSP_FORMAT_B	= 1		///< Format B, SPH = 1
+	NX_SSP_FORMAT_A	= 0,	///< Format A, SPH = 0, SPO = 0
+	NX_SSP_FORMAT_B	= 1,	///< Format B, SPH = 0, SPO = 1
+	NX_SSP_FORMAT_C	= 2,	///< Format B, SPH = 1, SPO = 0
+	NX_SSP_FORMAT_D	= 3,	///< Format B, SPH = 1, SPO = 1
 }NX_SSP_FORMAT;
 
 void			NX_SSP_SetSPIFormat( U32 ModuleIndex, NX_SSP_FORMAT format);
 NX_SSP_FORMAT	NX_SSP_GetSPIFormat( U32 ModuleIndex );
 
-void			NX_SSP_SetClockPhase( U32 ModuleIndex, U32	Phase );
+void			NX_SSP_SetClockPhase( U32 ModuleIndex, CBOOL	Phase );
 U32				NX_SSP_GetClockPhase( U32 ModuleIndex );
 
 
@@ -197,6 +206,9 @@ NX_SSP_PROTOCOL	NX_SSP_GetProtocol( U32 ModuleIndex );
 
 void	NX_SSP_SetEnable( U32 ModuleIndex, CBOOL bEnable );
 CBOOL	NX_SSP_GetEnable( U32 ModuleIndex );
+void 	NX_SSP_SetLoopBackMode( U32 ModuleIndex, CBOOL bEnable );
+CBOOL 	NX_SSP_GetLoopBackMode( U32 ModuleIndex );
+
 U8		NX_SSP_GetByte(U32 ModuleIndex);
 U16		NX_SSP_GetHalfWord(U32 ModuleIndex);
 void	NX_SSP_PutByte(U32 ModuleIndex, U8 ByteData);

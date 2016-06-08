@@ -30,8 +30,8 @@ static	struct
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicates that Initialize is successed.\n
- *			\b CFALSE	indicates that Initialize is failed.\n
+ *	@return  CTRUE	indicates that Initialize is successed.
+ *			 CFALSE	indicates that Initialize is failed.
  *	@see	NX_MLC_GetNumberOfModule
  */
 CBOOL	NX_MLC_Initialize( void )
@@ -70,10 +70,6 @@ U32		NX_MLC_GetNumberOfModule( void )
  *	@brief		Get module's physical address.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@return		Module's physical address
- *	@see		NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
  */
 U32		NX_MLC_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -90,10 +86,6 @@ U32		NX_MLC_GetPhysicalAddress( U32 ModuleIndex )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_MLC_GetPhysicalAddress,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
  */
 U32		NX_MLC_GetSizeOfRegisterSet( void )
 {
@@ -106,12 +98,8 @@ U32		NX_MLC_GetSizeOfRegisterSet( void )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
  */
-void	NX_MLC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_MLC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != BaseAddress );
@@ -124,28 +112,20 @@ void	NX_MLC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
  *	@brief		Get a base address of register set
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@return		Module's base address.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
  */
-U32		NX_MLC_GetBaseAddress( U32 ModuleIndex )
+void*	NX_MLC_GetBaseAddress( U32 ModuleIndex )
 {
 	NX_ASSERT( NUMBER_OF_MLC_MODULE > ModuleIndex );
 
-	return (U32)__g_ModuleVariables[ModuleIndex].pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].pRegister;
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that Initialize is successed. \n
- *				\b CFALSE	indicates that Initialize is failed.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
+ *	@return		 CTRUE	indicates that Initialize is successed. 
+ *				 CFALSE	indicates that Initialize is failed.
  */
 CBOOL	NX_MLC_OpenModule( U32 ModuleIndex )
 {
@@ -158,12 +138,8 @@ CBOOL	NX_MLC_OpenModule( U32 ModuleIndex )
 /**
  *	@brief		Deinitialize selected module to the proper stage.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that Deinitialize is successed. \n
- *				\b CFALSE	indicates that Deinitialize is failed.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,
- *				NX_MLC_CheckBusy,			NX_MLC_CanPowerDown
+ *	@return		 CTRUE	indicates that Deinitialize is successed. 
+ *				 CFALSE	indicates that Deinitialize is failed.
  */
 CBOOL	NX_MLC_CloseModule( U32 ModuleIndex )
 {
@@ -176,12 +152,8 @@ CBOOL	NX_MLC_CloseModule( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that Module is Busy. \n
- *				\b CFALSE	indicates that Module is NOT Busy.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CanPowerDown
+ *	@return		 CTRUE	indicates that Module is Busy. 
+ *				 CFALSE	indicates that Module is NOT Busy.
  */
 CBOOL	NX_MLC_CheckBusy( U32 ModuleIndex )
 {
@@ -194,12 +166,8 @@ CBOOL	NX_MLC_CheckBusy( U32 ModuleIndex )
 /**
  *	@brief		Indicaes whether the selected modules is ready to enter power-down stage
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that Ready to enter power-down stage. \n
- *				\b CFALSE	indicates that This module can't enter to power-down stage.
- *	@see		NX_MLC_GetPhysicalAddress,	NX_MLC_GetSizeOfRegisterSet,
- *				NX_MLC_SetBaseAddress,		NX_MLC_GetBaseAddress,
- *				NX_MLC_OpenModule,			NX_MLC_CloseModule,
- *				NX_MLC_CheckBusy
+ *	@return		 CTRUE	indicates that Ready to enter power-down stage. 
+ *				 CFALSE	indicates that This module can't enter to power-down stage.
  */
 CBOOL	NX_MLC_CanPowerDown( U32 ModuleIndex )
 {
@@ -216,8 +184,6 @@ CBOOL	NX_MLC_CanPowerDown( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	mode	PCLK mode
  *	@return		None.
- *	@see		NX_MLC_GetClockPClkMode,
- *				NX_MLC_SetClockBClkMode,		NX_MLC_GetClockBClkMode,
  */
 void			NX_MLC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 {
@@ -246,7 +212,7 @@ void			NX_MLC_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 	regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
 
 //	pRegister->MLCCLKENB = regvalue;
-	WriteIODW(&pRegister->MLCCLKENB,regvalue);
+	WriteIO32(&pRegister->MLCCLKENB,regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -278,8 +244,6 @@ NX_PCLKMODE	NX_MLC_GetClockPClkMode( U32 ModuleIndex )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	mode		BCLK Mode
  *	@return		None.
- *	@see		NX_MLC_SetClockPClkMode,		NX_MLC_GetClockPClkMode,
- *				NX_MLC_GetClockBClkMode,
  */
 void			NX_MLC_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
 {
@@ -306,7 +270,7 @@ void			NX_MLC_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
 	regvalue |= clkmode & 0x3;
 
 //	pRegister->MLCCLKENB = regvalue;
-	WriteIODW(&pRegister->MLCCLKENB, regvalue);
+	WriteIO32(&pRegister->MLCCLKENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -314,8 +278,6 @@ void			NX_MLC_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
  *	@brief		Get System Bus Clock's operation Mode
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@return		BCLK Mode
- *	@see		NX_MLC_SetClockPClkMode,		NX_MLC_GetClockPClkMode,
- *				NX_MLC_SetClockBClkMode,
  */
 NX_BCLKMODE	NX_MLC_GetClockBClkMode( U32 ModuleIndex )
 {
@@ -341,11 +303,11 @@ NX_BCLKMODE	NX_MLC_GetClockBClkMode( U32 ModuleIndex )
 /**
  *	@brief		Set Power On/Off of MLC's Pixel Buffer Unit
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param		bPower	\b CTRUE indicates that Power ON of pixel buffer unit. \n
- *						\b CFALSE indicates that Power OFF of pixel buffer unit. \n
+ *	@param		bPower	 CTRUE indicates that Power ON of pixel buffer unit. 
+ *						 CFALSE indicates that Power OFF of pixel buffer unit. 
  *	@return		None.
- *	@remark		When MLC ON, first pixel buffer power ON, set to Normal Mode(pixel buffer) and MLC enable.\n
- *				When MLC Off, first MLC disable, Set pixel buffer to Sleep Mode(pixel buffer) and power OFF.\n
+ *	@remark		When MLC ON, first pixel buffer power ON, set to Normal Mode(pixel buffer) and MLC enable.
+ *				When MLC Off, first MLC disable, Set pixel buffer to Sleep Mode(pixel buffer) and power OFF.
  *	@code
  *				// MLC ON sequence, mi = 0 ( module index )
  *				NX_MLC_SetTopPowerMode( mi, CTRUE );			// pixel buffer power on
@@ -361,13 +323,6 @@ NX_BCLKMODE	NX_MLC_GetClockBClkMode( U32 ModuleIndex )
  *				NX_MLC_SetTopSleepMode( mi, CTRUE );			// pixel buffer sleep mode
  *				NX_MLC_SetTopPowerMode( mi, CFALSE );			// pixel buffer power off
  *	@endcode
- *	@see									NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetTopPowerMode( U32 ModuleIndex, CBOOL bPower )
 {
@@ -390,22 +345,15 @@ void	NX_MLC_SetTopPowerMode( U32 ModuleIndex, CBOOL bPower )
 	regvalue |= (bPower << PIXELBUFFER_PWD_POS);
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get power state of MLC's pixel buffer unit.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that pixel buffer is power ON.\n
- *				\b CFALSE	indicates that pixel buffer is power OFF.\n
- *	@see		NX_MLC_SetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
+ *	@return		 CTRUE	indicates that pixel buffer is power ON.
+ *				 CFALSE	indicates that pixel buffer is power OFF.
  */
 CBOOL	NX_MLC_GetTopPowerMode( U32 ModuleIndex )
 {
@@ -422,11 +370,11 @@ CBOOL	NX_MLC_GetTopPowerMode( U32 ModuleIndex )
 /**
  *	@brief		Set Sleep Mode Enable/Disalbe of MLC's Pixel Buffer Unit
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param		bSleep	\b CTRUE indicates that Sleep Mode Enable of pixel buffer unit. \n
- *						\b CFALSE indicates that Sleep Mode Disable of pixel buffer unit. \n
+ *	@param		bSleep	 CTRUE indicates that Sleep Mode Enable of pixel buffer unit. 
+ *						 CFALSE indicates that Sleep Mode Disable of pixel buffer unit. 
  *	@return		None.
- *	@remark		When MLC ON, first pixel buffer power ON, set to Normal Mode(pixel buffer) and MLC enable.\n
- *				When MLC Off, first MLC disable, Set pixel buffer to Sleep Mode(pixel buffer) and power OFF.\n
+ *	@remark		When MLC ON, first pixel buffer power ON, set to Normal Mode(pixel buffer) and MLC enable.
+ *				When MLC Off, first MLC disable, Set pixel buffer to Sleep Mode(pixel buffer) and power OFF.
  *	@code
  *				// MLC ON sequence,	mi = 0  ( module index )
  *				NX_MLC_SetTopPowerMode( mi, CTRUE );			// pixel buffer power on
@@ -442,13 +390,6 @@ CBOOL	NX_MLC_GetTopPowerMode( U32 ModuleIndex )
  *				NX_MLC_SetTopSleepMode( mi, CTRUE );			// pixel buffer sleep mode
  *				NX_MLC_SetTopPowerMode( mi, CFALSE );			// pixel buffer power off
  *	@endcode
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *											NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetTopSleepMode( U32 ModuleIndex, CBOOL bSleep )
 {
@@ -472,22 +413,15 @@ void	NX_MLC_SetTopSleepMode( U32 ModuleIndex, CBOOL bSleep )
 	regvalue |= (bSleep << PIXELBUFFER_SLD_POS);
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get Sleep Mode state of MLC's pixel buffer unit.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that pixel buffer is Sleep Mode.\n
- *				\b CFALSE	indicates that pixel buffer is Normal Mode.\n
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
+ *	@return		 CTRUE	indicates that pixel buffer is Sleep Mode.
+ *				 CFALSE	indicates that pixel buffer is Normal Mode.
  */
 CBOOL	NX_MLC_GetTopSleepMode( U32 ModuleIndex )
 {
@@ -509,13 +443,6 @@ CBOOL	NX_MLC_GetTopSleepMode( U32 ModuleIndex )
  *				If a dirty flag is set, MLC will update current settings to
  *				register values on a vertical blank. You can also check whether MLC
  *				has been updated by using function NX_MLC_GetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *											NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetTopDirtyFlag( U32 ModuleIndex )
 {
@@ -533,22 +460,15 @@ void	NX_MLC_SetTopDirtyFlag( U32 ModuleIndex )
 	regvalue |= DIRTYFLAG;
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Informs whether modified settings is applied to MLC or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates MLC does not update to modified settings yet.\n
- *				\b CFALSE	indicates MLC has already been updated to modified settings.
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *											NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
+ *	@return		 CTRUE	indicates MLC does not update to modified settings yet.
+ *				 CFALSE	indicates MLC has already been updated to modified settings.
 
  */
 CBOOL	NX_MLC_GetTopDirtyFlag( U32 ModuleIndex )
@@ -559,7 +479,7 @@ CBOOL	NX_MLC_GetTopDirtyFlag( U32 ModuleIndex )
 	NX_ASSERT( CNULL != __g_ModuleVariables[ModuleIndex].pRegister );
 
 	return (CBOOL)(
-	(ReadIODW(&__g_ModuleVariables[ModuleIndex].pRegister->MLCCONTROLT) & DIRTYFLAG_MASK) >> DIRTYFLAG_POS );
+	(ReadIO32(&__g_ModuleVariables[ModuleIndex].pRegister->MLCCONTROLT) & DIRTYFLAG_MASK) >> DIRTYFLAG_POS );
 }
 
 //------------------------------------------------------------------------------
@@ -570,13 +490,6 @@ CBOOL	NX_MLC_GetTopDirtyFlag( U32 ModuleIndex )
  *	@return		None.
  *	@remark		The result of this function will be applied	to MLC after calling
  *				function NX_MLC_SetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *											NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetMLCEnable( U32 ModuleIndex, CBOOL bEnb )
 {
@@ -601,22 +514,15 @@ void	NX_MLC_SetMLCEnable( U32 ModuleIndex, CBOOL bEnb )
 	regvalue |= (bEnb<<MLCENB_POS);
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Informs whether MLC is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates MLC is enabled.\n
- *				\b CFALSE	indicates MLC is disabled.
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
+ *	@return		 CTRUE	indicates MLC is enabled.
+ *				 CFALSE	indicates MLC is disabled.
  */
 CBOOL	NX_MLC_GetMLCEnable( U32 ModuleIndex )
 {
@@ -637,13 +543,6 @@ CBOOL	NX_MLC_GetMLCEnable( U32 ModuleIndex )
  *	@return		None.
  *	@remark		The result of this function will be applied	to MLC after calling
  *				function NX_MLC_SetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *											NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetFieldEnable( U32 ModuleIndex, CBOOL bEnb )
 {
@@ -668,22 +567,15 @@ void	NX_MLC_SetFieldEnable( U32 ModuleIndex, CBOOL bEnb )
 	regvalue |= (bEnb<<FIELDENB_POS);
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Informs whether MLC is interlace mode or progressive mode.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates MLC is interlace mode.\n
- *				\b CFALSE	indicates MLC is progressive mode.
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
+ *	@return		 CTRUE	indicates MLC is interlace mode.
+ *				 CFALSE	indicates MLC is progressive mode.
  */
 CBOOL	NX_MLC_GetFieldEnable( U32 ModuleIndex )
 {
@@ -704,13 +596,6 @@ CBOOL	NX_MLC_GetFieldEnable( U32 ModuleIndex )
  *	@return		None.
  *	@remark		The result of this function will be applied	to MLC after calling
  *				function NX_MLC_SetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *											NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetLayerPriority( U32 ModuleIndex, NX_MLC_PRIORITY priority )
 {
@@ -736,7 +621,7 @@ void	NX_MLC_SetLayerPriority( U32 ModuleIndex, NX_MLC_PRIORITY priority )
 	regvalue |= (priority<<PRIORITY_POS);
 
 //	pRegister->MLCCONTROLT = regvalue;
-	WriteIODW(&pRegister->MLCCONTROLT, regvalue);
+	WriteIO32(&pRegister->MLCCONTROLT, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -748,13 +633,6 @@ void	NX_MLC_SetLayerPriority( U32 ModuleIndex, NX_MLC_PRIORITY priority )
  *	@return		None.
  *	@remark		The result of this function will be applied	to MLC after calling
  *				function NX_MLC_SetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,
- *				NX_MLC_SetBackground,		NX_MLC_GetScreenSize
  */
 void	NX_MLC_SetScreenSize( U32 ModuleIndex, U32 width, U32 height )
 {
@@ -771,7 +649,7 @@ void	NX_MLC_SetScreenSize( U32 ModuleIndex, U32 width, U32 height )
 	regvalue  = ((height-1)<<16) | (width-1);
 
 //	pRegister->MLCSCREENSIZE = regvalue;
-	WriteIODW(&pRegister->MLCSCREENSIZE, regvalue);
+	WriteIO32(&pRegister->MLCSCREENSIZE, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -781,13 +659,6 @@ void	NX_MLC_SetScreenSize( U32 ModuleIndex, U32 width, U32 height )
  *	@param[out] pWidth		the screen width, 1 ~ 4096.
  *	@param[out] pHeight		the screen height, 1 ~ 4096.
  *	@return		None.
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize,
- *				NX_MLC_SetBackground
  */
 void	NX_MLC_GetScreenSize( U32 ModuleIndex, U32 *pWidth, U32 *pHeight )
 {
@@ -814,12 +685,6 @@ void	NX_MLC_GetScreenSize( U32 ModuleIndex, U32 *pWidth, U32 *pHeight )
  *	@remark		The background color is default color that is shown in regions which
  *				any layer does not include. the result of this function will be
  *				applied to MLC after calling function NX_MLC_SetTopDirtyFlag().
- *	@see		NX_MLC_SetTopPowerMode,		NX_MLC_GetTopPowerMode,
- *				NX_MLC_SetTopSleepMode,		NX_MLC_GetTopSleepMode,
- *				NX_MLC_SetTopDirtyFlag,		NX_MLC_GetTopDirtyFlag,
- *				NX_MLC_SetMLCEnable,		NX_MLC_GetMLCEnable,
- *				NX_MLC_SetFieldEnable,		NX_MLC_GetFieldEnable,
- *				NX_MLC_SetLayerPriority,	NX_MLC_SetScreenSize
  */
 void	NX_MLC_SetBackground( U32 ModuleIndex, U32 color )
 {
@@ -831,7 +696,7 @@ void	NX_MLC_SetBackground( U32 ModuleIndex, U32 color )
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCBGCOLOR = color;
-	WriteIODW(&pRegister->MLCBGCOLOR, color);
+	WriteIO32(&pRegister->MLCBGCOLOR, color);
 }
 
 //--------------------------------------------------------------------------
@@ -847,15 +712,6 @@ void	NX_MLC_SetBackground( U32 ModuleIndex, U32 color )
  *				settings. If a dirty flag is set, each layer will update current
  *				settings to register values on a vertical blank. You can also check
  *				whether each layer has been updated by using function NX_MLC_GetDirtyFlag().
- *	@see												NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetDirtyFlag( U32 ModuleIndex, U32 layer )
 {
@@ -877,7 +733,7 @@ void	NX_MLC_SetDirtyFlag( U32 ModuleIndex, U32 layer )
 		regvalue |= DIRTYFLG_MASK;
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 	}
 	else if( 3 == layer )
 	{
@@ -885,7 +741,7 @@ void	NX_MLC_SetDirtyFlag( U32 ModuleIndex, U32 layer )
 		regvalue |= DIRTYFLG_MASK;
 
 	//	pRegister->MLCVIDEOLAYER.MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
 	}
 }
 
@@ -894,17 +750,8 @@ void	NX_MLC_SetDirtyFlag( U32 ModuleIndex, U32 layer )
  *	@brief		Informs whether modified settings is applied to corresponding layer or not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	layer	the layer number ( 0: RGB0, 1: RGB1, 3: Video ).
- *	@return		\b CTRUE	indicates corresponding layer does not update to modified settings yet.\n
- *				\b CFALSE	indicates corresponding layer has already been updated to modified settings.
- *	@see		NX_MLC_SetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
+ *	@return		 CTRUE	indicates corresponding layer does not update to modified settings yet.
+ *				 CFALSE	indicates corresponding layer has already been updated to modified settings.
  */
 CBOOL	NX_MLC_GetDirtyFlag( U32 ModuleIndex, U32 layer )
 {
@@ -941,15 +788,6 @@ CBOOL	NX_MLC_GetDirtyFlag( U32 ModuleIndex, U32 layer )
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *														NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetLayerEnable( U32 ModuleIndex, U32 layer, CBOOL bEnb )
 {
@@ -978,7 +816,7 @@ void	NX_MLC_SetLayerEnable( U32 ModuleIndex, U32 layer, CBOOL bEnb )
 		regvalue |= (bEnb<<LAYERENB_POS);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 	}
 	else if( 3 == layer )
 	{
@@ -988,7 +826,7 @@ void	NX_MLC_SetLayerEnable( U32 ModuleIndex, U32 layer, CBOOL bEnb )
 		regvalue |= (bEnb<<LAYERENB_POS);
 
 	//	pRegister->MLCVIDEOLAYER.MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
 	}
 }
 
@@ -997,17 +835,8 @@ void	NX_MLC_SetLayerEnable( U32 ModuleIndex, U32 layer, CBOOL bEnb )
  *	@brief		Determines whether the layer is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	layer	the layer number ( 0: RGB0, 1: RGB1, 3: Video ).
- *	@return		\b CTRUE	indicates the layer is enabled.\n
- *				\b CFALSE	indicates the layer is disabled.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
+ *	@return		 CTRUE	indicates the layer is enabled.
+ *				 CFALSE	indicates the layer is disabled.
  */
 CBOOL	NX_MLC_GetLayerEnable( U32 ModuleIndex, U32 layer )
 {
@@ -1039,16 +868,7 @@ CBOOL	NX_MLC_GetLayerEnable( U32 ModuleIndex, U32 layer )
  *	@param[in]	locksize		lock size for memory access, 4, 8, 16 are only valid.
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
- *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.\n
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
+ *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
  */
 void	NX_MLC_SetLockSize( U32 ModuleIndex, U32 layer, U32 locksize )
 {
@@ -1077,7 +897,7 @@ void	NX_MLC_SetLockSize( U32 ModuleIndex, U32 layer, U32 locksize )
 		regvalue |= (locksize<<12);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 	}
 }
 
@@ -1093,21 +913,12 @@ void	NX_MLC_SetLockSize( U32 ModuleIndex, U32 layer, U32 locksize )
  *	@return		None.
  *	@remark		The argument 'alpha' has only affect when the color format has
  *				no alpha component. The formula for alpha blending is as follows.
- *				- If alpha is 0 then a is 0, else a is ALPHA + 1.\n
+ *				- If alpha is 0 then a is 0, else a is ALPHA + 1.
  *					color = this layer color * a / 16 + lower layer color * (16 - a) / 16.
  *				The result of this function will be applied to corresponding layer
- *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.\n
+ *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
  *				Only one layer must apply to alpha function.
  *
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *														NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetAlphaBlending( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 alpha )
 {
@@ -1139,14 +950,14 @@ void	NX_MLC_SetAlphaBlending( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 alpha 
 		regvalue |= (bEnb<<BLENDENB_POS);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 
 		regvalue = pRegister->MLCRGBLAYER[layer].MLCTPCOLOR;
 		regvalue &= ~ALPHA_MASK;
 		regvalue |= alpha << ALPHA_POS;
 
 	//	pRegister->MLCRGBLAYER[layer].MLCTPCOLOR = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCTPCOLOR, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCTPCOLOR, regvalue);
 	}
 	else if( 3 == layer )
 	{
@@ -1155,10 +966,10 @@ void	NX_MLC_SetAlphaBlending( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 alpha 
 		regvalue |= (bEnb<<BLENDENB_POS);
 
 	//	pRegister->MLCVIDEOLAYER.MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
 
 	//	pRegister->MLCVIDEOLAYER.MLCTPCOLOR = alpha << ALPHA_POS;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, alpha << ALPHA_POS);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, alpha << ALPHA_POS);
 	}
 }
 
@@ -1168,22 +979,13 @@ void	NX_MLC_SetAlphaBlending( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 alpha 
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	layer	the layer number ( 0: RGB0, 1: RGB1 ).
  *	@param[in]	bEnb	Set it to CTRUE to enable transparency.
- *	@param[in]	color	Specifies the extended color to be used as the transparency color.\n
- *						24 bit RGB format, 0xXXRRGGBB = { R[7:0], G[7:0], B[7:0] }\n
+ *	@param[in]	color	Specifies the extended color to be used as the transparency color.
+ *						24 bit RGB format, 0xXXRRGGBB = { R[7:0], G[7:0], B[7:0] }
  *						You can get this argument from specific color format
  *						by using the function NX_MLC_GetExtendedColor().
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetTransparency( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color )
 {
@@ -1214,14 +1016,14 @@ void	NX_MLC_SetTransparency( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color )
 		regvalue |= (bEnb<<TPENB_POS);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 
 		regvalue = pRegister->MLCRGBLAYER[layer].MLCTPCOLOR;
 		regvalue &= ~TPCOLOR_MASK;
 		regvalue |= (color & TPCOLOR_MASK);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCTPCOLOR = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCTPCOLOR, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCTPCOLOR, regvalue);
 	}
 }
 
@@ -1231,22 +1033,13 @@ void	NX_MLC_SetTransparency( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color )
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	layer	the layer number ( 0: RGB0, 1: RGB1 ).
  *	@param[in]	bEnb	Set it to CTRUE to enable color inversion.
- *	@param[in]	color	Specifies the extended color to be used for color inversion.\n
- *						24 bit RGB format, 0xXXRRGGBB = { R[7:0], G[7:0], B[7:0] }\n
+ *	@param[in]	color	Specifies the extended color to be used for color inversion.
+ *						24 bit RGB format, 0xXXRRGGBB = { R[7:0], G[7:0], B[7:0] }
  *						You can get this argument from specific color format
  *						by using the function NX_MLC_GetExtendedColor().
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *														NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetColorInversion( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color )
 {
@@ -1277,14 +1070,14 @@ void	NX_MLC_SetColorInversion( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color
 		regvalue |= (bEnb<<INVENB_POS);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 
 		regvalue = pRegister->MLCRGBLAYER[layer].MLCINVCOLOR;
 		regvalue &= ~INVCOLOR_MASK;
 		regvalue |= (color & INVCOLOR_MASK);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCINVCOLOR = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCINVCOLOR, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCINVCOLOR, regvalue);
 	}
 }
 
@@ -1294,7 +1087,7 @@ void	NX_MLC_SetColorInversion( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
  *	@param[in]	color	Specifies the color value to be converted.
  *	@param[in]	format	the color format with RGBFMT type.
- *	@return		the color which has 24 bit RGB format\n
+ *	@return		the color which has 24 bit RGB format
  *				0xXXRRGGBB = { R[7:0], G[7:0], B[7:0] }
  *	@remark		This function is for argument 'color' of the function
  *				NX_MLC_SetTransparency() and NX_MLC_SetColorInversion().
@@ -1304,15 +1097,6 @@ void	NX_MLC_SetColorInversion( U32 ModuleIndex, U32 layer, CBOOL bEnb, U32 color
  *		NX_MLC_SetTransparency	( mi, layer, CTRUE, NX_MLC_GetExtendedColor( 0x0841, RGBFMT_R5G6B5 ) );
  *		NX_MLC_SetColorInversion( mi, layer, CTRUE, NX_MLC_GetExtendedColor( 0x090909, RGBFMT_R8G8B8 ) );
  *	@endcode
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 U32		NX_MLC_GetExtendedColor( U32 ModuleIndex, U32 color, NX_MLC_RGBFMT format )
 {
@@ -1403,15 +1187,6 @@ U32		NX_MLC_GetExtendedColor( U32 ModuleIndex, U32 color, NX_MLC_RGBFMT format )
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *														NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetFormatRGB( U32 ModuleIndex, U32 layer, NX_MLC_RGBFMT format )
 {
@@ -1437,7 +1212,7 @@ void	NX_MLC_SetFormatRGB( U32 ModuleIndex, U32 layer, NX_MLC_RGBFMT format )
 		regvalue |= (U32)format;
 
 	//	pRegister->MLCRGBLAYER[layer].MLCCONTROL = regvalue;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCCONTROL, regvalue);
 	}
 }
 
@@ -1449,15 +1224,6 @@ void	NX_MLC_SetFormatRGB( U32 ModuleIndex, U32 layer, NX_MLC_RGBFMT format )
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetFormatYUV( U32 ModuleIndex, NX_MLC_YUVFMT format )
 {
@@ -1476,7 +1242,7 @@ void	NX_MLC_SetFormatYUV( U32 ModuleIndex, NX_MLC_YUVFMT format )
 	temp |= (U32)format;
 
 //	pRegister->MLCVIDEOLAYER.MLCCONTROL	= temp;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, temp);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1490,18 +1256,9 @@ void	NX_MLC_SetFormatYUV( U32 ModuleIndex, NX_MLC_YUVFMT format )
  *	@param[in]	ey		the y-coordinate of the lower-right corner of the layer, -2048 or 0 ~ +2047.
  *	@return		None.
  *	@remark		If layer is 2(video layer) then x, y-coordinate of the lower-right
- *				corner of the layer must be a positive value.\n
+ *				corner of the layer must be a positive value.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *														NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetPosition( U32 ModuleIndex, U32 layer, S32 sx, S32 sy, S32 ex, S32 ey )
 {
@@ -1521,26 +1278,26 @@ void	NX_MLC_SetPosition( U32 ModuleIndex, U32 layer, S32 sx, S32 sy, S32 ex, S32
 	if( 0 == layer || 1 == layer )
 	{
 	//	pRegister->MLCRGBLAYER[layer].MLCLEFTRIGHT	= (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL);
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
 
 	//	pRegister->MLCRGBLAYER[layer].MLCTOPBOTTOM =	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL);
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCTOPBOTTOM,	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCTOPBOTTOM,	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
 	}
 	else if( 2 == layer )
 	{
 //	pRegister->MLCRGBLAYER[layer].MLCLEFTRIGHT	= (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL);
-		WriteIODW(&pRegister->MLCRGBLAYER2.MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
+		WriteIO32(&pRegister->MLCRGBLAYER2.MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
 
 	//	pRegister->MLCRGBLAYER[layer].MLCTOPBOTTOM =	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL);
-		WriteIODW(&pRegister->MLCRGBLAYER2.MLCTOPBOTTOM,	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
+		WriteIO32(&pRegister->MLCRGBLAYER2.MLCTOPBOTTOM,	(((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
 	}
 	else if( 3 == layer )
 	{
 	//	pRegister->MLCVIDEOLAYER.MLCLEFTRIGHT = (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL);
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCLEFTRIGHT, (((U32)sx & 0xFFFUL)<<16) | ((U32)ex & 0xFFFUL));
 
 	//	pRegister->MLCVIDEOLAYER.MLCTOPBOTTOM = (((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL);
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCTOPBOTTOM, (((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCTOPBOTTOM, (((U32)sy & 0xFFFUL)<<16) | ((U32)ey & 0xFFFUL));
 	}
 }
 
@@ -1548,18 +1305,9 @@ void	NX_MLC_SetPosition( U32 ModuleIndex, U32 layer, S32 sx, S32 sy, S32 ex, S32
 /**
  *	@brief		Set dither enable when using gamma.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bEnable			\b CTRUE indicates that dither enable. \n
- *								\b CFALSE indicates that dither disable.
+ *	@param[in]	bEnable			 CTRUE indicates that dither enable. 
+ *								 CFALSE indicates that dither disable.
  *	@return		None.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetDitherEnableWhenUsingGamma( U32 ModuleIndex, CBOOL bEnable )
 {
@@ -1581,24 +1329,15 @@ void	NX_MLC_SetDitherEnableWhenUsingGamma( U32 ModuleIndex, CBOOL bEnable )
 	ReadValue |= ( (U32)bEnable << DITHERENB_BITPOS );
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of dither is enabled or Not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that dither is enabled when using gamma. \n
- *				\b CFALSE	indicates that dither is disabled when using gamma.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *														NX_MLC_SetGammaPriority,
- *				NX_MLC_GetGammaPriority
+ *	@return		 CTRUE	indicates that dither is enabled when using gamma. 
+ *				 CFALSE	indicates that dither is disabled when using gamma.
  */
 CBOOL	NX_MLC_GetDitherEnableWhenUsingGamma( U32 ModuleIndex )
 {
@@ -1615,18 +1354,9 @@ CBOOL	NX_MLC_GetDitherEnableWhenUsingGamma( U32 ModuleIndex )
 /**
  *	@brief		Select layer to apply gamma when video layer and RGB layer are overlaped region for alpha blending.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bVideoLayer		\b CTRUE indicates that Video layer. \n
- *								\b CFALSE indicates that RGB layer.
+ *	@param[in]	bVideoLayer		 CTRUE indicates that Video layer. 
+ *								 CFALSE indicates that RGB layer.
  *	@return		none.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetGammaPriority
  */
 void	NX_MLC_SetGammaPriority( U32 ModuleIndex, CBOOL bVideoLayer )
 {
@@ -1648,23 +1378,15 @@ void	NX_MLC_SetGammaPriority( U32 ModuleIndex, CBOOL bVideoLayer )
 	ReadValue |= ( (U32)bVideoLayer << ALPHASELECT_BITPOS );
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of which region to apply gamma.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that Video layer is selected., \n
- *				\b CFALSE	indicates that RGB layer is selected.
- *	@see		NX_MLC_SetDirtyFlag,					NX_MLC_GetDirtyFlag,
- *				NX_MLC_SetLayerEnable,					NX_MLC_GetLayerEnable,
- *				NX_MLC_SetLockSize,
- *				NX_MLC_SetAlphaBlending,				NX_MLC_SetTransparency,
- *				NX_MLC_SetColorInversion,				NX_MLC_GetExtendedColor,
- *				NX_MLC_SetFormatRGB,					NX_MLC_SetFormatYUV,
- *				NX_MLC_SetPosition,						NX_MLC_SetDitherEnableWhenUsingGamma,
- *				NX_MLC_GetDitherEnableWhenUsingGamma,	NX_MLC_SetGammaPriority
+ *	@return		 CTRUE	indicates that Video layer is selected., 
+ *				 CFALSE	indicates that RGB layer is selected.
  */
 CBOOL	NX_MLC_GetGammaPriority( U32 ModuleIndex )
 {
@@ -1689,18 +1411,12 @@ CBOOL	NX_MLC_GetGammaPriority( U32 ModuleIndex )
  *	@param[in]	sy		the y-coordinate of the upper-left corner of the layer, 0 ~ +2047.
  *	@param[in]	ex		the x-coordinate of the lower-right corner of the layer, 0 ~ +2047.
  *	@param[in]	ey		the y-coordinate of the lower-right corner of the layer, 0 ~ +2047.
- *	@param[in]	bEnb	\b CTRUE indicates that invalid region Enable,\n
- *						\b CFALSE indicates that invalid region Disable.
+ *	@param[in]	bEnb	 CTRUE indicates that invalid region Enable,
+ *						 CFALSE indicates that invalid region Disable.
  *	@return		None.
- *	@remark		Each RGB Layer support two invalid region. so \e region argument must set to 0 or 1.\n
+ *	@remark		Each RGB Layer support two invalid region. so  region argument must set to 0 or 1.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see													NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerInvalidPosition( U32 ModuleIndex, U32 layer, U32 region, S32 sx, S32 sy, S32 ex, S32 ey, CBOOL bEnb )
 {
@@ -1725,18 +1441,18 @@ void	NX_MLC_SetRGBLayerInvalidPosition( U32 ModuleIndex, U32 layer, U32 region, 
 		if( 0 == region )
 		{
 		//	pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT0 = ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) );
-			WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT0, ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) ));
+			WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT0, ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) ));
 
 		//	pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM0 = ( ((sy&0x7FF)<<16) | (ey&0x7FF) );
-			WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM0, ( ((sy&0x7FF)<<16) | (ey&0x7FF) ));
+			WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM0, ( ((sy&0x7FF)<<16) | (ey&0x7FF) ));
 		}
 		else
 		{
 		//	pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT1 = ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) );
-			WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT1, ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) ));
+			WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCINVALIDLEFTRIGHT1, ((bEnb<<INVALIDENB_POS) | ((sx&0x7FF)<<16) | (ex&0x7FF) ));
 
 		//	pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM1 = ( ((sy&0x7FF)<<16) | (ey&0x7FF) );
-			WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM1, ( ((sy&0x7FF)<<16) | (ey&0x7FF) ));
+			WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCINVALIDTOPBOTTOM1, ( ((sy&0x7FF)<<16) | (ey&0x7FF) ));
 		}
 	}
 }
@@ -1758,12 +1474,6 @@ void	NX_MLC_SetRGBLayerInvalidPosition( U32 ModuleIndex, U32 layer, U32 region, 
  *	@return		None.
  *	@remarks	The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerStride( U32 ModuleIndex, U32 layer, S32 hstride, S32 vstride )
 {
@@ -1778,18 +1488,18 @@ void	NX_MLC_SetRGBLayerStride( U32 ModuleIndex, U32 layer, S32 hstride, S32 vstr
 	if( 0 == layer || 1 == layer )
 	{
 	//	pRegister->MLCRGBLAYER[layer].MLCHSTRIDE = hstride;
-		WriteIODW((volatile U32 *)&pRegister->MLCRGBLAYER[layer].MLCHSTRIDE, hstride);
+		WriteIO32((volatile U32 *)&pRegister->MLCRGBLAYER[layer].MLCHSTRIDE, hstride);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCVSTRIDE = vstride;
-		WriteIODW((volatile U32 *)&pRegister->MLCRGBLAYER[layer].MLCVSTRIDE, vstride);
+		WriteIO32((volatile U32 *)&pRegister->MLCRGBLAYER[layer].MLCVSTRIDE, vstride);
 	}
 	else if( 2 == layer )
 	{
 	//	pRegister->MLCRGBLAYER[layer].MLCHSTRIDE = hstride;
-		WriteIODW((volatile U32 *)&pRegister->MLCRGBLAYER2.MLCHSTRIDE, hstride);
+		WriteIO32((volatile U32 *)&pRegister->MLCRGBLAYER2.MLCHSTRIDE, hstride);
 
 	//	pRegister->MLCRGBLAYER[layer].MLCVSTRIDE = vstride;
-		WriteIODW((volatile U32 *)&pRegister->MLCRGBLAYER2.MLCVSTRIDE, vstride);
+		WriteIO32((volatile U32 *)&pRegister->MLCRGBLAYER2.MLCVSTRIDE, vstride);
 	}
 }
 
@@ -1802,15 +1512,9 @@ void	NX_MLC_SetRGBLayerStride( U32 ModuleIndex, U32 layer, S32 hstride, S32 vstr
  *	@return		None.
  *	@remark		Normally, the argument 'addr' specifies an address of upper-left
  *				corner of the image. but you have to set it to an address of
- *				lower-left corner for vertical mirror.\n
+ *				lower-left corner for vertical mirror.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *															NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerAddress( U32 ModuleIndex, U32 layer, U32 addr )
 {
@@ -1833,12 +1537,12 @@ void	NX_MLC_SetRGBLayerAddress( U32 ModuleIndex, U32 layer, U32 addr )
 	if( 0 == layer || 1 == layer )
 	{
 	//	pRegister->MLCRGBLAYER[layer].MLCADDRESS = addr;
-		WriteIODW(&pRegister->MLCRGBLAYER[layer].MLCADDRESS, addr);
+		WriteIO32(&pRegister->MLCRGBLAYER[layer].MLCADDRESS, addr);
 	}
 	else if( 2 == layer )
 	{
 	//	pRegister->MLCRGBLAYER[layer].MLCADDRESS = addr;
-		WriteIODW(&pRegister->MLCRGBLAYER2.MLCADDRESS, addr);
+		WriteIO32(&pRegister->MLCRGBLAYER2.MLCADDRESS, addr);
 	}
 }
 
@@ -1846,20 +1550,14 @@ void	NX_MLC_SetRGBLayerAddress( U32 ModuleIndex, U32 layer, U32 addr )
 /**
  *	@brief		Set power of RGB layer's gamma table.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bRed	\b CTRUE indicates that Red gamma table is power on. \n
- *						\b CFALSE indicates that Red gamma table is power off.
- *	@param[in]	bGreen	\b CTRUE indicates that Green gamma table is power on. \n
- *						\b CFALSE indicates that Green gamma table is power off.
- *	@param[in]	bBlue	\b CTRUE indicates that Blue gamma table is power on. \n
- *						\b CFALSE indicates that Blue gamma table is power off.
+ *	@param[in]	bRed	 CTRUE indicates that Red gamma table is power on. 
+ *						 CFALSE indicates that Red gamma table is power off.
+ *	@param[in]	bGreen	 CTRUE indicates that Green gamma table is power on. 
+ *						 CFALSE indicates that Green gamma table is power off.
+ *	@param[in]	bBlue	 CTRUE indicates that Blue gamma table is power on. 
+ *						 CFALSE indicates that Blue gamma table is power off.
  *	@return		None.
  *	@remarks	Gamma table must on before MLC gamma enable.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL bRed, CBOOL bGreen, CBOOL bBlue )
 {
@@ -1891,26 +1589,20 @@ void	NX_MLC_SetRGBLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL bRed, CBOOL bG
 					((U32)bBlue	<< BGAMMATABLE_PWD_BITPOS) );
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of RGB layer's gamma table is power On or NOT.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[out] pbRed	\b CTRUE indicates that Red gamma table is power on. \n
- *						\b CFALSE indicates that Red gamma table is power off.
- *	@param[out] pbGreen	\b CTRUE indicates that Green gamma table is power on. \n
- *						\b CFALSE indicates that Green gamma table is power off.
- *	@param[out] pbBlue	\b CTRUE indicates that Blue gamma table is power on. \n
- *						\b CFALSE indicates that Blue gamma table is power off.
+ *	@param[out] pbRed	 CTRUE indicates that Red gamma table is power on. 
+ *						 CFALSE indicates that Red gamma table is power off.
+ *	@param[out] pbGreen	 CTRUE indicates that Green gamma table is power on. 
+ *						 CFALSE indicates that Green gamma table is power off.
+ *	@param[out] pbBlue	 CTRUE indicates that Blue gamma table is power on. 
+ *						 CFALSE indicates that Blue gamma table is power off.
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *															NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_GetRGBLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL *pbRed, CBOOL *pbGreen, CBOOL *pbBlue )
 {
@@ -1941,20 +1633,14 @@ void	NX_MLC_GetRGBLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL *pbRed, CBOOL 
 /**
  *	@brief		Set sleep mode of RGB layer's gamma table.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bRed	\b CTRUE indicates that Red gamma table is sleep on. \n
- *						\b CFALSE indicates that Red gamma table is sleep off.
- *	@param[in]	bGreen	\b CTRUE indicates that Green gamma table is sleep on. \n
- *						\b CFALSE indicates that Green gamma table is sleep off.
- *	@param[in]	bBlue	\b CTRUE indicates that Blue gamma table is sleep on. \n
- *						\b CFALSE indicates that Blue gamma table is sleep off.
+ *	@param[in]	bRed	 CTRUE indicates that Red gamma table is sleep on. 
+ *						 CFALSE indicates that Red gamma table is sleep off.
+ *	@param[in]	bGreen	 CTRUE indicates that Green gamma table is sleep on. 
+ *						 CFALSE indicates that Green gamma table is sleep off.
+ *	@param[in]	bBlue	 CTRUE indicates that Blue gamma table is sleep on. 
+ *						 CFALSE indicates that Blue gamma table is sleep off.
  *	@return		None.
  *	@remarks	Sleep mode is only usable when gamma table is power ON.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL bRed, CBOOL bGreen, CBOOL bBlue )
 {
@@ -1986,26 +1672,20 @@ void	NX_MLC_SetRGBLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL bRed, CBOOL bG
 	else		{ ReadValue |=	BGAMMATABLE_SLD_MASK; }
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of RGB layer's gamma table is Sleep mode or NOT.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[out] pbRed	\b CTRUE indicates that Red gamma table is sleep on. \n
- *						\b CFALSE indicates that Red gamma table is sleep off.
- *	@param[out] pbGreen	\b CTRUE indicates that Green gamma table is sleep on. \n
- *						\b CFALSE indicates that Green gamma table is sleep off.
- *	@param[out] pbBlue	\b CTRUE indicates that Blue gamma table is sleep on. \n
- *						\b CFALSE indicates that Blue gamma table is sleep off.
+ *	@param[out] pbRed	 CTRUE indicates that Red gamma table is sleep on. 
+ *						 CFALSE indicates that Red gamma table is sleep off.
+ *	@param[out] pbGreen	 CTRUE indicates that Green gamma table is sleep on. 
+ *						 CFALSE indicates that Green gamma table is sleep off.
+ *	@param[out] pbBlue	 CTRUE indicates that Blue gamma table is sleep on. 
+ *						 CFALSE indicates that Blue gamma table is sleep off.
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *															NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_GetRGBLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL *pbRed, CBOOL *pbGreen, CBOOL *pbBlue )
 {
@@ -2040,12 +1720,6 @@ void	NX_MLC_GetRGBLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL *pbRed, CBOOL 
  *	@param[in]	dwAddress		Red gamma table address (0~255).
  *	@param[in]	dwData			Red gamma table value (10bit data).
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerRGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 {
@@ -2061,7 +1735,7 @@ void	NX_MLC_SetRGBLayerRGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCRGAMMATABLEWRITE = ((dwAddress << TABLEADDR_BITPOS) | dwData);
-	WriteIODW(&pRegister->MLCRGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
+	WriteIO32(&pRegister->MLCRGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
 }
 
 //------------------------------------------------------------------------------
@@ -2071,12 +1745,6 @@ void	NX_MLC_SetRGBLayerRGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
  *	@param[in]	dwAddress		Green gamma table address (0~255).
  *	@param[in]	dwData			Green gamma table value (10bit data).
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *															NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerGGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 {
@@ -2092,7 +1760,7 @@ void	NX_MLC_SetRGBLayerGGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCGGAMMATABLEWRITE = ((dwAddress << TABLEADDR_BITPOS) | dwData);
-	WriteIODW(&pRegister->MLCGGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
+	WriteIO32(&pRegister->MLCGGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
 }
 
 //------------------------------------------------------------------------------
@@ -2102,12 +1770,6 @@ void	NX_MLC_SetRGBLayerGGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
  *	@param[in]	dwAddress		Blue gamma table address (0~255).
  *	@param[in]	dwData			Blue gamma table value (10bit data).
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable,				NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerBGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 {
@@ -2123,22 +1785,16 @@ void	NX_MLC_SetRGBLayerBGammaTable( U32 ModuleIndex, U32 dwAddress, U32 dwData )
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCBGAMMATABLEWRITE = ((dwAddress << TABLEADDR_BITPOS) | dwData);
-	WriteIODW(&pRegister->MLCBGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
+	WriteIO32(&pRegister->MLCBGAMMATABLEWRITE, ((dwAddress << TABLEADDR_BITPOS) | dwData));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set RGB layer gamma enable or Not.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bEnable			\b CTRUE indicates that RGB layer's gamma enable. \n
- *								\b CFALSE indicates that RGB layer's gamma disable.
+ *	@param[in]	bEnable			 CTRUE indicates that RGB layer's gamma enable. 
+ *								 CFALSE indicates that RGB layer's gamma disable.
  *	@return		None.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *															NX_MLC_GetRGBLayerGammaEnable
  */
 void	NX_MLC_SetRGBLayerGammaEnable( U32 ModuleIndex, CBOOL bEnable )
 {
@@ -2160,21 +1816,15 @@ void	NX_MLC_SetRGBLayerGammaEnable( U32 ModuleIndex, CBOOL bEnable )
 	ReadValue |= (U32)bEnable << RGBGAMMAEMB_BITPOS;
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of RGB layer's gamma is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	Indicates that RGB layer's gamma is enabled. \n
- *				\b CFALSE	Indicates that RGB layer's gamma is disabled.
- *	@see		NX_MLC_SetRGBLayerInvalidPosition,			NX_MLC_SetRGBLayerStride,
- *				NX_MLC_SetRGBLayerAddress,					NX_MLC_SetRGBLayerGamaTablePowerMode,
- *				NX_MLC_GetRGBLayerGamaTablePowerMode,		NX_MLC_SetRGBLayerGamaTableSleepMode,
- *				NX_MLC_GetRGBLayerGamaTableSleepMode,		NX_MLC_SetRGBLayerRGammaTable,
- *				NX_MLC_SetRGBLayerGGammaTable,				NX_MLC_SetRGBLayerBGammaTable,
- *				NX_MLC_SetRGBLayerGammaEnable
+ *	@return		 CTRUE	Indicates that RGB layer's gamma is enabled. 
+ *				 CFALSE	Indicates that RGB layer's gamma is disabled.
  */
 CBOOL	NX_MLC_GetRGBLayerGammaEnable( U32 ModuleIndex )
 {
@@ -2199,18 +1849,9 @@ CBOOL	NX_MLC_GetRGBLayerGammaEnable( U32 ModuleIndex )
  *	@return		None.
  *	@remark		The vertical stride specifies the number of bytes from one scan line
  *				of the image buffer to the next. Generally, it has bytes per a line.
- *				You have to set it only to a positive value.\n
+ *				You have to set it only to a positive value.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see													NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,		NX_MLC_SetVideoLayerGammaEnable,
- *				NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerStride( U32 ModuleIndex, S32 LuStride, S32 CbStride, S32 CrStride )
 {
@@ -2225,13 +1866,13 @@ void	NX_MLC_SetVideoLayerStride( U32 ModuleIndex, S32 LuStride, S32 CbStride, S3
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCVIDEOLAYER.MLCVSTRIDE	= LuStride;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCVSTRIDE	, LuStride);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCVSTRIDE	, LuStride);
 
 //	pRegister->MLCVIDEOLAYER.MLCVSTRIDECB = CbStride;
-	WriteIODW((volatile U32 *)&pRegister->MLCVIDEOLAYER.MLCVSTRIDECB, CbStride);
+	WriteIO32((volatile U32 *)&pRegister->MLCVIDEOLAYER.MLCVSTRIDECB, CbStride);
 
 //	pRegister->MLCVIDEOLAYER.MLCVSTRIDECR = CrStride;
-	WriteIODW((volatile U32 *)&pRegister->MLCVIDEOLAYER.MLCVSTRIDECR, CrStride);
+	WriteIO32((volatile U32 *)&pRegister->MLCVIDEOLAYER.MLCVSTRIDECR, CrStride);
 }
 
 //------------------------------------------------------------------------------
@@ -2243,7 +1884,7 @@ void	NX_MLC_SetVideoLayerStride( U32 ModuleIndex, S32 LuStride, S32 CbStride, S3
  *	@param[in]	CrAddr	an address of the Cr component buffer which has 2D block addressing format.
  *	@return		None.
  *	@remark		This function is valid when the format of video layer must has
- *				separated YUV format. Each color component has the buffer address.\n
+ *				separated YUV format. Each color component has the buffer address.
  *				The 2D block addressing format is as follwings.
  *				- Addr[31:24] specifies the index of segment.
  *				- Addr[23:12] specifies the y-coordinate of upper-left corner of the
@@ -2253,15 +1894,6 @@ void	NX_MLC_SetVideoLayerStride( U32 ModuleIndex, S32 LuStride, S32 CbStride, S3
  *				.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerAddress( U32 ModuleIndex, U32 LuAddr, U32 CbAddr, U32 CrAddr )
 {
@@ -2280,13 +1912,13 @@ void	NX_MLC_SetVideoLayerAddress( U32 ModuleIndex, U32 LuAddr, U32 CbAddr, U32 C
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCVIDEOLAYER.MLCADDRESS	= LuAddr;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCADDRESS,   LuAddr);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCADDRESS,   LuAddr);
 
 //	pRegister->MLCVIDEOLAYER.MLCADDRESSCB = CbAddr;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCADDRESSCB, CbAddr);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCADDRESSCB, CbAddr);
 
 //	pRegister->MLCVIDEOLAYER.MLCADDRESSCR	= CrAddr;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCADDRESSCR, CrAddr);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCADDRESSCR, CrAddr);
 }
 
 //------------------------------------------------------------------------------
@@ -2297,15 +1929,6 @@ void	NX_MLC_SetVideoLayerAddress( U32 ModuleIndex, U32 LuAddr, U32 CbAddr, U32 C
  *	@param[in]	Stride	The vertical stride.
  *	@return		None.
  *	@remark		This function is valid when the format of video layer is YUVV format.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *															NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerAddressYUYV( U32 ModuleIndex, U32 Addr, S32 Stride )
 {
@@ -2319,10 +1942,10 @@ void	NX_MLC_SetVideoLayerAddressYUYV( U32 ModuleIndex, U32 Addr, S32 Stride )
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCVIDEOLAYER.MLCADDRESS = Addr;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCADDRESS, Addr);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCADDRESS, Addr);
 
 //	pRegister->MLCVIDEOLAYER.MLCVSTRIDE = Stride;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCVSTRIDE, Stride);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCVSTRIDE, Stride);
 }
 
 //------------------------------------------------------------------------------
@@ -2347,15 +1970,6 @@ void	NX_MLC_SetVideoLayerAddressYUYV( U32 ModuleIndex, U32 Addr, S32 Stride )
  *				.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerScaleFactor( U32 ModuleIndex, U32 hscale, U32 vscale, CBOOL bHLumaEnb, CBOOL bHChromaEnb, CBOOL bVLumaEnb, CBOOL bVChromaEnb )
 {
@@ -2376,10 +1990,10 @@ void	NX_MLC_SetVideoLayerScaleFactor( U32 ModuleIndex, U32 hscale, U32 vscale, C
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCVIDEOLAYER.MLCHSCALE = ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) );
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) ));
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) ));
 
 //	pRegister->MLCVIDEOLAYER.MLCVSCALE = ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) );
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) ));
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) ));
 }
 
 //------------------------------------------------------------------------------
@@ -2402,15 +2016,6 @@ void	NX_MLC_SetVideoLayerScaleFactor( U32 ModuleIndex, U32 hscale, U32 vscale, C
  *				.
  *				The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerScaleFilter( U32 ModuleIndex, CBOOL bHLumaEnb, CBOOL bHChromaEnb, CBOOL bVLumaEnb, CBOOL bVChromaEnb )
 {
@@ -2434,14 +2039,14 @@ void	NX_MLC_SetVideoLayerScaleFilter( U32 ModuleIndex, CBOOL bHLumaEnb, CBOOL bH
 	ReadValue |= (bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS);
 
 //	pRegister->MLCVIDEOLAYER.MLCHSCALE = ReadValue;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ReadValue);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ReadValue);
 
 	ReadValue  = pRegister->MLCVIDEOLAYER.MLCVSCALE;
 	ReadValue &= SCALE_MASK;
 	ReadValue |= (bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS);
 
 //	pRegister->MLCVIDEOLAYER.MLCVSCALE = ReadValue;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ReadValue);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -2453,15 +2058,6 @@ void	NX_MLC_SetVideoLayerScaleFilter( U32 ModuleIndex, CBOOL bHLumaEnb, CBOOL bH
  *	@param[in]	bVLumaEnb	Get Bi-linear filter status for vertical scale-up(Luminance).
  *	@param[in]	bVChromaEnb Get Bi-linear filter status for vertical scale-up(Chroma).
  *	@return		None.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_GetVideoLayerScaleFilter( U32 ModuleIndex, CBOOL *bHLumaEnb, CBOOL *bHChromaEnb, CBOOL *bVLumaEnb, CBOOL *bVChromaEnb )
 {
@@ -2504,15 +2100,6 @@ void	NX_MLC_GetVideoLayerScaleFilter( U32 ModuleIndex, CBOOL *bHLumaEnb, CBOOL *
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *															NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerScale( U32 ModuleIndex, U32 sw, U32 sh, U32 dw, U32 dh, CBOOL bHLumaEnb, CBOOL bHChromaEnb, CBOOL bVLumaEnb, CBOOL bVChromaEnb )
 {
@@ -2563,32 +2150,23 @@ void	NX_MLC_SetVideoLayerScale( U32 ModuleIndex, U32 sw, U32 sh, U32 dw, U32 dh,
 	}
 
 //	pRegister->MLCVIDEOLAYER.MLCHSCALE = ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) );
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) ));
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCHSCALE, ((bHLumaEnb << FILTER_LUMA_POS) | (bHChromaEnb << FILTER_CHOMA_POS) | (hscale & SCALE_MASK) ));
 
 //	pRegister->MLCVIDEOLAYER.MLCVSCALE = ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) );
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) ));
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCVSCALE, ((bVLumaEnb << FILTER_LUMA_POS) | (bVChromaEnb << FILTER_CHOMA_POS) | (vscale & SCALE_MASK) ));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set brightness and contrast for video layer.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	contrast	the contrast value, 0 ~ 7.\n
+ *	@param[in]	contrast	the contrast value, 0 ~ 7.
  *							0 : 1.0, 1 : 1.125, 2 : 1.25, 3 : 1.375,
  *							4 : 1.5, 5 : 1.625, 6 : 1.75, 7 : 1.875
  *	@param[in]	brightness	the brightness value, -128 ~ +127.
  *	@return		None.
  *	@remark		The result of this function will be applied to corresponding layer
  *				after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerLumaEnhance( U32 ModuleIndex, U32 contrast, S32 brightness )
 {
@@ -2602,14 +2180,14 @@ void	NX_MLC_SetVideoLayerLumaEnhance( U32 ModuleIndex, U32 contrast, S32 brightn
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 //	pRegister->MLCVIDEOLAYER.MLCLUENH = (((U32)brightness & 0xFFUL)<<8) | contrast;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCLUENH, (((U32)brightness & 0xFFUL)<<8) | contrast);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCLUENH, (((U32)brightness & 0xFFUL)<<8) | contrast);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Set factors to control hue and satuation for video layer.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	quadrant	a quadrant to apply hue and saturation, 0 ~ 4.\n
+ *	@param[in]	quadrant	a quadrant to apply hue and saturation, 0 ~ 4.
  *							Set it to 0 to apply hue and saturation on all quadrant.
  *	@param[in]	CbA		cosine value for B-Y axis, -128 ~ +127.
  *	@param[in]	CbB		sine value for R-Y axis, -128 ~ +127.
@@ -2617,13 +2195,13 @@ void	NX_MLC_SetVideoLayerLumaEnhance( U32 ModuleIndex, U32 contrast, S32 brightn
  *	@param[in]	CrB			cosine value for R-Y axis, -128 ~ +127.
  *	@return		None.
  *	@remark		Each quadrant has factors to control hue and satuation.
- *				At each coordinate, HUE and saturation is applied by following formula.\n
- *					(B-Y)' = (B-Y)*CbA + (R-Y)*CbB \n
- *					(R-Y)' = (B-Y)*CrA + (R-Y)*CrB \n
- *				, where \n
- *					CbA = cos(θ) * 64 * gain, CbB = -sin(θ) * 64 * gain \n
- *					CrA = sin(θ) * 64 * gain, CrB =	cos(θ) * 64 * gain \n
- *					gain is 0 to 2. \n
+ *				At each coordinate, HUE and saturation is applied by following formula.
+ *					(B-Y)' = (B-Y)*CbA + (R-Y)*CbB 
+ *					(R-Y)' = (B-Y)*CrA + (R-Y)*CrB 
+ *				, where 
+ *					CbA = cos(θ) * 64 * gain, CbB = -sin(θ) * 64 * gain 
+ *					CrA = sin(θ) * 64 * gain, CrB =	cos(θ) * 64 * gain 
+ *					gain is 0 to 2. 
  *				The example for this equation is as follows.
  *	@code
  *		// mi = 0 ( module index )
@@ -2644,15 +2222,6 @@ void	NX_MLC_SetVideoLayerLumaEnhance( U32 ModuleIndex, U32 contrast, S32 brightn
  *	@endcode
  *			The result of this function will be applied to corresponding layer
  *			after calling function NX_MLC_SetDirtyFlag() with corresponding layer.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *															NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerChromaEnhance( U32 ModuleIndex, U32 quadrant, S32 CbA, S32 CbB, S32 CrA, S32 CrB )
 {
@@ -2677,21 +2246,21 @@ void	NX_MLC_SetVideoLayerChromaEnhance( U32 ModuleIndex, U32 quadrant, S32 CbA, 
 	if( 0 < quadrant )
 	{
 	//	pRegister->MLCVIDEOLAYER.MLCCHENH[quadrant-1] = temp;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCHENH[quadrant-1], temp);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCHENH[quadrant-1], temp);
 	}
 	else
 	{
 	//	pRegister->MLCVIDEOLAYER.MLCCHENH[0] = temp;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCHENH[0], temp);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCHENH[0], temp);
 
 	//	pRegister->MLCVIDEOLAYER.MLCCHENH[1] = temp;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCHENH[1], temp);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCHENH[1], temp);
 
 	//	pRegister->MLCVIDEOLAYER.MLCCHENH[2] = temp;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCHENH[2], temp);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCHENH[2], temp);
 
 	//	pRegister->MLCVIDEOLAYER.MLCCHENH[3] = temp;
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCHENH[3], temp);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCHENH[3], temp);
 	}
 }
 
@@ -2699,8 +2268,8 @@ void	NX_MLC_SetVideoLayerChromaEnhance( U32 ModuleIndex, U32 quadrant, S32 CbA, 
 /**
  *	@brief		Set power control of video layer's line buffer unit.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bEnable	\b CTRUE indicates that Power ON of video layer's line buffer unit. \n
- *						\b CFALSE indicates that Power OFF of video layer's line buffer unit. \n
+ *	@param[in]	bEnable	 CTRUE indicates that Power ON of video layer's line buffer unit. 
+ *						 CFALSE indicates that Power OFF of video layer's line buffer unit. 
  *	@return		None.
  *	@remark		- Line buffer can power on/off during Video layer operation.
  *				- Line buffer only use when Video layer's Scale Up/Down operation with biliner filter On .
@@ -2725,15 +2294,6 @@ void	NX_MLC_SetVideoLayerChromaEnhance( U32 ModuleIndex, U32 quadrant, S32 CbA, 
  *				NX_MLC_SetVideoLayerLineBufferSleepMode( mi, CTRUE );			// sleep mode
  *				NX_MLC_SetVideoLayerLineBufferPowerMode( mi, CFALSE );			// layer off
  *	@endcode
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerLineBufferPowerMode( U32 ModuleIndex, CBOOL bEnable )
 {
@@ -2756,24 +2316,15 @@ void	NX_MLC_SetVideoLayerLineBufferPowerMode( U32 ModuleIndex, CBOOL bEnable )
 	regvalue |= ((U32)bEnable << LINEBUFF_PWD_POS);
 
 //	pRegister->MLCVIDEOLAYER.MLCCONTROL = regvalue;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get power state of video layer's line buffer unit
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that video layer's power control unit is power ON.\n
- *				\b CFALSE	indicates that video layer's power control unit is power OFF.\n
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *															NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
+ *	@return		 CTRUE	indicates that video layer's power control unit is power ON.
+ *				 CFALSE	indicates that video layer's power control unit is power OFF.
  */
 CBOOL	NX_MLC_GetVideoLayerLineBufferPowerMode( U32 ModuleIndex )
 {
@@ -2790,10 +2341,10 @@ CBOOL	NX_MLC_GetVideoLayerLineBufferPowerMode( U32 ModuleIndex )
 /**
  *	@brief		Set Sleep mode of video layer's power control unit.
  *	@param[in]	ModuleIndex	An index of module ( 0 : First MLC ).
- *	@param[in]	bEnable	\b CTRUE indicates that \b SLEEP Mode of video layer's power control unit. \n
- *						\b CFALSE indicates that \b NORMAL Mode of video layer's power control unit. \n
+ *	@param[in]	bEnable	 CTRUE indicates that  SLEEP Mode of video layer's power control unit. 
+ *						 CFALSE indicates that  NORMAL Mode of video layer's power control unit. 
  *	@return		None.
- *	@remark		- Power control unit is Line buffer.\n
+ *	@remark		- Power control unit is Line buffer.
  *				- Line buffer can power on/off during Video layer operation.
  *				- Line buffer only use when Video layer's Scale Up/Down operation with biliner filter On .
  *				- Line buffer ON sequence
@@ -2817,15 +2368,6 @@ CBOOL	NX_MLC_GetVideoLayerLineBufferPowerMode( U32 ModuleIndex )
  *				NX_MLC_SetVideoLayerLineBufferSleepMode( mi, CTRUE );				// sleep mode
  *				NX_MLC_SetVideoLayerLineBufferPowerMode( mi, CFALSE );			// layer off
  *	@endcode
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerLineBufferSleepMode( U32 ModuleIndex, CBOOL bEnable )
 {
@@ -2849,24 +2391,15 @@ void	NX_MLC_SetVideoLayerLineBufferSleepMode( U32 ModuleIndex, CBOOL bEnable )
 	regvalue |= (bEnable << LINEBUFF_SLMD_POS);				// 0:sleep enable, 1:sleep disable
 
 //	pRegister->MLCVIDEOLAYER.MLCCONTROL = regvalue;
-	WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
+	WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get sleep mode state of video layer's power control unit.
  *	@param[in]	ModuleIndex	An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that video layer's power control unit is sleep on.\n
- *				\b CFALSE	indicates that video layer's power control unit is sleep off.\n
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *															NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
+ *	@return		 CTRUE	indicates that video layer's power control unit is sleep on.
+ *				 CFALSE	indicates that video layer's power control unit is sleep off.
  */
 CBOOL	NX_MLC_GetVideoLayerLineBufferSleepMode( U32 ModuleIndex )
 {
@@ -2890,23 +2423,14 @@ CBOOL	NX_MLC_GetVideoLayerLineBufferSleepMode( U32 ModuleIndex )
 /**
  *	@brief		Set power of YUV layer's gamma table.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bY	\b CTRUE indicates that Y gamma table is power on. \n
- *					\b CFALSE indicates that Y gamma table is power off.
- *	@param[in]	bU	\b CTRUE indicates that U gamma table is power on. \n
- *					\b CFALSE indicates that U gamma table is power off.
- *	@param[in]	bV	\b CTRUE indicates that V gamma table is power on. \n
- *					\b CFALSE indicates that V gamma table is power off.
+ *	@param[in]	bY	 CTRUE indicates that Y gamma table is power on. 
+ *					 CFALSE indicates that Y gamma table is power off.
+ *	@param[in]	bU	 CTRUE indicates that U gamma table is power on. 
+ *					 CFALSE indicates that U gamma table is power off.
+ *	@param[in]	bV	 CTRUE indicates that V gamma table is power on. 
+ *					 CFALSE indicates that V gamma table is power off.
  *	@return		None.
  *	@remarks	Gamma table must on before MLC gamma enable.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL bY, CBOOL bU, CBOOL bV )
 {
@@ -2938,29 +2462,20 @@ void	NX_MLC_SetVideoLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL bY, CBOOL bU
 					((U32)bV << VGAMMATABLE_PWD_BITPOS) );
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of video layer's gamma table is powered or NOT.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[out] pbY		\b CTRUE	indicates that Y gamma table is powered. \n
- *						\b CFALSE indicates that Y gamma table is NOT powered.
- *	@param[out] pbU		\b CTRUE	indicates that U gamma table is powered. \n
- *						\b CFALSE indicates that U gamma table is NOT powered.
- *	@param[out] pbV		\b CTRUE	indicates that V gamma table is powered. \n
- *						\b CFALSE indicates that V gamma table is NOT powered.
+ *	@param[out] pbY		 CTRUE	indicates that Y gamma table is powered. 
+ *						 CFALSE indicates that Y gamma table is NOT powered.
+ *	@param[out] pbU		 CTRUE	indicates that U gamma table is powered. 
+ *						 CFALSE indicates that U gamma table is NOT powered.
+ *	@param[out] pbV		 CTRUE	indicates that V gamma table is powered. 
+ *						 CFALSE indicates that V gamma table is NOT powered.
  *	@return		None.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *															NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_GetVideoLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL *pbY, CBOOL *pbU, CBOOL *pbV )
 {
@@ -2991,23 +2506,14 @@ void	NX_MLC_GetVideoLayerGamaTablePowerMode( U32 ModuleIndex, CBOOL *pbY, CBOOL 
 /**
  *	@brief		Set sleep mode of video layer's gamma table.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bY	\b CTRUE indicates that Y gamma table is sleep on. \n
- *					\b CFALSE indicates that Y gamma table is sleep off.
- *	@param[in]	bU	\b CTRUE indicates that U gamma table is sleep on. \n
- *					\b CFALSE indicates that U gamma table is sleep off.
- *	@param[in]	bV	\b CTRUE indicates that V gamma table is sleep on. \n
- *					\b CFALSE indicates that V gamma table is sleep off.
+ *	@param[in]	bY	 CTRUE indicates that Y gamma table is sleep on. 
+ *					 CFALSE indicates that Y gamma table is sleep off.
+ *	@param[in]	bU	 CTRUE indicates that U gamma table is sleep on. 
+ *					 CFALSE indicates that U gamma table is sleep off.
+ *	@param[in]	bV	 CTRUE indicates that V gamma table is sleep on. 
+ *					 CFALSE indicates that V gamma table is sleep off.
  *	@return		None.
  *	@remarks	Sleep mode is only usable when gamma table is power ON.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL bY, CBOOL bU, CBOOL bV )
 {
@@ -3039,28 +2545,20 @@ void	NX_MLC_SetVideoLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL bY, CBOOL bU
 	else	{ ReadValue |= VGAMMATABLE_SLD_MASK;	}
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of video layer's gamma table is Sleep mode or NOT.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[out] pbY		\b CTRUE indicates that Y gamma table is sleep on. \n
- *						\b CFALSE indicates that Y gamma table is sleep off.
- *	@param[out] pbU		\b CTRUE indicates that U gamma table is sleep on. \n
- *						\b CFALSE indicates that U gamma table is sleep off.
- *	@param[out] pbV		\b CTRUE indicates that V gamma table is sleep on. \n
- *						\b CFALSE indicates that V gamma table is sleep off.
+ *	@param[out] pbY		 CTRUE indicates that Y gamma table is sleep on. 
+ *						 CFALSE indicates that Y gamma table is sleep off.
+ *	@param[out] pbU		 CTRUE indicates that U gamma table is sleep on. 
+ *						 CFALSE indicates that U gamma table is sleep off.
+ *	@param[out] pbV		 CTRUE indicates that V gamma table is sleep on. 
+ *						 CFALSE indicates that V gamma table is sleep off.
  *	@return		None.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable,			NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_GetVideoLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL *pbY, CBOOL *pbU, CBOOL *pbV )
 {
@@ -3092,17 +2590,9 @@ void	NX_MLC_GetVideoLayerGamaTableSleepMode( U32 ModuleIndex, CBOOL *pbY, CBOOL 
 /**
  *	@brief		Set video layer's gamma enable or disable.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@param[in]	bEnable			\b CTRUE indicates that Video layer's gamma enable. \n
- *								\b CFALSE indicates that Video layer's gamma disable.
+ *	@param[in]	bEnable			 CTRUE indicates that Video layer's gamma enable. 
+ *								 CFALSE indicates that Video layer's gamma disable.
  *	@return		None.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,		NX_MLC_GetVideoLayerGammaEnable
  */
 void	NX_MLC_SetVideoLayerGammaEnable( U32 ModuleIndex, CBOOL bEnable )
 {
@@ -3124,24 +2614,15 @@ void	NX_MLC_SetVideoLayerGammaEnable( U32 ModuleIndex, CBOOL bEnable )
 	ReadValue |= (U32)bEnable << YUVGAMMAEMB_BITPOS;
 
 //	pRegister->MLCGAMMACONT = ReadValue;
-	WriteIODW(&pRegister->MLCGAMMACONT, ReadValue);
+	WriteIO32(&pRegister->MLCGAMMACONT, ReadValue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get setting value of video layer's gamma is enabled or disabled.
  *	@param[in]	ModuleIndex		An index of module ( 0 : First MLC ).
- *	@return		\b CTRUE	indicates that video layer's gamma is enabled. \n
- *				\b CFALSE	indicates that video layer's gamma is disabled.
- *	@see		NX_MLC_SetVideoLayerStride,					NX_MLC_SetVideoLayerAddress,
- *				NX_MLC_SetVideoLayerAddressYUYV,			NX_MLC_SetVideoLayerScaleFactor,
- *				NX_MLC_SetVideoLayerScale,					NX_MLC_SetVideoLayerLumaEnhance,
- *				NX_MLC_SetVideoLayerChromaEnhance,			NX_MLC_SetVideoLayerLineBufferPowerMode,
- *				NX_MLC_GetVideoLayerLineBufferPowerMode,	NX_MLC_SetVideoLayerLineBufferSleepMode,
- *				NX_MLC_GetVideoLayerLineBufferSleepMode,	NX_MLC_SetVideoLayerGamaTablePowerMode,
- *				NX_MLC_GetVideoLayerGamaTablePowerMode,		NX_MLC_SetVideoLayerGamaTableSleepMode,
- *				NX_MLC_GetVideoLayerGamaTableSleepMode,
- *				NX_MLC_SetVideoLayerGammaEnable
+ *	@return		 CTRUE	indicates that video layer's gamma is enabled. 
+ *				 CFALSE	indicates that video layer's gamma is disabled.
  */
 CBOOL	NX_MLC_GetVideoLayerGammaEnable( U32 ModuleIndex )
 {
@@ -3185,10 +2666,10 @@ NX_MLC_SetMLCTopControlParameter
 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-	MLCTOPControlReg = ( ReadIODW(&pRegister->MLCCONTROLT) ) & 0xfffffcfc;
+	MLCTOPControlReg = ( ReadIO32(&pRegister->MLCCONTROLT) ) & 0xfffffcfc;
 
 	MLCTOPControlReg = (U32)(MLCTOPControlReg | ((Priority<<8) | ((1==MLCEnable)<<1) | (1==FieldEnable)) | (G3DAddrChangeAllowed<<12));
-	WriteIODW(&pRegister->MLCCONTROLT, MLCTOPControlReg);
+	WriteIO32(&pRegister->MLCCONTROLT, MLCTOPControlReg);
 }
 
 
@@ -3234,17 +2715,17 @@ NX_MLC_SetRGB0LayerControlParameter
     AlphaArgument = (U32)(AlphaValue&0xF);
 
 	// Masking 추가.
-    RGB0ControlReg = ReadIODW(&pRegister->MLCRGBLAYER[0].MLCCONTROL) & 0x10;
+    RGB0ControlReg = ReadIO32(&pRegister->MLCRGBLAYER[0].MLCCONTROL) & 0x10;
     regvalue = (U32)(((LayerFormat<<16) | ControlEnb | (LockSize<<12)) | RGB0ControlReg);
-    WriteIODW(&pRegister->MLCRGBLAYER[0].MLCCONTROL, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[0].MLCCONTROL, regvalue );
 
     //@todo choiyk 2012-10-15 오전 10:45:23
     // Alpha채널이 8bit로 늘어나게 된다. (이 함수자체는 4bit Alpha를 사용)
     regvalue  = (U32)((AlphaArgument<<28) | TransparencyColor);
-    WriteIODW(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR, regvalue );
 
     regvalue = InverseColor;
-    WriteIODW(&pRegister->MLCRGBLAYER[0].MLCINVCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[0].MLCINVCOLOR, regvalue );
 
 }
 
@@ -3326,18 +2807,18 @@ NX_MLC_SetRGB1LayerControlParameter
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 
-    RGB0ControlReg = ReadIODW(&pRegister->MLCRGBLAYER[1].MLCCONTROL) & 0x10;
+    RGB0ControlReg = ReadIO32(&pRegister->MLCRGBLAYER[1].MLCCONTROL) & 0x10;
     ControlEnb = (U32)((GRP3DEnable<<8) | (LayerEnable << 5) | (BlendEnable<<2) | (InvEnable<<1) | TpEnable) & 0x127;
     AlphaArgument = (U32)(AlphaValue&0xF);
 
     regvalue = (U32)(((LayerFormat<<16) | ControlEnb | (LockSize<<12)) | RGB0ControlReg);
-    WriteIODW(&pRegister->MLCRGBLAYER[1].MLCCONTROL, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[1].MLCCONTROL, regvalue );
 
     regvalue  = (U32)((AlphaArgument<<28) | TransparencyColor);
-    WriteIODW(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR, regvalue );
 
     regvalue = InverseColor;
-    WriteIODW(&pRegister->MLCRGBLAYER[1].MLCINVCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER[1].MLCINVCOLOR, regvalue );
 
 }
 
@@ -3378,18 +2859,18 @@ NX_MLC_SetRGB2LayerControlParameter
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 
-    RGB0ControlReg = ReadIODW(&pRegister->MLCRGBLAYER2.MLCCONTROL) & 0x10;
+    RGB0ControlReg = ReadIO32(&pRegister->MLCRGBLAYER2.MLCCONTROL) & 0x10;
     ControlEnb = (U32)((GRP3DEnable<<8) | (LayerEnable << 5) | (BlendEnable<<2) | (InvEnable<<1) | TpEnable) & 0x127;
     AlphaArgument = (U32)(AlphaValue&0xF);
 
     regvalue = (U32)(((LayerFormat<<16) | ControlEnb | (LockSize<<12)) | RGB0ControlReg);
-    WriteIODW(&pRegister->MLCRGBLAYER2.MLCCONTROL, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER2.MLCCONTROL, regvalue );
 
     regvalue  = (U32)((AlphaArgument<<28) | TransparencyColor);
-    WriteIODW(&pRegister->MLCRGBLAYER2.MLCTPCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER2.MLCTPCOLOR, regvalue );
 
     regvalue = InverseColor;
-    WriteIODW(&pRegister->MLCRGBLAYER2.MLCINVCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCRGBLAYER2.MLCINVCOLOR, regvalue );
 
 }
 
@@ -3422,19 +2903,19 @@ NX_MLC_SetVideoLayerControlParameter
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
 
-	VideoControlReg = ReadIODW(&pRegister ->MLCVIDEOLAYER. MLCCONTROL);
+	VideoControlReg = ReadIO32(&pRegister ->MLCVIDEOLAYER. MLCCONTROL);
 
     ControlEnb = (U32)((YUVFormat<<16) | (LayerEnable<<5) | (BlendEnable<<2) | (InvEnable<<1) | TpEnable) & 0x30027;
     AlphaArgument = (U32)(AlphaValue&0xF);
 
     regvalue = (U32)(ControlEnb | VideoControlReg);
-    WriteIODW(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue );
+    WriteIO32(&pRegister->MLCVIDEOLAYER.MLCCONTROL, regvalue );
 
 	regvalue = (U32)((AlphaArgument<<28) | TransparencyColor);
-    WriteIODW(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, regvalue );
 
     regvalue = (U32)((AlphaArgument<<28) | TransparencyColor);
-    WriteIODW(&pRegister->MLCVIDEOLAYER.MLCINVCOLOR, regvalue );
+    WriteIO32(&pRegister->MLCVIDEOLAYER.MLCINVCOLOR, regvalue );
 
 }
 
@@ -3454,28 +2935,28 @@ void NX_MLC_SetSRAMMODE(U32 ModuleIndex, LATYERNAME LayerName, SRAMMODE SramMode
     switch (LayerName)
     {
         case TOPMLC :
-            ControlRegValue = ReadIODW(&pRegister -> MLCCONTROLT);
-            WriteIODW(&pRegister -> MLCCONTROLT, (U32)(ControlRegValue | (SramMode << 10)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCCONTROLT);
+            WriteIO32(&pRegister -> MLCCONTROLT, (U32)(ControlRegValue | (SramMode << 10)));
             ControlRegValue = 0;
             break;
         case RGB0 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER[0].MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER[0].MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER[0].MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER[0].MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
             ControlRegValue = 0;
             break;
         case RGB1 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER[1].MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER[1].MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER[1].MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER[1].MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
             ControlRegValue = 0;
             break;
         case RGB2 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER2.MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER2.MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER2.MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER2.MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
             ControlRegValue = 0;
             break;
         case VIDEO :
-            ControlRegValue = ReadIODW(&pRegister -> MLCVIDEOLAYER.MLCCONTROL);
-            WriteIODW(&pRegister -> MLCVIDEOLAYER.MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCVIDEOLAYER.MLCCONTROL);
+            WriteIO32(&pRegister -> MLCVIDEOLAYER.MLCCONTROL, (U32)(ControlRegValue | (SramMode << 14)));
             ControlRegValue = 0;
             break;
         default             :   NX_ASSERT(CFALSE); //MES_NEVER_GET_HERE();
@@ -3498,28 +2979,28 @@ NX_MLC_SetLayerRegFinish( U32 ModuleIndex, LATYERNAME LayerName )
     switch (LayerName)
     {
         case TOPMLC :
-            ControlRegValue = ReadIODW(&pRegister -> MLCCONTROLT);
-            WriteIODW(&pRegister -> MLCCONTROLT, (U32)(ControlRegValue | (1UL << 3)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCCONTROLT);
+            WriteIO32(&pRegister -> MLCCONTROLT, (U32)(ControlRegValue | (1UL << 3)));
             ControlRegValue = 0;
             break;
         case RGB0 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER[0].MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER[0].MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER[0].MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER[0].MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
             ControlRegValue = 0;
             break;
         case RGB1 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER[1].MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER[1].MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER[1].MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER[1].MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
             ControlRegValue = 0;
             break;
         case RGB2 :
-            ControlRegValue = ReadIODW(&pRegister -> MLCRGBLAYER2.MLCCONTROL);
-            WriteIODW(&pRegister -> MLCRGBLAYER2.MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCRGBLAYER2.MLCCONTROL);
+            WriteIO32(&pRegister -> MLCRGBLAYER2.MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
             ControlRegValue = 0;
             break;
 		case VIDEO :
-            ControlRegValue = ReadIODW(&pRegister -> MLCVIDEOLAYER.MLCCONTROL);
-            WriteIODW(&pRegister -> MLCVIDEOLAYER.MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
+            ControlRegValue = ReadIO32(&pRegister -> MLCVIDEOLAYER.MLCCONTROL);
+            WriteIO32(&pRegister -> MLCVIDEOLAYER.MLCCONTROL, (U32)(ControlRegValue | (1UL << 4)));
             ControlRegValue = 0;
             break;
         default             :   NX_ASSERT(CFALSE); //MES_NEVER_GET_HERE();
@@ -3562,8 +3043,8 @@ NX_MLC_SetVideoLayerCoordinate
 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-    WriteIODW(&pRegister -> MLCVIDEOLAYER.MLCLEFTRIGHT ,(S32)(((Left&0x0FFF)<<16) | (Right&0x0FFF)) );
-    WriteIODW(&pRegister -> MLCVIDEOLAYER.MLCTOPBOTTOM, (S32)(((Top&0x0FFF)<<16) | (Bottom&0x0FFF)));
+    WriteIO32(&pRegister -> MLCVIDEOLAYER.MLCLEFTRIGHT ,(S32)(((Left&0x0FFF)<<16) | (Right&0x0FFF)) );
+    WriteIO32(&pRegister -> MLCVIDEOLAYER.MLCTOPBOTTOM, (S32)(((Top&0x0FFF)<<16) | (Bottom&0x0FFF)));
 
     Source_Width  = (S32)(VideoLayerWith - 1);
     Source_Height = (S32)(VideoLayerHeight - 1);
@@ -3588,8 +3069,8 @@ NX_MLC_SetVideoLayerCoordinate
 	//HFilterEnb = (U32)(((HFilterEnable)<<28) & 0x30000000);
 	HFilterEnb = (U32)(((HFilterEnable_C<<29) | (HFilterEnable)<<28)) & 0x30000000;
 	VFilterEnb = (U32)(((VFilterEnable_C<<29) | (VFilterEnable)<<28)) & 0x30000000;
-	WriteIODW(&pRegister ->  MLCVIDEOLAYER.MLCHSCALE,(U32)(HFilterEnb | (HScale&0x00FFFFFF)));
-	WriteIODW(&pRegister ->  MLCVIDEOLAYER.MLCVSCALE,(U32)(VFilterEnb | (VScale&0x00FFFFFF)));
+	WriteIO32(&pRegister ->  MLCVIDEOLAYER.MLCHSCALE,(U32)(HFilterEnb | (HScale&0x00FFFFFF)));
+	WriteIO32(&pRegister ->  MLCVIDEOLAYER.MLCVSCALE,(U32)(VFilterEnb | (VScale&0x00FFFFFF)));
 }
 
 
@@ -3614,9 +3095,9 @@ void NX_MLC_SetGammaControlParameter
 
 	pRegister = __g_ModuleVariables[ModuleIndex].pRegister;
 
-	RegisterData	= ReadIODW(&pRegister->MLCGAMMACONT);
+	RegisterData	= ReadIO32(&pRegister->MLCGAMMACONT);
 	RegisterData = (RegisterData & 0xf0c) | ((YUVAlphaArray<<5) | (YUVGammaEnb<<4) | (RGBGammaEnb<<1) | (DitherEnb<<0));
-	WriteIODW(&pRegister->MLCGAMMACONT, RegisterData);
+	WriteIO32(&pRegister->MLCGAMMACONT, RegisterData);
 }
 
 
@@ -3644,28 +3125,28 @@ void NX_MLC_SetLayerAlpha256(U32 ModuleIndex, U32 Layer, U32 Alpha)
 
 	if( Layer == 0 ) // RGB Layer 0
 	{
-		RegisterData = ReadIODW(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR) & 0x00ffffff;
+		RegisterData = ReadIO32(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR) & 0x00ffffff;
 		RegisterData = RegisterData | (Alpha<<24);
-		WriteIODW(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR, RegisterData);
+		WriteIO32(&pRegister->MLCRGBLAYER[0].MLCTPCOLOR, RegisterData);
 
 	}
 	else if ( Layer == 1 ) // RGB Layer 1
 	{
-		RegisterData = ReadIODW(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR) & 0x00ffffff;
+		RegisterData = ReadIO32(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR) & 0x00ffffff;
 		RegisterData = RegisterData | (Alpha<<24);
-		WriteIODW(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR, RegisterData);
+		WriteIO32(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR, RegisterData);
 	}
 	else if ( Layer == 2 ) // RGB Layer 2
 	{
-		RegisterData = ReadIODW(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR) & 0x00ffffff;
+		RegisterData = ReadIO32(&pRegister->MLCRGBLAYER[1].MLCTPCOLOR) & 0x00ffffff;
 		RegisterData = RegisterData | (Alpha<<24);
-		WriteIODW(&pRegister->MLCRGBLAYER2.MLCTPCOLOR, RegisterData);
+		WriteIO32(&pRegister->MLCRGBLAYER2.MLCTPCOLOR, RegisterData);
 	}
 	else // Video Layer
 	{
-		RegisterData = ReadIODW(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR) & 0x00ffffff;
+		RegisterData = ReadIO32(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR) & 0x00ffffff;
 		RegisterData = RegisterData | (Alpha<<24);
-		WriteIODW(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, RegisterData);
+		WriteIO32(&pRegister->MLCVIDEOLAYER.MLCTPCOLOR, RegisterData);
 	}
 
 }

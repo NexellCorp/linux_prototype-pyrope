@@ -188,8 +188,8 @@ U32		NX_DPC_GetNumberOfModule( void );
 //@{
 U32		NX_DPC_GetPhysicalAddress( U32 ModuleIndex );
 U32		NX_DPC_GetSizeOfRegisterSet( void );
-void	NX_DPC_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32		NX_DPC_GetBaseAddress( U32 ModuleIndex );
+void	NX_DPC_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void*	NX_DPC_GetBaseAddress( U32 ModuleIndex );
 CBOOL	NX_DPC_OpenModule( U32 ModuleIndex );
 CBOOL	NX_DPC_CloseModule( U32 ModuleIndex );
 CBOOL	NX_DPC_CheckBusy( U32 ModuleIndex );
@@ -400,6 +400,16 @@ void NX_DPC_SetEnable
 	CBOOL UseNTSCSync,		///< [in] use NTSC encoder sync
 	CBOOL UseAnalogOutput,	///< [in] use analog output(use DAC)
 	CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
+);
+
+void NX_DPC_SetEnable_WITH_INTERLACE
+(
+ U32 ModuleIndex,
+ CBOOL Enable,            ///< [in] display controller enable
+ CBOOL RGBMode,          ///< [in] output format reb & ycbcr enable
+ CBOOL UseNTSCSync,        ///< [in] use NTSC encoder sync
+ CBOOL UseAnalogOutput,    ///< [in] use analog output(use DAC)
+ CBOOL SEAVEnable        ///< [in] Start of active and End of active Enable
 );
 
 void NX_DPC_SetOutVideoClkSelect

@@ -75,8 +75,8 @@ CBOOL NX_PPM_Initialize( void );
 U32   NX_PPM_GetNumberOfModule( void );
 
 U32   NX_PPM_GetSizeOfRegisterSet( void );
-void  NX_PPM_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress );
-U32   NX_PPM_GetBaseAddress( U32 ModuleIndex );
+void  NX_PPM_SetBaseAddress( U32 ModuleIndex, void* BaseAddress );
+void* NX_PPM_GetBaseAddress( U32 ModuleIndex );
 U32   NX_PPM_GetPhysicalAddress ( U32 ModuleIndex );
 CBOOL NX_PPM_OpenModule( U32 ModuleIndex );
 CBOOL NX_PPM_CloseModule( U32 ModuleIndex );

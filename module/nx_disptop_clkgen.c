@@ -81,16 +81,16 @@ U32			NX_DISPTOP_CLKGEN_GetSizeOfRegisterSet( void )
 {
 	return sizeof(struct NX_DISPTOP_CLKGEN_RegisterSet);
 }
-void		NX_DISPTOP_CLKGEN_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void		NX_DISPTOP_CLKGEN_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_DISPTOP_CLKGEN_MODULE > ModuleIndex );
 	__g_ModuleVariables[ModuleIndex].__g_pRegister = (struct NX_DISPTOP_CLKGEN_RegisterSet *)BaseAddress;
 }
-U32			NX_DISPTOP_CLKGEN_GetBaseAddress( U32 ModuleIndex )
+void*		NX_DISPTOP_CLKGEN_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_DISPTOP_CLKGEN_MODULE > ModuleIndex );
-	return (U32)__g_ModuleVariables[ModuleIndex].__g_pRegister;
+	return (void*)__g_ModuleVariables[ModuleIndex].__g_pRegister;
 }
 
 
@@ -122,7 +122,7 @@ void	NX_DISPTOP_CLKGEN_SetClockBClkMode( U32 ModuleIndex, NX_BCLKMODE mode )
 	regvalue |= ( clkmode & 0x03 );
 
 //	__g_pRegister->CLKENB = regvalue;
-	WriteIODW(&__g_pRegister->CLKENB, regvalue);
+	WriteIO32(&__g_pRegister->CLKENB, regvalue);
 }
 
 NX_BCLKMODE	NX_DISPTOP_CLKGEN_GetClockBClkMode( U32 ModuleIndex )
@@ -171,8 +171,7 @@ void	NX_DISPTOP_CLKGEN_SetClockPClkMode( U32 ModuleIndex, NX_PCLKMODE mode )
 	regvalue &= ~(1UL<<PCLKMODE_POS);
 	regvalue |= ( clkmode & 0x01 ) << PCLKMODE_POS;
 
-//	__g_pRegister->CLKENB = regvalue;
-	WriteIODW(&__g_pRegister->CLKENB, regvalue);
+	WriteIO32(&__g_pRegister->CLKENB, regvalue);
 }
 
 //------------------------------------------------------------------------------
@@ -232,7 +231,7 @@ void	NX_DISPTOP_CLKGEN_SetClockSource( U32 ModuleIndex, U32 Index, U32 ClkSrc )
 	ReadValue |= ClkSrc << CLKSRCSEL_POS;
 
 //	__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1] = ReadValue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -289,7 +288,7 @@ void			NX_DISPTOP_CLKGEN_SetClockDivisor( U32 ModuleIndex, U32 Index, U32 Diviso
 	ReadValue	&= ~CLKDIV_MASK;
 	ReadValue	|= (Divisor-1) << CLKDIV_POS;
 
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -345,7 +344,7 @@ void			NX_DISPTOP_CLKGEN_SetClockDivisorEnable( U32 ModuleIndex, CBOOL Enable )
 	ReadValue	|= (U32)Enable << CLKGENENB_POS;
 
 //	__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB	=	ReadValue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
 }
 
 //------------------------------------------------------------------------------
@@ -387,7 +386,7 @@ void			NX_DISPTOP_CLKGEN_SetClockOutInv( U32 ModuleIndex, U32 Index, CBOOL OutCl
 	ReadValue	|=	OutClkInv << OUTCLKINV_POS;
 
 	//__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1]	=	ReadValue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
 }
 
 CBOOL			NX_DISPTOP_CLKGEN_GetClockOutInv( U32 ModuleIndex, U32 Index )
@@ -417,7 +416,7 @@ CBOOL			NX_DISPTOP_CLKGEN_GetClockOutInv( U32 ModuleIndex, U32 Index )
 //	ReadValue	|=	InClkInv << INCLKINV_POS;
 //
 //	__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB	=	ReadValue;
-//	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
+//	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
 //}
 //
 //CBOOL			NX_DISPTOP_CLKGEN_GetClockInInv( U32 ModuleIndex)
@@ -446,7 +445,7 @@ CBOOL		NX_DISPTOP_CLKGEN_SetInputInv( U32 ModuleIndex, U32 Index, CBOOL InClkInv
 	ReadValue	|=	InClkInv << INCLKINV_POS;
 
 	//__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB	=	ReadValue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB, ReadValue);
 	return CTRUE;
 }
 
@@ -487,6 +486,6 @@ void NX_DISPTOP_CLKGEN_SetClockOutSelect( U32 ModuleIndex, U32 Index, CBOOL bByp
 	ReadValue	=   ReadValue | bBypass;
 
 	//__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKENB	=	ReadValue;
-	WriteIODW(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
+	WriteIO32(&__g_ModuleVariables[ModuleIndex].__g_pRegister->CLKGEN[Index<<1], ReadValue);
 }
 

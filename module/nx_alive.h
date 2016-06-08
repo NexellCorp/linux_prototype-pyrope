@@ -17,12 +17,14 @@
 #define	__NX_ALIVE_H__
 
 
-//#include "../nx_base/nx_prototype.h"
+//#include "../base/nx_prototype.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
+#define NX_ALIVE_NUMBER_OF_GPIO 6
 
 //------------------------------------------------------------------------------
 /// @defgroup	ALIVE
@@ -168,6 +170,7 @@ extern "C"
 
 	} NX_ALIVE_PADGROUP;
 
+
 //------------------------------------------------------------------------------
 /// @name	Module Interface
 //@{
@@ -180,8 +183,8 @@ U32		NX_ALIVE_GetNumberOfModule( void );
 //@{
 U32		NX_ALIVE_GetPhysicalAddress( void );
 U32		NX_ALIVE_GetSizeOfRegisterSet( void );
-void	NX_ALIVE_SetBaseAddress( U32 BaseAddress );
-U32		NX_ALIVE_GetBaseAddress( void );
+void	NX_ALIVE_SetBaseAddress( void* BaseAddress );
+void*	NX_ALIVE_GetBaseAddress( void );
 CBOOL	NX_ALIVE_OpenModule( void );
 CBOOL	NX_ALIVE_CloseModule( void );
 CBOOL	NX_ALIVE_CheckBusy( void );
@@ -241,6 +244,7 @@ CBOOL	NX_ALIVE_GetVDDPWRTOGGLE( void );
 //@{
 void	NX_ALIVE_SetOutputEnable( U32 BitNumber, CBOOL OutputEnb );
 CBOOL	NX_ALIVE_GetOutputEnable( U32 BitNumber );
+CBOOL	NX_ALIVE_GetInputEnable( U32 BitNumber );
 void	NX_ALIVE_SetOutputValue( U32 BitNumber, CBOOL Value );
 CBOOL	NX_ALIVE_GetOutputValue( U32 BitNumber );
 CBOOL	NX_ALIVE_GetInputValue( U32 BitNumber );
@@ -254,7 +258,9 @@ U32     NX_ALIVE_GetWakeUpStatus( void );
 void    NX_ALIVE_ClearWakeUpStatus( void );
 
 void	NX_ALIVE_SetOutputEnable32( U32 value32 );
+void	NX_ALIVE_SetInputEnable32( U32 value32 );
 U32		NX_ALIVE_GetOutputEnable32 (void);
+U32		NX_ALIVE_GetInputEnable32 (void);
 void    NX_ALIVE_SetPullUpEnable32( U32 value32 );
 void    NX_ALIVE_SetOutputValue32( U32 value32 );
 U32     NX_ALIVE_GetOutputValue32( void );

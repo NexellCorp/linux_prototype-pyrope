@@ -34,8 +34,8 @@ static	NX_VIP_RegisterSet *__g_pRegister[NUMBER_OF_VIP_MODULE];
 //------------------------------------------------------------------------------
 /**
  *	@brief	Initialize of prototype enviroment & local variables.
- *	@return \b CTRUE	indicate that Initialize is successed.\n
- *			\b CFALSE	indicate that Initialize is failed.
+ *	@return  CTRUE	indicate that Initialize is successed.
+ *			 CFALSE	indicate that Initialize is failed.
  *	@see	NX_VIP_GetNumberOfModule
  */
 CBOOL	NX_VIP_Initialize( void )
@@ -54,9 +54,8 @@ CBOOL	NX_VIP_Initialize( void )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get number of modules in the chip.
- *	@return		Module's number. \n
+ *	@return		Module's number. 
  *				It is equal to NUMBER_OF_VIP_MODULE in <nx_chip.h>.
- *	@see		NX_VIP_Initialize
  */
 U32		NX_VIP_GetNumberOfModule( void )
 {
@@ -67,10 +66,6 @@ U32		NX_VIP_GetNumberOfModule( void )
 /**
  *	@brief		Get a size, in byte, of register set.
  *	@return		Size of module's register set.
- *	@see		NX_VIP_GetPhysicalAddress,
- *				NX_VIP_SetBaseAddress,			NX_VIP_GetBaseAddress,
- *				NX_VIP_OpenModule,				NX_VIP_CloseModule,
- *				NX_VIP_CheckBusy,
  */
 U32		NX_VIP_GetSizeOfRegisterSet( void )
 {
@@ -82,12 +77,8 @@ U32		NX_VIP_GetSizeOfRegisterSet( void )
  *	@brief		Set a base address of register set.
  *	@param[in]	BaseAddress Module's base address
  *	@return		None.
- *	@see		NX_VIP_GetPhysicalAddress,		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_GetBaseAddress,
- *				NX_VIP_OpenModule,				NX_VIP_CloseModule,
- *				NX_VIP_CheckBusy,
  */
-void	NX_VIP_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
+void	NX_VIP_SetBaseAddress( U32 ModuleIndex, void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
     NX_ASSERT( NUMBER_OF_VIP_MODULE > ModuleIndex );
@@ -98,26 +89,18 @@ void	NX_VIP_SetBaseAddress( U32 ModuleIndex, U32 BaseAddress )
 /**
  *	@brief		Get a base address of register set
  *	@return		Module's base address.
- *	@see		NX_VIP_GetPhysicalAddress,		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_SetBaseAddress,
- *				NX_VIP_OpenModule,				NX_VIP_CloseModule,
- *				NX_VIP_CheckBusy,
  */
-U32		NX_VIP_GetBaseAddress( U32 ModuleIndex )
+void*	NX_VIP_GetBaseAddress( U32 ModuleIndex )
 {
     NX_ASSERT( NUMBER_OF_VIP_MODULE > ModuleIndex );
-	return (U32)__g_pRegister[ModuleIndex];
+	return (void*)__g_pRegister[ModuleIndex];
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's physical address.
- *	@return		Module's physical address. \n
+ *	@return		Module's physical address. 
  *				It is equal to PHY_BASEADDR_VIP?_MODULE in <nx_chip.h>.
- *	@see		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_SetBaseAddress,			NX_VIP_GetBaseAddress,
- *				NX_VIP_OpenModule,				NX_VIP_CloseModule,
- *				NX_VIP_CheckBusy,
  */
 U32		NX_VIP_GetPhysicalAddress( U32 ModuleIndex )
 {
@@ -133,12 +116,8 @@ U32		NX_VIP_GetPhysicalAddress( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Initialize selected modules with default value.
- *	@return		\b CTRUE	indicate that Initialize is successed. \n
- *				\b CFALSE	indicate that Initialize is failed.
- *	@see		NX_VIP_GetPhysicalAddress,		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_SetBaseAddress,			NX_VIP_GetBaseAddress,
- *				NX_VIP_CloseModule,
- *				NX_VIP_CheckBusy,
+ *	@return		 CTRUE	indicate that Initialize is successed. 
+ *				 CFALSE	indicate that Initialize is failed.
  */
 CBOOL	NX_VIP_OpenModule( U32 ModuleIndex )
 {
@@ -151,12 +130,8 @@ CBOOL	NX_VIP_OpenModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Deinitialize selected module to the proper stage.
- *	@return		\b CTRUE	indicate that Deinitialize is successed. \n
- *				\b CFALSE	indicate that Deinitialize is failed.
- *	@see		NX_VIP_GetPhysicalAddress,		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_SetBaseAddress,			NX_VIP_GetBaseAddress,
- *				NX_VIP_OpenModule,
- *				NX_VIP_CheckBusy,
+ *	@return		 CTRUE	indicate that Deinitialize is successed. 
+ *				 CFALSE	indicate that Deinitialize is failed.
  */
 CBOOL	NX_VIP_CloseModule( U32 ModuleIndex )
 {
@@ -169,11 +144,8 @@ CBOOL	NX_VIP_CloseModule( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Indicates whether the selected modules is busy or not.
- *	@return		\b CTRUE	indicate that Module is Busy. \n
- *				\b CFALSE	indicate that Module is NOT Busy.
- *	@see		NX_VIP_GetPhysicalAddress,		NX_VIP_GetSizeOfRegisterSet,
- *				NX_VIP_SetBaseAddress,			NX_VIP_GetBaseAddress,
- *				NX_VIP_OpenModule,				NX_VIP_CloseModule,
+ *	@return		 CTRUE	indicate that Module is Busy. 
+ *				 CFALSE	indicate that Module is NOT Busy.
  */
 CBOOL	NX_VIP_CheckBusy( U32 ModuleIndex )
 {
@@ -189,14 +161,8 @@ CBOOL	NX_VIP_CheckBusy( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's clock index.
- *	@return		Module's clock index.\n
+ *	@return		Module's clock index.
  *				It is equal to CLOCKINDEX_OF_VIP?_MODULE in <nx_chip.h>.
- *	@see		NX_CLKGEN_SetClockDivisorEnable,
- *				NX_CLKGEN_GetClockDivisorEnable,
- *				NX_CLKGEN_SetClockSource,
- *				NX_CLKGEN_GetClockSource,
- *				NX_CLKGEN_SetClockDivisor,
- *				NX_CLKGEN_GetClockDivisor
  */
 U32 NX_VIP_GetClockNumber ( U32 ModuleIndex )
 {
@@ -212,11 +178,8 @@ U32 NX_VIP_GetClockNumber ( U32 ModuleIndex )
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get module's reset index.
- *	@return		Module's reset index.\n
+ *	@return		Module's reset index.
  *				It is equal to RESETINDEX_OF_VIP?_MODULE_i_nRST in <nx_chip.h>.
- *	@see		NX_RSTCON_Enter,
- *				NX_RSTCON_Leave,
- *				NX_RSTCON_GetStatus
  */
 U32 NX_VIP_GetResetNumber ( U32 ModuleIndex )
 {
@@ -236,17 +199,8 @@ U32 NX_VIP_GetResetNumber ( U32 ModuleIndex )
 /**
  *	@brief		Get a interrupt number for the interrupt controller.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		A interrupt number.\n
+ *	@return		A interrupt number.
  *				It is equal to INTNUM_OF_VIP?_MODULE in <nx_chip.h>.
- *	@see		NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
  */
 U32 	NX_VIP_GetInterruptNumber( U32 ModuleIndex )
 {
@@ -262,20 +216,11 @@ U32 	NX_VIP_GetInterruptNumber( U32 ModuleIndex )
 /**
  *	@brief		Set a specified interrupt to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number .\n
+ *	@param[in]	IntNum	a interrupt Number .
  *						refer to NX_VIP_INTCH_xxx in <nx_vip.h>
- *	@param[in]	Enable	\b Set as CTRUE to enable a specified interrupt. \r\n
- *						\b Set as CFALSE to disable a specified interrupt.
+ *	@param[in]	Enable	 Set as CTRUE to enable a specified interrupt. 
+ *						 Set as CFALSE to disable a specified interrupt.
  *	@return		None.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
  */
 void	NX_VIP_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 {
@@ -299,19 +244,19 @@ void	NX_VIP_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 		else		{	regvalue &= ~( 1 << (8+IntNum));	}
 
 	//	pRegister->VIP_HVINT = regvalue;
-		WriteIODW(&pRegister->VIP_HVINT, regvalue);
+		WriteIO32(&pRegister->VIP_HVINT, regvalue);
 	}
 	else
 	{
 		if( Enable )
 		{
 		//	pRegister->VIP_ODINT = 1 << ODINTENB_BITPOS;
-			WriteIODW(&pRegister->VIP_ODINT, (1 << ODINTENB_BITPOS));
+			WriteIO32(&pRegister->VIP_ODINT, (1 << ODINTENB_BITPOS));
 		}
 		else
 		{
 		//	pRegister->VIP_ODINT = 0;
-			WriteIODW(&pRegister->VIP_ODINT, 0);
+			WriteIO32(&pRegister->VIP_ODINT, 0);
 		}
 	}
 }
@@ -320,19 +265,10 @@ void	NX_VIP_SetInterruptEnable( U32 ModuleIndex, U32 IntNum, CBOOL Enable )
 /**
  *	@brief		Indicates whether a specified interrupt is enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_VIP_INTCH_xxx in <nx_vip.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is enabled. \r\n
- *				\b CFALSE	indicates that a specified interrupt is disabled.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that a specified interrupt is enabled. 
+ *				 CFALSE	indicates that a specified interrupt is disabled.
 
  */
 CBOOL	NX_VIP_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
@@ -356,19 +292,10 @@ CBOOL	NX_VIP_GetInterruptEnable( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Indicates whether a specified interrupt is pended or not
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt Number.\n
+ *	@param[in]	IntNum	a interrupt Number.
  *						refer to NX_VIP_INTCH_xxx in <nx_vip.h>
- *	@return		\b CTRUE	indicates that a specified interrupt is pended. \r\n
- *				\b CFALSE	indicates that a specified interrupt is not pended.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that a specified interrupt is pended. 
+ *				 CFALSE	indicates that a specified interrupt is not pended.
 
  */
 CBOOL	NX_VIP_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
@@ -392,18 +319,9 @@ CBOOL	NX_VIP_GetInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Clear a pending state of specified interrupt.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	IntNum	a interrupt number.\n
+ *	@param[in]	IntNum	a interrupt number.
  *						refer to NX_VIP_INTCH_xxx in <nx_vip.h>
  *	@return		None.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
 
  */
 void	NX_VIP_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
@@ -426,7 +344,7 @@ void	NX_VIP_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 		regvalue |= (0x01 << IntNum);
 
 	//	pRegister->VIP_HVINT = regvalue;
-		WriteIODW(&pRegister->VIP_HVINT, regvalue);
+		WriteIO32(&pRegister->VIP_HVINT, regvalue);
 	}
 	else
 	{
@@ -434,7 +352,7 @@ void	NX_VIP_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 		regvalue |= 1;
 
 	//	pRegister->VIP_ODINT = regvalue;
-		WriteIODW(&pRegister->VIP_ODINT, regvalue);
+		WriteIO32(&pRegister->VIP_ODINT, regvalue);
 	}
 }
 
@@ -442,18 +360,9 @@ void	NX_VIP_ClearInterruptPending( U32 ModuleIndex, U32 IntNum )
 /**
  *	@brief		Set all interrupts to be enabled or disabled.
  *	@param[in]	ModuleIndex		an index of module.
- *	@param[in]	Enable	\b Set as CTRUE to enable all interrupts. \r\n
- *						\b Set as CFALSE to disable all interrupts.
+ *	@param[in]	Enable	 Set as CTRUE to enable all interrupts. 
+ *						 Set as CFALSE to disable all interrupts.
  *	@return		None.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
 
  */
 void	NX_VIP_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
@@ -468,18 +377,18 @@ void	NX_VIP_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 	if( Enable )
 	{
 	//	pRegister->VIP_HVINT	= (U16)(0x03<<8);
-		WriteIODW(&pRegister->VIP_HVINT, (U16)(0x03<<8));
+		WriteIO32(&pRegister->VIP_HVINT, (U16)(0x03<<8));
 
 	//	pRegister->VIP_ODINT	= (U16)(0x01<<8);
-		WriteIODW(&pRegister->VIP_ODINT, (U16)(0x01<<8));
+		WriteIO32(&pRegister->VIP_ODINT, (U16)(0x01<<8));
 	}
 	else
 	{
 	//	pRegister->VIP_HVINT	= (U16)0x00;
-		WriteIODW(&pRegister->VIP_HVINT, (U16)0x00);
+		WriteIO32(&pRegister->VIP_HVINT, (U16)0x00);
 
 	//	pRegister->VIP_ODINT	= (U16)0x00;
-		WriteIODW(&pRegister->VIP_ODINT, (U16)0x00);
+		WriteIO32(&pRegister->VIP_ODINT, (U16)0x00);
 	}
 }
 
@@ -487,17 +396,8 @@ void	NX_VIP_SetInterruptEnableAll( U32 ModuleIndex, CBOOL Enable )
 /**
  *	@brief		Indicates whether some of interrupts are enabled or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are enabled. \r\n
- *				\b CFALSE	indicates that all interrupts are disabled.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that one or more interrupts are enabled. 
+ *				 CFALSE	indicates that all interrupts are disabled.
 
  */
 CBOOL	NX_VIP_GetInterruptEnableAll( U32 ModuleIndex )
@@ -524,17 +424,8 @@ CBOOL	NX_VIP_GetInterruptEnableAll( U32 ModuleIndex )
 /**
  *	@brief		Indicates whether some of interrupts are pended or not.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		\b CTRUE	indicates that one or more interrupts are pended. \r\n
- *				\b CFALSE	indicates that no interrupt is pended.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_ClearInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
+ *	@return		 CTRUE	indicates that one or more interrupts are pended. 
+ *				 CFALSE	indicates that no interrupt is pended.
 
  */
 CBOOL	NX_VIP_GetInterruptPendingAll( U32 ModuleIndex )
@@ -561,15 +452,6 @@ CBOOL	NX_VIP_GetInterruptPendingAll( U32 ModuleIndex )
  *	@brief		Clear pending state of all interrupts.
  *	@param[in]	ModuleIndex		an index of module.
  *	@return		None.
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_GetInterruptPendingNumber
 
  */
 void	NX_VIP_ClearInterruptPendingAll( U32 ModuleIndex )
@@ -588,30 +470,21 @@ void	NX_VIP_ClearInterruptPendingAll( U32 ModuleIndex )
 	regvalue |= VHSINTPEND_MASK;
 
 //	pRegister->VIP_HVINT = regvalue;
-	WriteIODW(&pRegister->VIP_HVINT, regvalue);
+	WriteIO32(&pRegister->VIP_HVINT, regvalue);
 
 	regvalue  = pRegister->VIP_ODINT;
 	regvalue |= ODINTPEND_MASK;
 
 //	pRegister->VIP_ODINT = regvalue;
-	WriteIODW(&pRegister->VIP_ODINT, regvalue);
+	WriteIO32(&pRegister->VIP_ODINT, regvalue);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get a interrupt number which has the most prority of pended interrupts.
  *	@param[in]	ModuleIndex		an index of module.
- *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.\n
+ *	@return		a interrupt number. A value of '-1' means that no interrupt is pended.
  *				refer to NX_VIP_INTCH_xxx in <nx_vip.h>
- *	@see		NX_VIP_GetInterruptNumber,
- *				NX_VIP_SetInterruptEnable,
- *				NX_VIP_GetInterruptEnable,
- *				NX_VIP_GetInterruptPending,
- *				NX_VIP_ClearInterruptPending,
- *				NX_VIP_SetInterruptEnableAll,
- *				NX_VIP_GetInterruptEnableAll,
- *				NX_VIP_GetInterruptPendingAll,
- *				NX_VIP_ClearInterruptPendingAll
 
  */
 S32		NX_VIP_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
@@ -651,7 +524,6 @@ S32		NX_VIP_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
  *	@param[in]	bClipEnb	Set it to CTRUE to enable Clipper.
  *	@param[in]	bDeciEnb	Set it to CTRUE to enable Decimator.
  *	@return		None
- *	@see		NX_VIP_GetVIPEnable
  */
 void
 NX_VIP_SetVIPEnable
@@ -682,7 +554,7 @@ NX_VIP_SetVIPEnable
 	else			temp &= (U16)~VIPENB;
 
 //	pRegister->VIP_CONFIG = temp;
-	WriteIODW(&pRegister->VIP_CONFIG, temp);
+	WriteIO32(&pRegister->VIP_CONFIG, temp);
 
 	temp = 0;
 	if( bSepEnb )	temp |= (U16)SEPENB;
@@ -690,24 +562,23 @@ NX_VIP_SetVIPEnable
 	if( bDeciEnb )	temp |= (U16)DECIENB;
 
 //	pRegister->VIP_CDENB = temp;
-	WriteIODW(&pRegister->VIP_CDENB, temp);
+	WriteIO32(&pRegister->VIP_CDENB, temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Informs whether VIP controllers are enabled or disabled.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[out] pbVIPEnb	Determines whether VIP is enabled or not.\n
+ *	@param[out] pbVIPEnb	Determines whether VIP is enabled or not.
  *							CTRUE = Enable, CFALSE = Disable.
- *	@param[out] pbSepEnb	Determines whether Separator is enabled or not.\n
+ *	@param[out] pbSepEnb	Determines whether Separator is enabled or not.
  *							CTRUE = Enable, CFALSE = Disable.
- *	@param[out] pbClipEnb	Determines whether Clipper is enabled or not.\n
+ *	@param[out] pbClipEnb	Determines whether Clipper is enabled or not.
  *							CTRUE = Enable, CFALSE = Disable.
- *	@param[out] pbDeciEnb	Determines whether Decimator is enabled or not.\n
+ *	@param[out] pbDeciEnb	Determines whether Decimator is enabled or not.
  *							CTRUE = Enable, CFALSE = Disable.
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetVIPEnable
  */
 void
 NX_VIP_GetVIPEnable
@@ -741,13 +612,12 @@ NX_VIP_GetVIPEnable
 /**
  *	@brief		Select VIP module's input port.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	InputPort	Select input port \n.
- *							- Port A : Use VIDCLK0, VIDHSYNC0, VIDVSYNC0, FIELD/DVALID, VID0 pin for connection to Video decoder. \n
+ *	@param[in]	InputPort	Select input port .
+ *							- Port A : Use VIDCLK0, VIDHSYNC0, VIDVSYNC0, FIELD/DVALID, VID0 pin for connection to Video decoder. 
  *							- Port B : Use VIDCLK1, VIDHSYNC1, VIDVSYNC1, SIPFIELD/DVALID, VID1 pin for connection to Video decoder.
  *	@return		None.
- *	@remark		NXP2120 only has one VIP module. but VIP module have 2 set GPIO for connection to video decoder. \n
+ *	@remark		NXP2120 only has one VIP module. but VIP module have 2 set GPIO for connection to video decoder. 
  *				so, Should select which pin use.
- *	@see		NX_VIP_GetInputPort
  */
 void	NX_VIP_SetInputPort( U32 ModuleIndex, NX_VIP_INPUTPORT InputPort )
 {
@@ -760,16 +630,15 @@ void	NX_VIP_SetInputPort( U32 ModuleIndex, NX_VIP_INPUTPORT InputPort )
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->VIP_VIP1 = (U32)InputPort;
-	WriteIODW(&pRegister->VIP_VIP1, (U32)InputPort);
+	WriteIO32(&pRegister->VIP_VIP1, (U32)InputPort);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get selected input port of VIP modules.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@return		NX_VIP_INPUTPORT_A	: Port A connected to VIP module(VIDCLK0, VIDHSYNC0, VIDVSYNC0, FIELD/DVALID, VID0). \n
- *				NX_VIP_INPUTPORT_B	: Port B connected to VIP module(VIDCLK1, VIDHSYNC1, VIDVSYNC1, SIPFIELD/DVALID, VID1). \n
- *	@see		NX_VIP_SetInputPort
+ *	@return		NX_VIP_INPUTPORT_A	: Port A connected to VIP module(VIDCLK0, VIDHSYNC0, VIDVSYNC0, FIELD/DVALID, VID0). 
+ *				NX_VIP_INPUTPORT_B	: Port B connected to VIP module(VIDCLK1, VIDHSYNC1, VIDVSYNC1, SIPFIELD/DVALID, VID1). 
  */
 NX_VIP_INPUTPORT	NX_VIP_GetInputPort( U32 ModuleIndex )
 {
@@ -788,7 +657,6 @@ NX_VIP_INPUTPORT	NX_VIP_GetInputPort( U32 ModuleIndex )
  *	@param[in]	DataOrder	Specifies the input video data order.
  *	@param[in]	DataWidth	Specifies the input data width. 8 or 16 are only valid.
  *	@return		None
- *	@see		NX_VIP_GetDataMode
  */
 void
 NX_VIP_SetDataMode
@@ -819,7 +687,7 @@ NX_VIP_SetDataMode
 	temp |= ((8 == DataWidth) ? DWIDTH_MASK : 0);
 
 //	pRegister->VIP_CONFIG = (U16)temp;
-	WriteIODW(&pRegister->VIP_CONFIG, (U16)temp);
+	WriteIO32(&pRegister->VIP_CONFIG, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
@@ -859,32 +727,32 @@ NX_VIP_GetDataMode
 /**
  *	@brief		Set configuration for sync generation.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	bExtSync	Specifies whether external H/V Sync signals are used or not.\n
+ *	@param[in]	bExtSync	Specifies whether external H/V Sync signals are used or not.
  *							CTRUE = External H/V Sync, CFALSE = H/V Sync in Embedded Sync.
 
- *	@param[in]	AVW		Specifies the active video width in clocks, 0 ~ 8190.\n
+ *	@param[in]	AVW		Specifies the active video width in clocks, 0 ~ 8190.
  *							This value must be a multiple of 2.
  *	@param[in]	AVH		Specifies the active video height in lines. 0 ~ 2047.
 
- *	@param[in]	HSW		Specifies the horizontal sync width in clocks.\n
+ *	@param[in]	HSW		Specifies the horizontal sync width in clocks.
  *							This argument is only valid when bExtSync is CFALSE.
- *	@param[in]	HFP		Specifies the horizontal sync front porch in clocks.\n
- *							This value must be greater than 7.\n
+ *	@param[in]	HFP		Specifies the horizontal sync front porch in clocks.
+ *							This value must be greater than 7.
  *							This argument is only valid when bExtSync is CFALSE.
  *	@param[in]	HBP		Specifies the horizontal sync back porch in clocks.
- *							This value must be greater than 0.\n
+ *							This value must be greater than 0.
  *							This argument is only valid when bExtSync is CTRUE.
 
- *	@param[in]	VSW		Specifies the vertical sync width in lines.\n
+ *	@param[in]	VSW		Specifies the vertical sync width in lines.
  *							This argument is only valid when bExtSync is CFALSE.
- *	@param[in]	VFP		Specifies the vertical sync front porch in lines.\n
+ *	@param[in]	VFP		Specifies the vertical sync front porch in lines.
  *							This argument is only valid when bExtSync is CFALSE.
- *	@param[in]	VBP		Specifies the vertical sync back porch in lines.\n
+ *	@param[in]	VBP		Specifies the vertical sync back porch in lines.
  *							This argument is only valid when bExtSync is CTRUE.
 
  *	@return		None.
- *	@remark		You have to set sync parameters even if Embedded sync is used.\n
- *				A sum of arguments(HSW + HFP + HBP or VSW + VFP + VBP) has to be less than 65536.\n
+ *	@remark		You have to set sync parameters even if Embedded sync is used.
+ *				A sum of arguments(HSW + HFP + HBP or VSW + VFP + VBP) has to be less than 65536.
  *				See follwing figure for more details.
  *	@code
  *
@@ -939,14 +807,13 @@ NX_VIP_SetHVSync
 	}
 
 //	pRegister->VIP_CONFIG = (U16)temp;
-	WriteIODW(&pRegister->VIP_CONFIG, (U16)temp);
+	WriteIO32(&pRegister->VIP_CONFIG, (U16)temp);
 
 	temp = (U32)pRegister->VIP_SYNCCTRL;
-    // psw0523 fix this!!!
-	/* temp |= 0x0300;		// EXTHSPOL = EXTVSPOL = 1 */
+/*	temp |= 0x0300;		// EXTHSPOL = EXTVSPOL = 1 */
 
 //	pRegister->VIP_SYNCCTRL = (U16)temp;
-	WriteIODW(&pRegister->VIP_SYNCCTRL, (U16)temp);
+	WriteIO32(&pRegister->VIP_SYNCCTRL, (U16)temp);
 
 	NX_ASSERT( 32768 > AVW && 0 == (AVW & 1) );
 	NX_ASSERT( 32768 > AVH );
@@ -954,16 +821,16 @@ NX_VIP_SetHVSync
 	if( bExtSync )
 	{
 	//	pRegister->VIP_IMGWIDTH	= (U16)(AVW>>1);
-		WriteIODW(&pRegister->VIP_IMGWIDTH, (U16)(AVW>>1));
+		WriteIO32(&pRegister->VIP_IMGWIDTH, (U16)(AVW>>1));
 	}
 	else
 	{
 	//	pRegister->VIP_IMGWIDTH	= (U16)((AVW>>1) + 2);
-		WriteIODW(&pRegister->VIP_IMGWIDTH, (U16)((AVW>>1) + 2));
+		WriteIO32(&pRegister->VIP_IMGWIDTH, (U16)((AVW>>1) + 2));
 	}
 
 //	pRegister->VIP_IMGHEIGHT	= (U16)AVH;
-	WriteIODW(&pRegister->VIP_IMGHEIGHT, (U16)AVH);
+	WriteIO32(&pRegister->VIP_IMGHEIGHT, (U16)AVH);
 
 	if( bExtSync )
 	{
@@ -973,16 +840,16 @@ NX_VIP_SetHVSync
 		NX_ASSERT( 65536 >= (HBP + AVW));
 
 	//	pRegister->VIP_VBEGIN	= (U16)(VBP - 1);
-		WriteIODW(&pRegister->VIP_VBEGIN, (U16)(VBP - 1));
+		WriteIO32(&pRegister->VIP_VBEGIN, (U16)(VBP - 1));
 
 	//	pRegister->VIP_VEND		= (U16)(VBP + AVH - 1);
-		WriteIODW(&pRegister->VIP_VEND, (U16)(VBP + AVH - 1));
+		WriteIO32(&pRegister->VIP_VEND, (U16)(VBP + AVH - 1));
 
 	//	pRegister->VIP_HBEGIN	= (U16)(HBP - 1);
-		WriteIODW(&pRegister->VIP_HBEGIN, (U16)(HBP - 1));
+		WriteIO32(&pRegister->VIP_HBEGIN, (U16)(HBP - 1));
 
 	//	pRegister->VIP_HEND		= (U16)(HBP + AVW - 1);
-		WriteIODW(&pRegister->VIP_HEND, (U16)(HBP + AVW - 1));
+		WriteIO32(&pRegister->VIP_HEND, (U16)(HBP + AVW - 1));
 	}
 	else
 	{
@@ -991,16 +858,16 @@ NX_VIP_SetHVSync
 		NX_ASSERT( 65536 > (HFP + HSW - 7) );
 
 	//	pRegister->VIP_VBEGIN	= (U16)(VFP + 1);
-		WriteIODW(&pRegister->VIP_VBEGIN, (U16)(VFP + 1));
+		WriteIO32(&pRegister->VIP_VBEGIN, (U16)(VFP + 1));
 
 	//	pRegister->VIP_VEND		= (U16)(VFP + VSW + 1);
-		WriteIODW(&pRegister->VIP_VEND, (U16)(VFP + VSW + 1));
+		WriteIO32(&pRegister->VIP_VEND, (U16)(VFP + VSW + 1));
 
 	//	pRegister->VIP_HBEGIN	= (U16)(HFP - 7);
-		WriteIODW(&pRegister->VIP_HBEGIN, (U16)(HFP - 7));
+		WriteIO32(&pRegister->VIP_HBEGIN, (U16)(HFP - 7));
 
 	//	pRegister->VIP_HEND		= (U16)(HFP + HSW - 7);
-		WriteIODW(&pRegister->VIP_HEND, (U16)(HFP + HSW - 7));
+		WriteIO32(&pRegister->VIP_HEND, (U16)(HFP + HSW - 7));
 	}
 }
 
@@ -1019,60 +886,59 @@ void	NX_VIP_SetHVSyncForMIPI( U32 ModuleIndex, U32 AVW, U32 AVH,
 	temp = (U32)pRegister->VIP_CONFIG;
 	temp &= ~DRANGE;	// Reserved 0.
 	temp &= ~EXTSYNCENB;
-	WriteIODW(&pRegister->VIP_CONFIG, (U16)temp);
+	WriteIO32(&pRegister->VIP_CONFIG, (U16)temp);
 	temp = (U32)pRegister->VIP_SYNCCTRL;
 	temp |= 0x0300;		// EXTHSPOL = EXTVSPOL = 1
-	WriteIODW(&pRegister->VIP_SYNCCTRL, (U16)temp);
+	WriteIO32(&pRegister->VIP_SYNCCTRL, (U16)temp);
 	NX_ASSERT( 32768 > AVW && 0 == (AVW & 1) );
 	NX_ASSERT( 32768 > AVH );
-	WriteIODW(&pRegister->VIP_IMGWIDTH, (U16)((AVW>>1)));
-	WriteIODW(&pRegister->VIP_IMGHEIGHT, (U16)AVH);
+	WriteIO32(&pRegister->VIP_IMGWIDTH, (U16)((AVW>>1)));
+	WriteIO32(&pRegister->VIP_IMGHEIGHT, (U16)AVH);
 	NX_ASSERT( 65536 > (VFP + VSW) );
 	NX_ASSERT( 7 <= HFP );
 	NX_ASSERT( 65536 > (HFP + HSW - 7) );
-	WriteIODW(&pRegister->VIP_VBEGIN, (U16)(VFP + 1));
-	WriteIODW(&pRegister->VIP_VEND, (U16)(VFP + VSW + 1));
-	WriteIODW(&pRegister->VIP_HBEGIN, (U16)(HFP - 7));
-	WriteIODW(&pRegister->VIP_HEND, (U16)(HFP + HSW - 7));
+	WriteIO32(&pRegister->VIP_VBEGIN, (U16)(VFP + 1));
+	WriteIO32(&pRegister->VIP_VEND, (U16)(VFP + VSW + 1));
+	WriteIO32(&pRegister->VIP_HBEGIN, (U16)(HFP - 7));
+	WriteIO32(&pRegister->VIP_HEND, (U16)(HFP + HSW - 7));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get current configuration for sync generation.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[out] pbExtSync	Indicates whether the external H/V Sync signals are used or not.\n
+ *	@param[out] pbExtSync	Indicates whether the external H/V Sync signals are used or not.
  *							CTRUE = External H/V Sync, CFALSE = H/V Sync in Embedded Sync.
 
  *	@param[out] pAVW		Indicates the active video width in clocks.
  *	@param[out] pAVH		Indicates the active video height in lines.
 
  *	@param[out] pHBEGIN	When *pbExtSync is CTRUE, this value is used to generate a internal horizontal blank.
- *							This value specifies the number of clocks from the end of horizontal sync to the end of horizontal blank. \n
- *							-> HBEGIN = tHBP - 1 \n
+ *							This value specifies the number of clocks from the end of horizontal sync to the end of horizontal blank. 
+ *							-> HBEGIN = tHBP - 1 
  *							When *pbExtSync is CFALSE, this value is used to generate a internal horizontal sync.
- *							This value specifies the number of clocks from the begin of horizontal blank to the begin of horizontal sync.\n
+ *							This value specifies the number of clocks from the begin of horizontal blank to the begin of horizontal sync.
  *							-> HBEGIN = tHFP - 7
  *	@param[out] pHEND		When EXTSYNCENB is set, this value is used to generate a internal horizontal blank.
- *							This value specifies the number of clocks from the end of horizontal sync to the begin of horizontal blank.\n
- *							-> HEND = tHBP + tAVW - 1 \n
+ *							This value specifies the number of clocks from the end of horizontal sync to the begin of horizontal blank.
+ *							-> HEND = tHBP + tAVW - 1 
  *							When EXTSYNCENB is clear, this value is used to generate a internal horizontal sync.
- *							This value specifies the number of clocks from the begin of horizontal blank to the end of horizontal sync.\n
+ *							This value specifies the number of clocks from the begin of horizontal blank to the end of horizontal sync.
  *							-> HEND = tHFP + tHSW - 7
  *	@param[out] pVBEGIN	When *pbExtSync is CTRUE, this value is used to generate a internal vertical blank.
- *							This value specifies the number of lines from the end of vertical sync to the end of vertical blank.\n
- *							-> VBEGIN = tVBP - 1 \n
+ *							This value specifies the number of lines from the end of vertical sync to the end of vertical blank.
+ *							-> VBEGIN = tVBP - 1 
  *								When *pbExtSync is CFALSE, this value is used to generate a internal vertical sync.
- *							This value specifies the number of lines from the begin of vertical blank to the begin of vertical sync.\n
+ *							This value specifies the number of lines from the begin of vertical blank to the begin of vertical sync.
  *							-> VBEGIN = tVFP + 1
  *	@param[out] pVEND		When *pbExtSync is CTRUE, this value is used to generate a internal vertical blank.
- *							This value specifies the number of lines from the end of vertical sync to the begin of vertical blank.\n
- *							-> VEND = tVBP + tAVH - 1 \n
+ *							This value specifies the number of lines from the end of vertical sync to the begin of vertical blank.
+ *							-> VEND = tVBP + tAVH - 1 
  *								When *pbExtSync is CFALSE, this value is used to generate a internal vertical sync.
- *							This value specifies the number of lines from the begin of vertical blank to the end of vertical sync.\n
+ *							This value specifies the number of lines from the begin of vertical blank to the end of vertical sync.
  *							-> VEND = tVFP + tVSW + 1
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetHVSync
  */
 void
 NX_VIP_GetHVSync
@@ -1113,13 +979,12 @@ NX_VIP_GetHVSync
 /**
  *	@brief		Set configuration for data valid signal.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	bExtDValid	Specifies whether external DValid signal is used or not.\n
+ *	@param[in]	bExtDValid	Specifies whether external DValid signal is used or not.
  *							CTRUE = External DVaild & Internal generation, CFALSE = Internal generation only.
- *	@param[in]	bDValidPol	Specifies the external DValid polarity.\n
- *							This argument is only valid when bExtDValid is set to CTRUE.\n
+ *	@param[in]	bDValidPol	Specifies the external DValid polarity.
+ *							This argument is only valid when bExtDValid is set to CTRUE.
  *							CTRUE = Active High, CFALSE = Active Low.
  *	@return		None.
- *	@see		NX_VIP_GetDValidMode
  */
 void
 NX_VIP_SetDValidMode
@@ -1154,21 +1019,20 @@ NX_VIP_SetDValidMode
            ( (bSyncPol    & 0x1)<<9 ) );
 
 //	pRegister->VIP_SYNCCTRL = (U16)temp;
-	WriteIODW(&pRegister->VIP_SYNCCTRL, (U16)temp);
+	WriteIO32(&pRegister->VIP_SYNCCTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get current configuration for data valid signal.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[out] pbExtDValid	Indicates whether external DValid signal is used or not.\n
+ *	@param[out] pbExtDValid	Indicates whether external DValid signal is used or not.
  *								CTRUE = External DVaild & Internal generation, CFALSE = Internal generation only.
- *	@param[out] pbDValidPol		Indicates the external DValid polarity.\n
- *								This argument is only valid when *pbExtDValid is CTRUE.\n
+ *	@param[out] pbDValidPol		Indicates the external DValid polarity.
+ *								This argument is only valid when *pbExtDValid is CTRUE.
  *								CTRUE = Active High, CFALSE = Active Low.
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetDValidMode
  */
 void
 NX_VIP_GetDValidMode
@@ -1196,16 +1060,15 @@ NX_VIP_GetDValidMode
 /**
  *	@brief		Set configuration for field signal processing.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	bExtField	Specifies whether the external Field signal is used or not.\n
+ *	@param[in]	bExtField	Specifies whether the external Field signal is used or not.
  *							CTRUE = External field, CFALSE = Field signal in Embedded Sync.
  *	@param[in]	FieldSel	Specifies the field selection.
 
- *	@param[in]	bInterlace	Specifies whether the scan mode for the Clipper & Decimator is interlace or not.\n
+ *	@param[in]	bInterlace	Specifies whether the scan mode for the Clipper & Decimator is interlace or not.
  *							CTRUE = Interlace mode, CFALSE = Progressive mode.
- *	@param[in]	bInvField	Specifies the Field polarity which is used for the Clipper & Decimator.\n
+ *	@param[in]	bInvField	Specifies the Field polarity which is used for the Clipper & Decimator.
  *							CTRUE = Bypass (Low is odd field), CFALSE = Invert (Low is even field).
  *	@return		None.
- *	@see		NX_VIP_GetFieldMode, NX_VIP_GetFieldStatus
  */
 void
 NX_VIP_SetFieldMode
@@ -1240,29 +1103,28 @@ NX_VIP_SetFieldMode
 	temp |= (U32)(FieldSel);
 
 //	pRegister->VIP_SYNCCTRL = (U16)temp;
-	WriteIODW(&pRegister->VIP_SYNCCTRL, (U16)temp);
+	WriteIO32(&pRegister->VIP_SYNCCTRL, (U16)temp);
 
 //	pRegister->VIP_SCANMODE = (U16)(((bInterlace) ? INTERLACEENB : 0)
 //									| ((bInvField ) ? FIELDINV		: 0));
 
-	WriteIODW(&pRegister->VIP_SCANMODE, (U16)(((bInterlace) ? INTERLACEENB : 0) | ((bInvField ) ? FIELDINV : 0)));
+	WriteIO32(&pRegister->VIP_SCANMODE, (U16)(((bInterlace) ? INTERLACEENB : 0) | ((bInvField ) ? FIELDINV : 0)));
 }
 
 //------------------------------------------------------------------------------
 /**
  *	@brief		Get current configuration for field signal processing.
  *  @param[in]  ModuleIndex		An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[out] pbExtField		Indicates whether the external Field signal is used or not.\n
+ *	@param[out] pbExtField		Indicates whether the external Field signal is used or not.
  *								CTRUE = External field, CFALSE = Field signal in Embedded Sync.
  *	@param[out] pFieldSel		Indicates the field selection.
 
- *	@param[out] pbInterlace	Indicates whether the scan mode for the Clipper & Decimator is interlace or not.\n
+ *	@param[out] pbInterlace	Indicates whether the scan mode for the Clipper & Decimator is interlace or not.
  *								CTRUE = Interlace mode, CFALSE = Progressive mode.
- *	@param[out] pbInvField		Indicates the Field polarity which is used for the Clipper & Decimator.\n
+ *	@param[out] pbInvField		Indicates the Field polarity which is used for the Clipper & Decimator.
  *								CTRUE = Bypass (Low is odd field), CFALSE = Invert (Low is even field).
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetFieldMode, NX_VIP_GetFieldStatus
  */
 void
 NX_VIP_GetFieldMode
@@ -1300,20 +1162,19 @@ NX_VIP_GetFieldMode
 /**
  *	@brief	Get the last field status.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@return	CTRUE	indicates the last field is even field.\n
+ *	@return	CTRUE	indicates the last field is even field.
  *			CFALSE	indicate the last field is odd field.
  *	@remark	This field signal is generated by VIP block and transferred to the
  *			Clipper & Decimator block. Therefore this field status does not
  *			represent the result of the field signal polarity control in the
- *			Clipper & Decimator block.\n
+ *			Clipper & Decimator block.
  *			This field signal is update at every FrameStart(the begin of the
  *			vertical active video). Therefore If you call this function after
  *			the VSYNC interrupt, It returns the last field status which is
- *			already processed for the input data.\n
+ *			already processed for the input data.
  *			Because the field signal is captured by PCLK, you have to call the
  *			function SetClockPClkMode() with PCLKMODE_ALWAYS value to get
  *			correct field status.
- *	@see	NX_VIP_SetFieldMode, NX_VIP_GetFieldMode
  */
 CBOOL
 NX_VIP_GetFieldStatus( U32 ModuleIndex )
@@ -1330,12 +1191,11 @@ NX_VIP_GetFieldStatus( U32 ModuleIndex )
 /**
  *	@brief	Get current status of the internal HSYNC signal.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@return	CTRUE	indicates the internal HSYNC is in activate status.\n
+ *	@return	CTRUE	indicates the internal HSYNC is in activate status.
  *			CFALSE	indicate the internal HSYNC is in inactivate status.
  *	@remark	The internal HSYNC signal is generated by internal sync generator
  *			for embedded sync. Therefore In case of external sync mode, the
  *			return value of this function is meaningless.
- *	@see	NX_VIP_GetVSyncStatus
  */
 CBOOL
 NX_VIP_GetHSyncStatus( U32 ModuleIndex )
@@ -1352,7 +1212,7 @@ NX_VIP_GetHSyncStatus( U32 ModuleIndex )
 /**
  *	@brief	Get current status of the internal VSYNC signal.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@return	CTRUE	indicates the internal VSYNC is in activate status.\n
+ *	@return	CTRUE	indicates the internal VSYNC is in activate status.
  *			CFALSE	indicate the internal VSYNC is in inactivate status.
  *	@remark	The internal VSYNC signal is generated by internal sync generator
  *			for embedded sync. Therefore In case of external sync mode, the
@@ -1376,7 +1236,6 @@ NX_VIP_GetVSyncStatus( U32 ModuleIndex )
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@param[in]	FIFOReset	Specifies the FIFO reset mode.
  *	@return		None.
- *	@see		NX_VIP_GetFIFOResetMode, NX_VIP_GetFIFOStatus, NX_VIP_ResetFIFO
  */
 void
 NX_VIP_SetFIFOResetMode
@@ -1396,7 +1255,7 @@ NX_VIP_SetFIFOResetMode
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->VIP_FIFOCTRL = (U16)(FIFOReset<<RESETFIFOSEL_POS);
-	WriteIODW(&pRegister->VIP_FIFOCTRL, (U16)(FIFOReset<<RESETFIFOSEL_POS));
+	WriteIO32(&pRegister->VIP_FIFOCTRL, (U16)(FIFOReset<<RESETFIFOSEL_POS));
 }
 
 //------------------------------------------------------------------------------
@@ -1404,7 +1263,6 @@ NX_VIP_SetFIFOResetMode
  *	@brief	Get the FIFO reset mode.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@return	the current FIFO reset mode..
- *	@see	NX_VIP_SetFIFOResetMode, NX_VIP_GetFIFOStatus, NX_VIP_ResetFIFO
  */
 NX_VIP_FIFORESET
 NX_VIP_GetFIFOResetMode( U32 ModuleIndex )
@@ -1432,7 +1290,9 @@ NX_VIP_GetFIFOResetMode( U32 ModuleIndex )
 U32
 NX_VIP_GetFIFOStatus( U32 ModuleIndex )
 {
-	const U32 FIFOSTATUS_POS = 8UL;
+    // psw0523 test
+	/*const U32 FIFOSTATUS_POS = 8UL;*/
+	const U32 FIFOSTATUS_POS = 9UL;
 
 	NX_ASSERT( NUMBER_OF_VIP_MODULE > ModuleIndex );
 	NX_ASSERT( CNULL != __g_pRegister[ModuleIndex] );
@@ -1446,7 +1306,6 @@ NX_VIP_GetFIFOStatus( U32 ModuleIndex )
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@return	None.
  *	@remark	This function has only affect when the FIFO reset mode is NX_VIP_FIFORESET_CPU or NX_VIP_FIFORESET_ALL.
- *	@see	NX_VIP_SetFIFOResetMode, NX_VIP_GetFIFOResetMode, NX_VIP_GetFIFOStatus
  */
 void
 NX_VIP_ResetFIFO( U32 ModuleIndex )
@@ -1463,10 +1322,10 @@ NX_VIP_ResetFIFO( U32 ModuleIndex )
 	temp 	  = pRegister->VIP_FIFOCTRL;
 
 //	pRegister->VIP_FIFOCTRL = (U16)(temp | RESETFIFO);
-	WriteIODW(&pRegister->VIP_FIFOCTRL, (U16)(temp | RESETFIFO));
+	WriteIO32(&pRegister->VIP_FIFOCTRL, (U16)(temp | RESETFIFO));
 
 //	pRegister->VIP_FIFOCTRL = (U16)temp;	// clear it manually.
-	WriteIODW(&pRegister->VIP_FIFOCTRL, (U16)temp);
+	WriteIO32(&pRegister->VIP_FIFOCTRL, (U16)temp);
 }
 
 //------------------------------------------------------------------------------
@@ -1490,7 +1349,6 @@ NX_VIP_GetHorCount( U32 ModuleIndex )
  *	@brief	Get the number of total lines in a vertical active video.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@return	the number of total lines in a vertical active video.
- *	@see	NX_VIP_GetHorCount
  */
 U32
 NX_VIP_GetVerCount( U32 ModuleIndex )
@@ -1514,7 +1372,6 @@ NX_VIP_GetVerCount( U32 ModuleIndex )
  *				a frame data. Therefore you should set the y-coordinate carefully.
  *				The clipping width (Right - Left) must be a multiple of 16 and
  *				the clipping height (Bottom - Top) must be a even number.
- *	@see		NX_VIP_GetClipRegion
  */
 void
 NX_VIP_SetClipRegion
@@ -1542,16 +1399,16 @@ NX_VIP_SetClipRegion
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->CLIP_LEFT	= (U16)Left;
-	WriteIODW(&pRegister->CLIP_LEFT, (U16)Left);
+	WriteIO32(&pRegister->CLIP_LEFT, (U16)Left);
 
 //	pRegister->CLIP_RIGHT	= (U16)Right;
-	WriteIODW(&pRegister->CLIP_RIGHT, (U16)Right);
+	WriteIO32(&pRegister->CLIP_RIGHT, (U16)Right);
 
 //	pRegister->CLIP_TOP		= (U16)Top;
-	WriteIODW(&pRegister->CLIP_TOP, (U16)Top);
+	WriteIO32(&pRegister->CLIP_TOP, (U16)Top);
 
 //	pRegister->CLIP_BOTTOM	= (U16)Bottom;
-	WriteIODW(&pRegister->CLIP_BOTTOM, (U16)Bottom);
+	WriteIO32(&pRegister->CLIP_BOTTOM, (U16)Bottom);
 }
 
 //------------------------------------------------------------------------------
@@ -1564,9 +1421,8 @@ NX_VIP_SetClipRegion
  *	@param[out] pBottom		Indicates the y-coordinate, in lines, of the lower-right corner of the clip region in the input image.
  *	@return		None.
  *	@remark		In case of interlace scan mode, The input image is a field data not
- *				a frame data.\n
+ *				a frame data.
  *				Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetClipRegion
  */
 void
 NX_VIP_GetClipRegion
@@ -1608,7 +1464,6 @@ NX_VIP_GetClipRegion
  *				Thererfore the source image of the Decimator is the result image of
  *				the Clipper. and the Decimator can only handle the even field data
  *				in the interlace scan mode.
- *	@see		NX_VIP_GetDecimation
  */
 /* psw0523 add for GetDecimationSource() */
 static U32 DeciSrcWidth[2];
@@ -1637,25 +1492,23 @@ NX_VIP_SetDecimation
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->DECI_TARGETW	= (U16)DstWidth;
-	WriteIODW(&pRegister->DECI_TARGETW, (U16)DstWidth);
+	WriteIO32(&pRegister->DECI_TARGETW, (U16)DstWidth);
 
 //	pRegister->DECI_TARGETH	= (U16)DstHeight;
-	WriteIODW(&pRegister->DECI_TARGETH, (U16)DstHeight);
+	WriteIO32(&pRegister->DECI_TARGETH, (U16)DstHeight);
 
 //	pRegister->DECI_DELTAW	= (U16)(SrcWidth - DstWidth);
-	WriteIODW(&pRegister->DECI_DELTAW, (U16)(SrcWidth - DstWidth));
+	WriteIO32(&pRegister->DECI_DELTAW, (U16)(SrcWidth - DstWidth));
 
 //	pRegister->DECI_DELTAH	= (U16)(SrcHeight - DstHeight);
-	WriteIODW(&pRegister->DECI_DELTAH, (U16)(SrcHeight - DstHeight));
+	WriteIO32(&pRegister->DECI_DELTAH, (U16)(SrcHeight - DstHeight));
 
 //	pRegister->DECI_CLEARW	= (S16)((DstWidth<<1) - SrcWidth);
-	WriteIODW((volatile U16 *)&pRegister->DECI_CLEARW, (S16)((DstWidth<<1) - SrcWidth));
+	WriteIO32((volatile U16 *)&pRegister->DECI_CLEARW, (S16)((DstWidth<<1) - SrcWidth));
 
 //	pRegister->DECI_CLEARH	= (S16)((DstHeight<<1) - SrcHeight);
-	WriteIODW((volatile U16 *)&pRegister->DECI_CLEARH, (S16)((DstHeight<<1) - SrcHeight));
+	WriteIO32((volatile U16 *)&pRegister->DECI_CLEARH, (S16)((DstHeight<<1) - SrcHeight));
 
-    DeciSrcWidth[ModuleIndex] = SrcWidth;
-    DeciSrcHeight[ModuleIndex] = SrcHeight;
 }
 
 /* psw0523 add */
@@ -1673,13 +1526,13 @@ void NX_VIP_GetDeciSource(U32 ModuleIndex, U32 *pSrcWidth, U32 *pSrcHeight)
  *  @param[in]  ModuleIndex		An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@param[out] pDstWidth		Indicates the width of the output image of the decimator.
  *	@param[out] pDstHeight		Indicates the height of the output image of the decimator.
- *	@param[out] pDeltaWidth		Indicates the difference between clipped image width and destination image width of decimator.\n
+ *	@param[out] pDeltaWidth		Indicates the difference between clipped image width and destination image width of decimator.
  *								-> DeltaWidth = the clipped image width - DstWidth
- *	@param[out] pDeltaHeight	Indicates the difference between clipped image height and destination image height of decimator.\n
+ *	@param[out] pDeltaHeight	Indicates the difference between clipped image height and destination image height of decimator.
  *								-> DeltaHeight = the clipped image height - DstHeight
- *	@param[out] pClearWidth		Indicates the difference between destination image width and DeltaWidth of decimator.\n
+ *	@param[out] pClearWidth		Indicates the difference between destination image width and DeltaWidth of decimator.
  *								-> ClearWidth = DstWidth - DeltaWidth
- *	@param[out] pClearHeight	Indicates the difference between destination image height and DeltaHeight of decimator.\n
+ *	@param[out] pClearHeight	Indicates the difference between destination image height and DeltaHeight of decimator.
  *								-> ClearHeight = DstHeight - DeltaHeight
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
@@ -1724,7 +1577,6 @@ NX_VIP_GetDecimation
  *	@param[in]	bVFlip		Set it to CTRUE to flip the image vertically.
  *							This argument is only valid when Format is not NX_VIP_FORMAT_YUYV.
  *	@return		None.
- *	@see		NX_VIP_GetClipperFormat
  */
 void
 NX_VIP_SetClipperFormat
@@ -1752,21 +1604,21 @@ NX_VIP_SetClipperFormat
 	if( NX_VIP_FORMAT_YUYV == Format )
 	{
 	//	pRegister->CLIP_YUYVENB = 1;
-		WriteIODW(&pRegister->CLIP_YUYVENB, 1);
+		WriteIO32(&pRegister->CLIP_YUYVENB, 1);
 	}
 	else
 	{
 	//	pRegister->CLIP_YUYVENB	= 0;
-		WriteIODW(&pRegister->CLIP_YUYVENB, 0);
+		WriteIO32(&pRegister->CLIP_YUYVENB, 0);
 
 	//	pRegister->CLIP_FORMAT	= (U16)Format;
-		WriteIODW(&pRegister->CLIP_FORMAT, (U16)Format);
+		WriteIO32(&pRegister->CLIP_FORMAT, (U16)Format);
 	}
 
 //	pRegister->CLIP_ROTFLIP	= (U16)(((bRotation) ? ROTATION : 0)
 //										| ((bVFlip	) ? VFLIP	: 0)
 //										| ((bHFlip	) ? HFLIP	: 0));
-	WriteIODW(&pRegister->CLIP_ROTFLIP, (U16)(((bRotation) ? ROTATION : 0)
+	WriteIO32(&pRegister->CLIP_ROTFLIP, (U16)(((bRotation) ? ROTATION : 0)
 										| ((bVFlip	) ? VFLIP	: 0)
 										| ((bHFlip	) ? HFLIP	: 0)));
 }
@@ -1779,14 +1631,13 @@ NX_VIP_SetClipperFormat
  *	@param[out] pbRotation		Indicates whether the image is rotated clockwise by 90 degree.
  *								CTRUE = 90' Rotation, CFALSE = No Rotation
  *	@param[out] pbHFlip			Indicates whether to flip an image horizontally or not.
- *								This argument is only valid when Format is not Format_YUYV.\n
+ *								This argument is only valid when Format is not Format_YUYV.
  *								CTRUE = Horizontal Flip, CFALSE = No Horizontal Flip
  *	@param[out] pbVFlip			Indicates whether to flip an image vertically or not.
- *								This argument is only valid when Format is not Format_YUYV.\n
+ *								This argument is only valid when Format is not Format_YUYV.
  *								CTRUE = Vertical Flip, CFALSE = No Vertical Flip
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetClipperFormat
  */
 void
 NX_VIP_GetClipperFormat
@@ -1831,7 +1682,6 @@ NX_VIP_GetClipperFormat
  *	@param[in]	bHFlip		Set it to CTRUE to flip the image horizontally.
  *	@param[in]	bVFlip		Set it to CTRUE to flip the image vertically.
  *	@return		None.
- *	@see		NX_VIP_GetDecimatorFormat
  */
 void
 NX_VIP_SetDecimatorFormat
@@ -1856,12 +1706,12 @@ NX_VIP_SetDecimatorFormat
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->DECI_FORMAT	= (U16)Format;
-	WriteIODW(&pRegister->DECI_FORMAT, (U16)Format);
+	WriteIO32(&pRegister->DECI_FORMAT, (U16)Format);
 
 //	pRegister->DECI_ROTFLIP	= (U16)(((bRotation) ? ROTATION : 0)
 //										| ((bVFlip	) ? VFLIP	: 0)
 //										| ((bHFlip	) ? HFLIP	: 0));
-	WriteIODW(&pRegister->DECI_ROTFLIP, (U16)(((bRotation) ? ROTATION : 0)
+	WriteIO32(&pRegister->DECI_ROTFLIP, (U16)(((bRotation) ? ROTATION : 0)
 										| ((bVFlip	) ? VFLIP	: 0)
 										| ((bHFlip	) ? HFLIP	: 0)));
 }
@@ -1871,15 +1721,14 @@ NX_VIP_SetDecimatorFormat
  *	@brief		Get the data Format, rotation and flip for the output image of the Decimator.
  *  @param[in]  ModuleIndex		An index of module ( 0 : VIP 0, 1 : VIP 1 ).
  *	@param[out] pFormat			Indicates the data Format of the Decimator.
- *	@param[out] pbRotation		Indicates whether the image is rotated clockwise by 90 degree.\n
+ *	@param[out] pbRotation		Indicates whether the image is rotated clockwise by 90 degree.
  *								CTRUE = 90' Rotation, CFALSE = No Rotation
- *	@param[out] pbHFlip			Indicates whether to flip an image horizontally or not.\n
+ *	@param[out] pbHFlip			Indicates whether to flip an image horizontally or not.
  *								CTRUE = Horizontal Flip, CFALSE = No Horizontal Flip
- *	@param[out] pbVFlip			Indicates whether to flip an image vertically or not.\n
+ *	@param[out] pbVFlip			Indicates whether to flip an image vertically or not.
  *								CTRUE = Vertical Flip, CFALSE = No Vertical Flip
  *	@return		None.
  *	@remark		Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetDecimatorFormat
  */
 void
 NX_VIP_GetDecimatorFormat
@@ -1915,7 +1764,7 @@ NX_VIP_GetDecimatorFormat
 /**
  *	@brief		Set the base address to store the output image of the Clipper.
  *  @param[in]  ModuleIndex	An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	Format		Specifies the data Format of the Clipper.\n
+ *	@param[in]	Format		Specifies the data Format of the Clipper.
  *							It must not be Format_YUYV.
  *	@param[in]	Width		Specifies the width of the clip region.
  *	@param[in]	Height		Specifies the height of the clip region.
@@ -1926,9 +1775,9 @@ NX_VIP_GetDecimatorFormat
  *	@return		None.
  *	@remark		The argument Format, Width and Height, are only used to calculate
  *				image address. so you have to call the function NX_VIP_SetClipperFormat()
- *				and NX_VIP_SetClipRegion() to set these values.\n
+ *				and NX_VIP_SetClipRegion() to set these values.
  *				This function is for YUV 420, 422, 444 not YUYV. You have to call
- *				the function NX_VIP_SetClipperAddrYUYV for YUYV Format.\n
+ *				the function NX_VIP_SetClipperAddrYUYV for YUYV Format.
  *				The Format of LuAddr, CbAddr, CrAddr is as follows,
  *				- [31:24] : Specifies the index of the segment.
  *				- [23:12] : Sepcifies the y-coordinate in the segment.
@@ -1936,9 +1785,8 @@ NX_VIP_GetDecimatorFormat
  *				.
  *				The Clipper stores a frame image even if the scan mode is interlace
  *				scan mode. Therefore you have to allocate and set memory pool which
- *				can store a frame image.\n
- *				Memory address must align by 8.\n
- *	@see		NX_VIP_SetClipperAddr2D, NX_VIP_GetClipperAddr2D
+ *				can store a frame image.
+ *				Memory address must align by 8.
  */
 void
 NX_VIP_SetClipperAddr
@@ -1970,19 +1818,19 @@ NX_VIP_SetClipperAddr
 	top		  = (LuAddr & 0x3FFF8000UL) >> 15;
 
 //	pRegister->CLIP_LUSEG		= (U16)segment;
-	WriteIODW(&pRegister->CLIP_LUSEG, (U16)segment);
+	WriteIO32(&pRegister->CLIP_LUSEG, (U16)segment);
 
 //	pRegister->CLIP_LULEFT		= (U16)left;
-	WriteIODW(&pRegister->CLIP_LULEFT, (U16)left);
+	WriteIO32(&pRegister->CLIP_LULEFT, (U16)left);
 
 //	pRegister->CLIP_LURIGHT		= (U16)(left + Width);
-	WriteIODW(&pRegister->CLIP_LURIGHT, (U16)(left + Width));
+	WriteIO32(&pRegister->CLIP_LURIGHT, (U16)(left + Width));
 
 //	pRegister->CLIP_LUTOP		= (U16)top;
-	WriteIODW(&pRegister->CLIP_LUTOP, (U16)top);
+	WriteIO32(&pRegister->CLIP_LUTOP, (U16)top);
 
 //	pRegister->CLIP_LUBOTTOM	= (U16)(top + Height);
-	WriteIODW(&pRegister->CLIP_LUBOTTOM, (U16)(top + Height));
+	WriteIO32(&pRegister->CLIP_LUBOTTOM, (U16)(top + Height));
 
 
 	if( NX_VIP_FORMAT_420 == Format )
@@ -2008,45 +1856,45 @@ NX_VIP_SetClipperAddr
 	top		= (CbAddr & 0x3FFF8000UL) >> 15;
 
 //	pRegister->CLIP_CBSEG		= (U16)segment;
-	WriteIODW(&pRegister->CLIP_CBSEG, (U16)segment);
+	WriteIO32(&pRegister->CLIP_CBSEG, (U16)segment);
 
 //	pRegister->CLIP_CBLEFT		= (U16)left;
-	WriteIODW(&pRegister->CLIP_CBLEFT, (U16)left);
+	WriteIO32(&pRegister->CLIP_CBLEFT, (U16)left);
 
 //	pRegister->CLIP_CBRIGHT		= (U16)(left + Width);
-	WriteIODW(&pRegister->CLIP_CBRIGHT, (U16)(left + Width));
+	WriteIO32(&pRegister->CLIP_CBRIGHT, (U16)(left + Width));
 
 //	pRegister->CLIP_CBTOP		= (U16)top;
-	WriteIODW(&pRegister->CLIP_CBTOP, (U16)top);
+	WriteIO32(&pRegister->CLIP_CBTOP, (U16)top);
 
 //	pRegister->CLIP_CBBOTTOM	= (U16)(top + Height);
-	WriteIODW(&pRegister->CLIP_CBBOTTOM, (U16)(top + Height));
+	WriteIO32(&pRegister->CLIP_CBBOTTOM, (U16)(top + Height));
 
 	segment =	CrAddr >> 30;
 	left	=	CrAddr & 0x00007FFFUL;
 	top		= (CrAddr & 0x3FFF8000UL) >> 15;
 
 //	pRegister->CLIP_CRSEG		= (U16)segment;
-	WriteIODW(&pRegister->CLIP_CRSEG, (U16)segment);
+	WriteIO32(&pRegister->CLIP_CRSEG, (U16)segment);
 
 //	pRegister->CLIP_CRLEFT		= (U16)left;
-	WriteIODW(&pRegister->CLIP_CRLEFT, (U16)left);
+	WriteIO32(&pRegister->CLIP_CRLEFT, (U16)left);
 
 //	pRegister->CLIP_CRRIGHT		= (U16)(left + Width);
-	WriteIODW(&pRegister->CLIP_CRRIGHT, (U16)(left + Width));
+	WriteIO32(&pRegister->CLIP_CRRIGHT, (U16)(left + Width));
 
 //	pRegister->CLIP_CRTOP		= (U16)top;
-	WriteIODW(&pRegister->CLIP_CRTOP, (U16)top);
+	WriteIO32(&pRegister->CLIP_CRTOP, (U16)top);
 
 //	pRegister->CLIP_CRBOTTOM	= (U16)(top + Height);
-	WriteIODW(&pRegister->CLIP_CRBOTTOM, (U16)(top + Height));
+	WriteIO32(&pRegister->CLIP_CRBOTTOM, (U16)(top + Height));
 
 
 //	pRegister->CLIP_STRIDEH		= (U16)(Stride >> 16);
-	WriteIODW(&pRegister->CLIP_STRIDEH, StrideY);
+	WriteIO32(&pRegister->CLIP_STRIDEH, StrideY);
 
 //	pRegister->CLIP_STRIDEL		= (U16)(Stride & 0xFFFFUL);
-	WriteIODW(&pRegister->CLIP_STRIDEL, StrideCbCr);
+	WriteIO32(&pRegister->CLIP_STRIDEL, StrideCbCr);
 }
 
 //------------------------------------------------------------------------------
@@ -2061,7 +1909,7 @@ NX_VIP_SetClipperAddr
  *	@param[in]	CrEAddr	Specifies the base address of the lower-right corner of Cr data in a segment.
  *	@return		None.
  *	@remark		This function is for YUV 420, 422, 444 not YUYV. You have to call
- *				the function NX_VIP_SetClipperAddr for YUYV NX_VIP_FORMAT.\n
+ *				the function NX_VIP_SetClipperAddr for YUYV NX_VIP_FORMAT.
  *				The NX_VIP_FORMAT of arguments is as follows,
  *				- [31:24] : Specifies the index of the segment.
  *				- [23:12] : Sepcifies the y-coordinate in the segment.
@@ -2069,9 +1917,8 @@ NX_VIP_SetClipperAddr
  *				.
  *				The Clipper stores a frame image even if the scan mode is interlace
  *				scan mode. Therefore you have to allocate and set memory pool which
- *				can store a frame image.\n
- *				Memory address must align by 8.\n
- *	@see		NX_VIP_SetClipperAddr, NX_VIP_GetClipperAddr2D
+ *				can store a frame image.
+ *				Memory address must align by 8.
  */
 void
 NX_VIP_SetClipperAddr2D
@@ -2101,49 +1948,49 @@ NX_VIP_SetClipperAddr2D
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->CLIP_LUSEG		= (U16)(LuSAddr >> 24);
-	WriteIODW(&pRegister->CLIP_LUSEG, (U16)(LuSAddr >> 30));
+	WriteIO32(&pRegister->CLIP_LUSEG, (U16)(LuSAddr >> 30));
 
 //	pRegister->CLIP_CRSEG		= (U16)(CrSAddr >> 24);
-	WriteIODW(&pRegister->CLIP_CRSEG, (U16)(CrSAddr >> 30));
+	WriteIO32(&pRegister->CLIP_CRSEG, (U16)(CrSAddr >> 30));
 
 //	pRegister->CLIP_CBSEG		= (U16)(CbSAddr >> 24);
-	WriteIODW(&pRegister->CLIP_CBSEG, (U16)(CbSAddr >> 30));
+	WriteIO32(&pRegister->CLIP_CBSEG, (U16)(CbSAddr >> 30));
 
 //	pRegister->CLIP_LULEFT		= (U16)(LuSAddr);
-	WriteIODW(&pRegister->CLIP_LULEFT, (U16)(LuSAddr));
+	WriteIO32(&pRegister->CLIP_LULEFT, (U16)(LuSAddr));
 
 //	pRegister->CLIP_CRLEFT		= (U16)(CrSAddr);
-	WriteIODW(&pRegister->CLIP_CRLEFT, (U16)(CrSAddr));
+	WriteIO32(&pRegister->CLIP_CRLEFT, (U16)(CrSAddr));
 
 //	pRegister->CLIP_CBLEFT		= (U16)(CbSAddr);
-	WriteIODW(&pRegister->CLIP_CBLEFT, (U16)(CbSAddr));
+	WriteIO32(&pRegister->CLIP_CBLEFT, (U16)(CbSAddr));
 
 //	pRegister->CLIP_LURIGHT		= (U16)(LuEAddr);
-	WriteIODW(&pRegister->CLIP_LURIGHT, (U16)(LuEAddr));
+	WriteIO32(&pRegister->CLIP_LURIGHT, (U16)(LuEAddr));
 
 //	pRegister->CLIP_CRRIGHT		= (U16)(CrEAddr);
-	WriteIODW(&pRegister->CLIP_CRRIGHT, (U16)(CrEAddr));
+	WriteIO32(&pRegister->CLIP_CRRIGHT, (U16)(CrEAddr));
 
 //	pRegister->CLIP_CBRIGHT		= (U16)(CbEAddr);
-	WriteIODW(&pRegister->CLIP_CBRIGHT, (U16)(CbEAddr));
+	WriteIO32(&pRegister->CLIP_CBRIGHT, (U16)(CbEAddr));
 
 //	pRegister->CLIP_LUTOP		= (U16)(LuSAddr >> 12);
-	WriteIODW(&pRegister->CLIP_LUTOP, (U16)(LuSAddr >> 15));
+	WriteIO32(&pRegister->CLIP_LUTOP, (U16)(LuSAddr >> 15));
 
 //	pRegister->CLIP_CRTOP		= (U16)(CrSAddr >> 12);
-	WriteIODW(&pRegister->CLIP_CRTOP, (U16)(CrSAddr >> 15));
+	WriteIO32(&pRegister->CLIP_CRTOP, (U16)(CrSAddr >> 15));
 
 //	pRegister->CLIP_CBTOP		= (U16)(CbSAddr >> 12);
-	WriteIODW(&pRegister->CLIP_CBTOP, (U16)(CbSAddr >> 15));
+	WriteIO32(&pRegister->CLIP_CBTOP, (U16)(CbSAddr >> 15));
 
 //	pRegister->CLIP_LUBOTTOM	= (U16)(LuEAddr >> 12);
-	WriteIODW(&pRegister->CLIP_LUBOTTOM, (U16)(LuEAddr >> 15));
+	WriteIO32(&pRegister->CLIP_LUBOTTOM, (U16)(LuEAddr >> 15));
 
 //	pRegister->CLIP_CRBOTTOM	= (U16)(CrEAddr >> 12);
-	WriteIODW(&pRegister->CLIP_CRBOTTOM, (U16)(CrEAddr >> 15));
+	WriteIO32(&pRegister->CLIP_CRBOTTOM, (U16)(CrEAddr >> 15));
 
 //	pRegister->CLIP_CBBOTTOM	= (U16)(CbEAddr >> 12);
-	WriteIODW(&pRegister->CLIP_CBBOTTOM, (U16)(CbEAddr >> 15));
+	WriteIO32(&pRegister->CLIP_CBBOTTOM, (U16)(CbEAddr >> 15));
 
 
 }
@@ -2160,16 +2007,15 @@ NX_VIP_SetClipperAddr2D
  *	@param[out] pCrEAddr	Indicates the base address of the lower-right corner of Cr data in a segment.
  *	@return		None.
  *	@remark		This function is for YUV 420, 422, 444 not YUYV. You have to call
- *				the function NX_VIP_GetClipperAddrYUYV for YUYV NX_VIP_FORMAT.\n
+ *				the function NX_VIP_GetClipperAddrYUYV for YUYV NX_VIP_FORMAT.
  *				The NX_VIP_FORMAT of arguments is as follows,
  *				- [31:24] : Specifies the index of the segment.
  *				- [23:12] : Sepcifies the y-coordinate in the segment.
  *				- [11: 0] : Specifies the x-coordinate in the segment.
  *				.
  *				The Clipper stores a frame image even if the scan mode is interlace
- *				scan mode.\n
+ *				scan mode.
  *				Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetClipperAddr, NX_VIP_SetClipperAddr2D
  */
 void
 NX_VIP_GetClipperAddr2D
@@ -2225,7 +2071,6 @@ NX_VIP_GetClipperAddr2D
  *				The Clipper stores a frame image even if the scan mode is interlace
  *				scan mode. Therefore you have to allocate and set memory pool which
  *				can store a frame image.
- *	@see		NX_VIP_GetClipperAddrYUVY
  */
 void
 NX_VIP_SetClipperAddrYUYV
@@ -2246,16 +2091,16 @@ NX_VIP_SetClipperAddrYUYV
 	pRegister = __g_pRegister[ModuleIndex];
 
 //	pRegister->CLIP_BASEADDRH	= (U16)(BaseAddr >> 16);
-	WriteIODW(&pRegister->CLIP_BASEADDRH, (U16)(BaseAddr >> 16));
+	WriteIO32(&pRegister->CLIP_BASEADDRH, (U16)(BaseAddr >> 16));
 
 //	pRegister->CLIP_BASEADDRL	= (U16)(BaseAddr & 0xFFFFUL);
-	WriteIODW(&pRegister->CLIP_BASEADDRL, (U16)(BaseAddr & 0xFFFFUL));
+	WriteIO32(&pRegister->CLIP_BASEADDRL, (U16)(BaseAddr & 0xFFFFUL));
 
 //	pRegister->CLIP_STRIDEH		= (U16)(Stride >> 16);
-	WriteIODW(&pRegister->CLIP_STRIDEH, (U16)(Stride >> 16));
+	WriteIO32(&pRegister->CLIP_STRIDEH, (U16)(Stride >> 16));
 
 //	pRegister->CLIP_STRIDEL		= (U16)(Stride & 0xFFFFUL);
-	WriteIODW(&pRegister->CLIP_STRIDEL, (U16)(Stride & 0xFFFFUL));
+	WriteIO32(&pRegister->CLIP_STRIDEL, (U16)(Stride & 0xFFFFUL));
 }
 
 //------------------------------------------------------------------------------
@@ -2269,9 +2114,8 @@ NX_VIP_SetClipperAddrYUYV
  *				NX_VIP_GetClipperAddr2D for Block
  *				Separated YUV 420, 422, 444 NX_VIP_FORMAT.
  *				The Clipper stores a frame image even if the scan mode is interlace
- *				scan mode.\n
+ *				scan mode.
  *				Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetClipperAddrYUYV
  */
 void
 NX_VIP_GetClipperAddrYUYV
@@ -2296,7 +2140,7 @@ NX_VIP_GetClipperAddrYUYV
 /**
  *	@brief		Set the base address to store the output image of the Decimator.
  *  @param[in]  ModuleIndex		An index of module ( 0 : VIP 0, 1 : VIP 1 ).
- *	@param[in]	NX_VIP_FORMAT	Specifies the data NX_VIP_FORMAT of the Decimator.\n
+ *	@param[in]	NX_VIP_FORMAT	Specifies the data NX_VIP_FORMAT of the Decimator.
  *								It must not be NX_VIP_FORMAT_YUYV.
  *	@param[in]	Width		Specifies the width of the target image of the Decimator.
  *	@param[in]	Height		Specifies the height of the target image of the Decimator.
@@ -2306,7 +2150,7 @@ NX_VIP_GetClipperAddrYUYV
  *	@return		None.
  *	@remark		The argument NX_VIP_FORMAT, Width and Height, are only used to calculate
  *				image address. so you have to call the function SetDecimatorNX_VIP_FORMAT()
- *				and SetDecimation() to set these values.\n
+ *				and SetDecimation() to set these values.
  *				The NX_VIP_FORMAT of LuAddr, CbAddr, CrAddr is as follows,
  *				- [31:24] : Specifies the index of the segment.
  *				- [23:12] : Sepcifies the y-coordinate in the segment.
@@ -2314,7 +2158,6 @@ NX_VIP_GetClipperAddrYUYV
  *				.
  *				The Decimator can only store the even field data when the scan mode
  *				is interlace.
- *	@see		NX_VIP_SetDecimatorAddr2D, NX_VIP_GetDecimatorAddr2D
  */
 /* psw0523 fix for stride */
 #if 0
@@ -2433,7 +2276,6 @@ NX_VIP_SetDecimatorAddr
  *				.
  *				The Decimator can only store the even field data when the scan mode
  *				is interlace.
- *	@see		NX_VIP_SetDecimatorAddr, NX_VIP_GetDecimatorAddr2D
  */
 void
 NX_VIP_SetDecimatorAddr2D
@@ -2496,9 +2338,8 @@ NX_VIP_SetDecimatorAddr2D
  *				- [11: 0] : Specifies the x-coordinate in the segment.
  *				.
  *				The Decimator can only store the even field data when the scan mode
- *				is interlace.\n
+ *				is interlace.
  *				Arguments which does not required can be CNULL.
- *	@see		NX_VIP_SetDecimatorAddr, NX_VIP_SetDecimatorAddr2D
  */
 void
 NX_VIP_GetDecimatorAddr2D

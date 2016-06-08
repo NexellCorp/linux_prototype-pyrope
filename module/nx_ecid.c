@@ -55,16 +55,16 @@ U32		NX_ECID_GetSizeOfRegisterSet( void )
 	return sizeof( struct NX_ECID_RegisterSet );
 }
 
-void	NX_ECID_SetBaseAddress( U32 BaseAddress )
+void	NX_ECID_SetBaseAddress( void* BaseAddress )
 {
 	NX_ASSERT( CNULL != BaseAddress );
 
 	__g_ModuleVariables.pRegister = (struct NX_ECID_RegisterSet *) BaseAddress;
 }
 
-U32		NX_ECID_GetBaseAddress( void )
+void*	NX_ECID_GetBaseAddress( void )
 {
-	return (U32)__g_ModuleVariables.pRegister;
+	return (void*)__g_ModuleVariables.pRegister;
 }
 
 CBOOL	NX_ECID_OpenModule( void )
@@ -148,7 +148,15 @@ void NX_ECID_GetChipName
 		//ChipName[i] = m_pRegister->ChipName[i];
 		ChipName[i] = __g_ModuleVariables.pRegister->CHIPNAME[i];
 	}
-	ChipName[i] = 0;
+	for( i = 0; i < 48; i++)
+	{
+		if( (ChipName[i] == '-') && (ChipName[i+1] == '-') ) 
+		{
+			ChipName[i] = 0; 
+			ChipName[i+1] = 0;
+		}
+	}
+    //ChipName[i] = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -194,7 +202,7 @@ void    NX_ECID_SetA( U32 Addr )
     ReadValue  &= ~A_MASK;
     ReadValue  |= Addr << A_POS;
 
-    WriteIODW(&pRegister->EC[0], ReadValue);
+    WriteIO32(&pRegister->EC[0], ReadValue);
 }
 
 U32     NX_ECID_GetA( void )
@@ -225,7 +233,7 @@ void    NX_ECID_SetCS( CBOOL Enable )
     ReadValue  &= ~CS_MASK;
     ReadValue  |= Enable << CS_POS;
 
-    WriteIODW(&pRegister->EC[0], ReadValue);
+    WriteIO32(&pRegister->EC[0], ReadValue);
 }
 
 CBOOL   NX_ECID_GetCS( void )
@@ -256,7 +264,7 @@ void    NX_ECID_SetSIGDEV( CBOOL Enable )
     ReadValue  &= ~SIGDEV_MASK;
     ReadValue  |= Enable << SIGDEV_POS;
 
-    WriteIODW(&pRegister->EC[0], ReadValue);
+    WriteIO32(&pRegister->EC[0], ReadValue);
 }
 
 CBOOL   NX_ECID_GetSIGDEV( void )
@@ -287,7 +295,7 @@ void    NX_ECID_SetFSET( CBOOL Enable )
     ReadValue  &= ~FSET_MASK;
     ReadValue  |= Enable << FSET_POS;
 
-    WriteIODW(&pRegister->EC[0], ReadValue);
+    WriteIO32(&pRegister->EC[0], ReadValue);
 }
 
 CBOOL   NX_ECID_GetFSET( void )
@@ -318,7 +326,7 @@ void    NX_ECID_SetPRCHG( CBOOL Enable )
     ReadValue  &= ~PRCHG_MASK;
     ReadValue  |= Enable << PRCHG_POS;
 
-    WriteIODW(&pRegister->EC[0], ReadValue);
+    WriteIO32(&pRegister->EC[0], ReadValue);
 }
 
 CBOOL   NX_ECID_GetPRCHG( void )
@@ -360,7 +368,7 @@ void    NX_ECID_SetPROG( CBOOL Enable )
     ReadValue  &= ~PROG_MASK;
     ReadValue  |= Enable << PROG_POS;
 
-    WriteIODW(&pRegister->EC[1], ReadValue);
+    WriteIO32(&pRegister->EC[1], ReadValue);
 }
 
 CBOOL   NX_ECID_GetPROG( void )
@@ -391,7 +399,7 @@ void    NX_ECID_SetSCK( CBOOL Enable )
     ReadValue  &= ~SCK_MASK;
     ReadValue  |= Enable << SCK_POS;
 
-    WriteIODW(&pRegister->EC[1], ReadValue);
+    WriteIO32(&pRegister->EC[1], ReadValue);
 }
 
 CBOOL   NX_ECID_GetSCK( void )
@@ -422,7 +430,7 @@ void    NX_ECID_SetSDI( CBOOL Enable )
     ReadValue  &= ~SDI_MASK;
     ReadValue  |= Enable << SDI_POS;
 
-    WriteIODW(&pRegister->EC[1], ReadValue);
+    WriteIO32(&pRegister->EC[1], ReadValue);
 }
 
 CBOOL   NX_ECID_GetSDI( void )
@@ -467,7 +475,7 @@ void    NX_ECID_SetHdcpEfuseSel( CBOOL Enable )
     ReadValue  &= ~SHES_MASK;
     ReadValue  |= Enable << SHES_POS;
 
-    WriteIODW(&pRegister->EC[2], ReadValue);
+    WriteIO32(&pRegister->EC[2], ReadValue);
 }
 
 CBOOL   NX_ECID_GetHdcpEfuseSel( void )
@@ -498,7 +506,7 @@ void    NX_ECID_SetSelectFlowingBank( U32 Sel )
     ReadValue  &= ~SELBANK_MASK;
     ReadValue  |= Sel << SELBANK_POS;
 
-    WriteIODW(&pRegister->EC[2], ReadValue);
+    WriteIO32(&pRegister->EC[2], ReadValue);
 }
 
 U32     NX_ECID_GetSelectFlowingBank( void )
@@ -511,14 +519,13 @@ U32     NX_ECID_GetSelectFlowingBank( void )
     return (U32)((__g_ModuleVariables.pRegister->EC[2] & SELBANK_MASK) >> SELBANK_POS);
 }
 
+
 // 필요는 없어 보이지만 기존 구현에서 사용하고 있을지도 모르니 남겨둔다
-void NX_ECID_SetBONDINGID
-(
-    CBOOL set_cs, CBOOL set_sigdev, CBOOL set_fset, CBOOL set_prchg
-)
+void NX_ECID_SetBONDINGID( CBOOL set_cs, CBOOL set_sigdev, CBOOL set_fset, CBOOL set_prchg )
 {
+    U32 Enable = 0;
     NX_ASSERT( CNULL != __g_ModuleVariables.pRegister );
-    U32 Enable;
+
     Enable = (U32)( (set_cs<<6) | (set_sigdev<<5) | (set_fset<<4) | (set_prchg<<3) );
     __g_ModuleVariables.pRegister->EC[0] = (U32)(Enable&0x0078);
 }

@@ -38,9 +38,6 @@ NX_CASSERT( NUMBER_OF_DUALDISPLAY_MODULE == 1 );
  *	@brief		Get module's reset index.
  *	@return		Module's reset index.\n
  *				It is equal to RESETINDEX_OF_DUALDISPLAY?_MODULE_i_nRST in <nx_chip.h>.
- *	@see		NX_RSTCON_Enter,
- *				NX_RSTCON_Leave,
- *				NX_RSTCON_GetStatus
  */
 U32 NX_DUALDISPLAY_GetResetNumber ( U32 ModuleIndex )
 {
