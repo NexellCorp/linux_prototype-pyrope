@@ -1447,8 +1447,8 @@ void	NX_DPC_SetMode( U32 ModuleIndex, NX_DPC_FORMAT format,
 	temp  = pRegister->DPCCTRL0;
 	temp &= (U32)~(1U<<INTPEND_POS);	// unmask intpend bit.
 
-	if( bInterlace )	temp |= (U32) (1U<<SCANMODE_POS);
-	else				temp &= (U32)~(1U<<SCANMODE_POS);
+//	if( bInterlace )	temp |= (U32) (1U<<SCANMODE_POS);
+//	else				temp &= (U32)~(1U<<SCANMODE_POS);
 	if( bInvertField )	temp |= (U32) (1U<<POLFIELD_POS);
 	else				temp &= (U32)~(1U<<POLFIELD_POS);
 	if( bRGBMode )		temp |= (U32) (1U<<RGBMODE_POS);
