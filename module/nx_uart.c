@@ -648,6 +648,7 @@ U32		NX_UART_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
  *	@return		DMA peripheral index of UART's Tx
  *	@see		NX_UART_GetDMAIndex_Rx, NX_UART_GetDMABusWidth
  */
+#if 0
 U32		NX_UART_GetDMAIndex_Tx( U32 ModuleIndex )
 {
 	const U32 UartDmaIndexTx[NUMBER_OF_UART_MODULE-NUMBER_OF_pl01115_Uart_nodma_MODULE] =
@@ -684,6 +685,7 @@ U32		NX_UART_GetDMAIndex_Rx( U32 ModuleIndex )
 
 	return UartDmaIndexRx[ModuleIndex];
 }
+#endif
 
 //------------------------------------------------------------------------------
 /**
