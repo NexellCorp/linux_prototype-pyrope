@@ -639,6 +639,7 @@ U32		NX_UART_GetInterruptPendingNumber( U32 ModuleIndex )	// -1 if None
 		return PendingIndex;
 }
 
+#if 0
 //------------------------------------------------------------------------------
 // DMA Interface
 //------------------------------------------------------------------------------
@@ -684,6 +685,7 @@ U32		NX_UART_GetDMAIndex_Rx( U32 ModuleIndex )
 
 	return UartDmaIndexRx[ModuleIndex];
 }
+#endif
 
 //------------------------------------------------------------------------------
 /**
